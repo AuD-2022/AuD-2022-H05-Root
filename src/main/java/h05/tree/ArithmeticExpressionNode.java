@@ -5,6 +5,7 @@ import h05.exception.WrongNumberOfOperandsException;
 import h05.math.MyNumber;
 
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -32,12 +33,12 @@ public class ArithmeticExpressionNode {
     /**
      * The number operand of this node.
      */
-    private MyNumber numberOperand;
+    private MyNumber literal;
 
     /**
      * The identifier operand of this node.
      */
-    private String identifierOperand;
+    private String identifier;
 
     /**
      * The operator of this node.
@@ -55,7 +56,7 @@ public class ArithmeticExpressionNode {
      * @param operand the number operand of the node
      */
     public ArithmeticExpressionNode(MyNumber operand) {
-        this.numberOperand = Objects.requireNonNull(operand);
+        this.literal = Objects.requireNonNull(operand);
     }
 
     /**
@@ -78,7 +79,7 @@ public class ArithmeticExpressionNode {
             throw new BadOperationException("bad identifier");
         }
 
-        this.identifierOperand = operand;
+        this.identifier = operand;
     }
 
     /**
@@ -95,6 +96,9 @@ public class ArithmeticExpressionNode {
         String operator,
         Iterator<ArithmeticExpressionNode> operands
     ) {
+        Objects.requireNonNull(operator);
+        Objects.requireNonNull(operands);
+
         // Check if the operator is valid
         if (!OPERATORS.contains(operator)) {
             throw new IllegalArgumentException(operator);
