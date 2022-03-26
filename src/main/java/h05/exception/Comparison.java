@@ -1,6 +1,7 @@
 package h05.exception;
 
 /**
+ * TODO: Removal?
  * The comparison enumeration used in the exception detail message.
  *
  * @auhor Nhan Huynh
@@ -24,5 +25,6 @@ public enum Comparison {
     /**
      * The comparison is less than.
      */
-    LESS_THAN
+    LESS_THAN,
+    BETWEEN
 }

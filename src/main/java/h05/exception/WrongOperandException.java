@@ -7,7 +7,7 @@ import h05.math.MyNumber;
  *
  * @author Nhan Huynh
  */
-public class WrongOperandException extends Exception {
+public class WrongOperandException extends RuntimeException {
 
     /**
      * Constructs and initializes a wrong number of operands exception with the given inputs as its

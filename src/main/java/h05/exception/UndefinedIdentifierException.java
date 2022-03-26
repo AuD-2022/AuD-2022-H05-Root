@@ -5,7 +5,7 @@ package h05.exception;
  *
  * @author Nhan Huynh
  */
-public class UndefinedIdentifierException extends Exception {
+public class UndefinedIdentifierException extends RuntimeException {
 
     /**
      * Constructs and initializes a undefined identifier exception  with no detail message.

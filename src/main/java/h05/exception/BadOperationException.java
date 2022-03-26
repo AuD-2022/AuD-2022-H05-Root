@@ -5,7 +5,7 @@ package h05.exception;
  *
  * @author Nhan Huynh
  */
-public class BadOperationException extends Exception {
+public class BadOperationException extends RuntimeException {
 
     /**
      * Constructs and initializes a bad operation exception with the given detail message.
