@@ -102,7 +102,7 @@ public class ArithmeticExpressionNode {
 
         // Traverse operands
         ListItem<ArithmeticExpressionNode> head = null;
-        ListItem<ArithmeticExpressionNode> tail = head;
+        ListItem<ArithmeticExpressionNode> tail = null;
 
         int size = 0;
         while (operands.hasNext()) {
