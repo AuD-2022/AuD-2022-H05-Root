@@ -5,7 +5,6 @@ import h05.exception.WrongNumberOfOperandsException;
 import h05.math.MyNumber;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -24,10 +23,56 @@ public class ArithmeticExpressionNode {
     private static final Matcher IDENTIFIER_MATCHER =
         Pattern.compile("[a-zA-Z\\-][a-zA-Z\\-]*").matcher("");
 
+
     /**
-     * Contains all unary operators.
+     * The predefined identifier for Pi.
      */
-    private static final Set<String> OPERATORS = Set.of("+", "-", "*", "/", "pow", "log", "sqrt");
+    private static final String PI = "pi";
+
+    /**
+     * The predefined identifier for the euler's number.
+     */
+    private static final String E = "e";
+
+    /**
+     * The operator for addition. (nary operation)
+     */
+    private static final String ADDITION = "+";
+
+    /**
+     * The operator for subtraction. (nary operation)
+     */
+    private static final String SUBSTRACTION = "-";
+
+    /**
+     * The operator for multiplication. (nary operation)
+     */
+    private static final String MULTIPLICATION = "*";
+
+    /**
+     * The operator for division. (nary operation)
+     */
+    private static final String DIVISION = "/";
+
+    /**
+     * The operator for power to a base. (unary or binary operation)
+     */
+    private static final String POW = "pow";
+    /**
+     * The operator for logarithm. (unary or binary operation)
+     */
+    private static final String LOG = "log";
+    /**
+     * The operator for square root. (binary operation=
+     */
+    private static final String SQRT = "sqrt";
+
+    /**
+     * Contains all operations (operators).
+     */
+    private static final Set<String> OPERATIONS = Set.of(
+        ADDITION, SUBSTRACTION, MULTIPLICATION, DIVISION, POW, LOG, SQRT
+    );
 
 
     /**
@@ -41,9 +86,9 @@ public class ArithmeticExpressionNode {
     private String identifier;
 
     /**
-     * The operator of this node.
+     * The operation (operator) of this node.
      */
-    private String operator;
+    private String operation;
 
     /**
      * The operands of this node.
@@ -86,22 +131,22 @@ public class ArithmeticExpressionNode {
      * Constructs and initializes an arithmetic expression node with the given operator and
      * operands.
      *
-     * @param operator the operator of the node
-     * @param operands the operands of the node
+     * @param operation the operation (operator) of the node
+     * @param operands  the operands of the node
      *
      * @throws WrongNumberOfOperandsException if the number of operands is not valid for the given
      *                                        operator
      */
     public ArithmeticExpressionNode(
-        String operator,
+        String operation,
         Iterator<ArithmeticExpressionNode> operands
     ) {
-        Objects.requireNonNull(operator);
+        Objects.requireNonNull(operation);
         Objects.requireNonNull(operands);
 
         // Check if the operator is valid
-        if (!OPERATORS.contains(operator)) {
-            throw new IllegalArgumentException(operator);
+        if (!OPERATIONS.contains(operation)) {
+            throw new IllegalArgumentException(operation);
         }
 
         // Traverse operands
@@ -123,14 +168,14 @@ public class ArithmeticExpressionNode {
         }
 
         // Check if the number of operands is valid for the given operator
-        switch (operator) {
-            case "pow":
-            case "log":
+        switch (operation) {
+            case POW:
+            case LOG:
                 if (!(size == 1 || size == 2)) {
                     throw new WrongNumberOfOperandsException(size, 1, 2);
                 }
                 break;
-            case "sqrt":
+            case SQRT:
                 if ((!(size == 1))) {
                     throw new WrongNumberOfOperandsException(size, 1, 1);
                 }
@@ -139,7 +184,7 @@ public class ArithmeticExpressionNode {
                 break;
         }
 
-        this.operator = operator;
+        this.operation = operation;
         this.operands = head;
     }
 }
