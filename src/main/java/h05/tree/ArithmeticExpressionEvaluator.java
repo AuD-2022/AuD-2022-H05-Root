@@ -1,14 +1,9 @@
 package h05.tree;
 
 import h05.math.MyNumber;
-import h05.math.MyRational;
-import h05.math.MyReal;
-import h05.math.Rational;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
 /**
@@ -53,22 +48,36 @@ public class ArithmeticExpressionEvaluator {
         if (root instanceof LiteralExpressionNode) {
             return expression;
         }
-        ListIterator<String> it = expression.listIterator();
-        while (it.hasNext()) {
-            String token = it.next();
-            if (Operator.SYMBOLS.contains(token) || MyNumber.isNumber(token)
-                || token.equals(ArithmeticExpressionNode.LEFT_BRACKET)
-                || token.equals(ArithmeticExpressionNode.RIGHT_BRACKET)
-            ) {
-                continue;
-            }
-            if (identifiers.containsKey(token)) {
-                it.set(identifiers.get(token).toString());
+        List<String> newExpression = new ArrayList<>(expression.size());
+        List<String> innerExpression = new ArrayList<>();
+
+        for (String token : expression) {
+            if (token.equals(ArithmeticExpressionNode.LEFT_BRACKET)) {
+                // Found a new inner expression, no evaluation needed
+                if (!innerExpression.isEmpty()) {
+                    newExpression.addAll(innerExpression);
+                    innerExpression.clear();
+                }
+                innerExpression.add(token);
+            } else if (token.equals(ArithmeticExpressionNode.RIGHT_BRACKET)) {
+                innerExpression.add(token);
+                // Evaluate the inner expression
+                ArithmeticExpressionNode node = ExpressionTreeHandler.buildIteratively(
+                    innerExpression.iterator()
+                );
+                MyNumber number = node.evaluate(identifiers);
+                LiteralExpressionNode literal = new LiteralExpressionNode(number);
+                List<String> literalExpression = ExpressionTreeHandler.reconstruct(literal);
+                newExpression.addAll(literalExpression);
+            } else if (Operator.SYMBOLS.contains(token) || MyNumber.isNumber(token)) {
+                innerExpression.add(token);
+            } else if (identifiers.containsKey(token)) {
+                innerExpression.add(identifiers.get(token).toString());
             } else {
-                it.set("<unknown!>");
+                // Identifier not found
+                innerExpression.add("<unknown!>");
             }
         }
-        // TODO parenthesis
-        return expression;
+        return newExpression;
     }
 }
