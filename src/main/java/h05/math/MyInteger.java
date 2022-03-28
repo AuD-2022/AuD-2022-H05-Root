@@ -35,7 +35,7 @@ public class MyInteger extends MyNumber {
     }
 
     @Override
-    public BigDecimal toDecimal() {
+    public BigDecimal toReal() {
         return new BigDecimal(value);
     }
 

@@ -35,7 +35,7 @@ public class MyRational extends MyNumber {
     }
 
     @Override
-    public BigDecimal toDecimal() {
+    public BigDecimal toReal() {
         BigDecimal numerator = new BigDecimal(value.getNumerator());
         BigDecimal denominator = new BigDecimal(value.getDenominator());
         return numerator.divide(denominator);

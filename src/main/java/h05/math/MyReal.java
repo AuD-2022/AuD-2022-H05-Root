@@ -42,7 +42,7 @@ public class MyReal extends MyNumber {
     }
 
     @Override
-    public BigDecimal toDecimal() {
+    public BigDecimal toReal() {
         return value;
     }
 
