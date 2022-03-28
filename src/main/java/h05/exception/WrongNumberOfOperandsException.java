@@ -12,8 +12,8 @@ public class WrongNumberOfOperandsException extends RuntimeException {
      * detail message.
      *
      * @param actual         the actual operand count
-     * @param startInclusive the left interval (inclusive) of the expected operand count
-     * @param endInclusive   the right interval (inclusive) of the expected operand count
+     * @param startInclusive the left bound of interval (inclusive) of the expected operand count
+     * @param endInclusive   the right bound of interval (inclusive) of the expected operand count
      */
     public WrongNumberOfOperandsException(int actual, int startInclusive, int endInclusive) {
         super(
