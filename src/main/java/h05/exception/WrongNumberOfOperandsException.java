@@ -13,15 +13,15 @@ public class WrongNumberOfOperandsException extends RuntimeException {
      *
      * @param actual         the actual operand count
      * @param startInclusive the left interval (inclusive) of the expected operand count
-     * @param endExclusive   the right interval (exclusive) of the expected operand count
+     * @param endInclusive   the right interval (inclusive) of the expected operand count
      */
-    public WrongNumberOfOperandsException(int actual, int startInclusive, int endExclusive) {
+    public WrongNumberOfOperandsException(int actual, int startInclusive, int endInclusive) {
         super(
             String.format(
                 "%d not satisfying condition: %d <= x <= %d",
                 actual,
                 startInclusive,
-                endExclusive)
+                endInclusive)
         );
     }
 }
