@@ -12,16 +12,6 @@ import java.math.RoundingMode;
 public class MyReal extends MyNumber {
 
     /**
-     * The constant {@link MyNumber} 0 as a {@link MyReal}.
-     */
-    public static final MyNumber ZERO = new MyReal(BigDecimal.ZERO);
-
-    /**
-     * The constant {@link MyNumber} 1 as a {@link MyReal}.
-     */
-    public static final MyNumber ONE = new MyReal(BigDecimal.ONE);
-
-    /**
      * The scale of the real number for inexact numbers.
      */
     public static final int SCALE = 15;
@@ -30,6 +20,16 @@ public class MyReal extends MyNumber {
      * The rounding mode of the real number for inexact numbers.
      */
     public static RoundingMode ROUNDING_MODE = RoundingMode.HALF_UP;
+
+    /**
+     * The constant {@link MyNumber} 0 as a {@link MyReal}.
+     */
+    public static final MyNumber ZERO = new MyReal(BigDecimal.ZERO);
+
+    /**
+     * The constant {@link MyNumber} 1 as a {@link MyReal}.
+     */
+    public static final MyNumber ONE = new MyReal(BigDecimal.ONE);
 
     /**
      * The {@code MyReal} value that is closer than any other to <i>e</i>, the base of the natural
