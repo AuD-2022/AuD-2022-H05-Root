@@ -45,4 +45,29 @@ public class MyMath {
         var rest = BigDecimal.valueOf(Math.log10(x.doubleValue()));
         return log10.add(rest);
     }
+
+    /**
+     * Computes 10 to the x.
+     *
+     * @param x the exponent
+     * @return 10**x
+     * @throws ArithmeticException if x is negative or if x is to large
+     */
+    public static BigDecimal pow10(BigDecimal x) {
+        if (x.signum() == 0) {
+            return BigDecimal.ONE;
+        }
+
+        if (x.signum() < 0) {
+            throw new ArithmeticException("Only for non negative numbers");
+        }
+
+        var intPart = x.toBigInteger().intValueExact();
+        var rest = x.subtract(BigDecimal.valueOf(intPart));
+
+        var a = BigDecimal.TEN.pow(intPart);
+        var b = BigDecimal.valueOf(Math.pow(10, rest.doubleValue()));
+
+        return a.multiply(b);
+    }
 }

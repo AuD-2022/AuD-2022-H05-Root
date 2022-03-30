@@ -12,6 +12,30 @@ class MyMathTest {
 
     @ParameterizedTest
     @CsvSource({
+        "2, 100,",
+        "1,  10,",
+        "0,   1,",
+
+        "0.301029995663981, 2.0",
+        "0.397940008672038, 2.5",
+        "0.477121254719662, 3.0",
+        "0.544068044350276, 3.5",
+        "0.602059991327962, 4.0",
+        "0.698970004336019, 5.0",
+        "0.301029995663981, 2.0",
+        "0.397940008672038, 2.5",
+        "0.477121254719662, 3.0",
+        "0.544068044350276, 3.5",
+        "0.602059991327962, 4.0",
+        "0.653212513775344, 4.5",
+    })
+    public void testPow10(String x, String y) {
+        var value = MyMath.pow10(new BigDecimal(x));
+        assertIsCloseTo(new BigDecimal(y), value);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
         " 100,  2",
         "  10,  1",
         "   1,  0",
@@ -38,7 +62,6 @@ class MyMathTest {
         "0.000000000000000000000000000000000008486567864889416521321534549846123145648743513215488512315487513245478, -35.07126791148801613680046416713110738830851071800857049719886523",
     })
     public void testLog10(String x, String y) {
-
         var value = MyMath.log10(new BigDecimal(x));
         assertIsCloseTo(new BigDecimal(y), value);
     }
@@ -53,7 +76,7 @@ class MyMathTest {
 
     private static void assertIsCloseTo(BigDecimal expected, BigDecimal actual) {
         var d = expected.subtract(actual).abs();
-        assertTrue(d.compareTo(BigDecimal.valueOf(1.0E-15)) < 0,
+        assertTrue(d.compareTo(BigDecimal.valueOf(1.0E-14)) < 0,
             String.format("<%s> is too far away from <%s>", actual, expected));
     }
 }
