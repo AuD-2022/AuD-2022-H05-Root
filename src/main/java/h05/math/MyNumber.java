@@ -203,7 +203,10 @@ public abstract class MyNumber {
      *
      * @return {@code this} number raised to the power of {@code exponent}
      */
-    public abstract MyNumber expt(MyNumber exponent);
+    public MyNumber expt(MyNumber exponent){
+        // pow(x, y) = x^y = exp(y * ln(x))
+        return ln().times(exponent).exp();
+    }
 
     /**
      * Returns Euler’s number raised to the power of {@code this} number. The result will always be
