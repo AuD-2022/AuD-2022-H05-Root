@@ -84,4 +84,104 @@ public abstract class MyNumber {
      * @return the representation of this number as a real number.
      */
     public abstract BigDecimal toReal();
+
+    /**
+     * Returns a number whose value is {@code (-this)}.
+     *
+     * @return {@code -this}
+     */
+    public abstract MyNumber negate();
+
+    /**
+     * Returns the sum of this number and the neutral element 0 {@code 0 + this}.
+     *
+     * @return the sum of this number and the neutral element 0
+     */
+    public abstract MyNumber plus();
+
+    /**
+     * Returns the sum of this number and the given number ({@code this + other}).
+     *
+     * <ol>
+     *     <li>If both numbers are integers, the result will be an integer</li>
+     *     <li>If one of the number is real, the result will be real</li>
+     *     <li>Otherwise (both numbers are rational,) the result will be rational</li>
+     * </ol>
+     *
+     * @param other the number to add
+     *
+     * @return the sum of this number and the given number
+     */
+    public abstract MyNumber plus(MyNumber other);
+
+    /**
+     * Returns the difference of this number and the neutral element 0 {@code 0 - this}.
+     *
+     * @return the difference of this number and the neutral element 0
+     */
+    public abstract MyNumber minus();
+
+    /**
+     * Returns the difference of this number and the given number ({@code this - other}).
+     *
+     * <ol>
+     *     <li>If both numbers are integers, the result will be an integer</li>
+     *     <li>If one of the number is real, the result will be real</li>
+     *     <li>Otherwise (both numbers are rational,) the result will be rational</li>
+     * </ol>
+     *
+     * @param other the number to subtract
+     *
+     * @return the difference of this number and the given number
+     */
+    public abstract MyNumber minus(MyNumber other);
+
+    /**
+     * Returns the product of this number and the neutral element 1 {@code 1 * this}.
+     *
+     * @return the product of this number and the neutral element 1
+     */
+    public abstract MyNumber times();
+
+    /**
+     * Returns the product of this number and the given number ({@code this * other}).
+     *
+     * <ol>
+     *     <li>If both numbers are integers, the result will be an integer</li>
+     *     <li>If one of the number is real, the result will be real</li>
+     *     <li>Otherwise (both numbers are rational,) the result will be rational</li>
+     * </ol>
+     *
+     * @param other the number to multiply
+     *
+     * @return the product of this number and the given number
+     */
+    public abstract MyNumber times(MyNumber other);
+
+    /**
+     * Returns the quotient of this number and the neutral element 1 ({@code 1 / this}).
+     * <ol>
+     *     <li>If the number is an integer, the result will be rational</li>
+     *      <li>If the number is an real, the result will be real</li>
+     *     <li>Otherwise (the number rational,) the result will be rational</li>
+     * </ol>
+     *
+     * @return the quotient of this number and the neutral element 1
+     */
+    public abstract MyNumber divide();
+
+    /**
+     * Returns the quotient of this number and the given number ({@code this / other}).
+     *
+     * <ol>
+     *     <li>If both numbers are integers, the result will be an rational</li>
+     *     <li>If one of the number is real, the result will be real</li>
+     *     <li>Otherwise (both numbers are rational,) the result will be rational</li>
+     * </ol>
+     *
+     * @param other the number to divide
+     *
+     * @return the quotient of this number and the given number
+     */
+    public abstract MyNumber divide(MyNumber other);
 }

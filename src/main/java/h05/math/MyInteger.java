@@ -36,7 +36,76 @@ public class MyInteger extends MyNumber {
 
     @Override
     public BigDecimal toReal() {
-        return new BigDecimal(value);
+        return new BigDecimal(value).setScale(MyReal.SCALE, MyReal.ROUNDING_MODE);
+    }
+
+    @Override
+    public MyNumber negate() {
+        return new MyInteger(value.negate());
+    }
+
+    @Override
+    public MyNumber plus() {
+        return this;
+    }
+
+    @Override
+    public MyNumber plus(MyNumber other) {
+        if (other instanceof MyInteger) {
+            return new MyInteger(value.add((other.toInteger())));
+        }
+        if (other instanceof MyReal) {
+            return new MyReal(toReal().add(other.toReal()));
+        }
+        return new MyRational(other.toRational().plus(value));
+    }
+
+    @Override
+    public MyNumber minus() {
+        return new MyInteger(value.negate());
+    }
+
+    @Override
+    public MyNumber minus(MyNumber other) {
+        if (other instanceof MyInteger) {
+            return new MyInteger(value.subtract(other.toInteger()));
+        }
+        if (other instanceof MyReal) {
+            return new MyReal(toReal().subtract(other.toReal()));
+        }
+        return new MyRational(other.negate().toRational().plus(value));
+    }
+
+    @Override
+    public MyNumber times() {
+        return this;
+    }
+
+    @Override
+    public MyNumber times(MyNumber other) {
+        if (other instanceof MyInteger) {
+            return new MyInteger(value.multiply(other.toInteger()));
+        }
+        if (other instanceof MyReal) {
+            return new MyReal(toReal().multiply(other.toReal()));
+        }
+        return new MyRational(other.toRational().times(value));
+    }
+
+    @Override
+    public MyNumber divide() {
+        return new MyRational(new Rational(BigInteger.ONE, value));
+    }
+
+    @Override
+    public MyNumber divide(MyNumber other) {
+        if (other instanceof MyInteger) {
+            return new MyRational(new Rational(value, other.toInteger()));
+        }
+        if (other instanceof MyReal) {
+            return new MyReal(toReal().divide(other.toReal(), MyReal.ROUNDING_MODE));
+        }
+        return new MyRational(other.toRational().inverse().times(value));
     }
 
     @Override
