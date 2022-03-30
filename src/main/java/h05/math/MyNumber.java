@@ -221,8 +221,12 @@ public abstract class MyNumber {
      * TODO documentation
      *
      * @return Euler’s number raised to the power of {@code this}
+     *
+     * @throws WrongOperandException if this number is not positive or the large
      */
-    public abstract MyNumber exp();
+    public MyNumber exp() {
+        return new MyReal(MyMath.exp(toReal()));
+    }
 
     /**
      * Returns the natural logarithm of this number. The result will always be real.

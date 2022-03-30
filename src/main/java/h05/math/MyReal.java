@@ -110,12 +110,6 @@ public class MyReal extends MyNumber {
     }
 
     @Override
-    public MyNumber exp() {
-        // TODO implement
-        return null;
-    }
-
-    @Override
     public String toString() {
         return value.stripTrailingZeros().toString();
     }

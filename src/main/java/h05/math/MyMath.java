@@ -70,4 +70,8 @@ public class MyMath {
 
         return a.multiply(b);
     }
+
+    public static BigDecimal exp(BigDecimal x) {
+        return pow10(x.multiply(LOG_BASE_10_OF_E));
+    }
 }
