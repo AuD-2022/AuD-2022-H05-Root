@@ -2,6 +2,7 @@ package h05.math;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -190,7 +191,9 @@ public abstract class MyNumber {
      *
      * @return the square root of this number
      */
-    public abstract MyNumber sqrt();
+    public MyNumber sqrt() {
+        return new MyReal(toReal().sqrt(MathContext.DECIMAL128));
+    }
 
     /**
      * Returns {@code this} number raised to the power of {@code exponent}.

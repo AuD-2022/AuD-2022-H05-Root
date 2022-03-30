@@ -115,11 +115,6 @@ public class MyRational extends MyNumber {
     }
 
     @Override
-    public MyNumber sqrt() {
-        return new MyReal(toReal()).sqrt();
-    }
-
-    @Override
     public MyNumber expt(MyNumber exponent) {
         // TODO implement
         return null;

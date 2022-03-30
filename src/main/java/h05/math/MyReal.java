@@ -116,11 +116,6 @@ public class MyReal extends MyNumber {
     }
 
     @Override
-    public MyNumber sqrt() {
-        return new MyReal(value.sqrt(MathContext.DECIMAL128));
-    }
-
-    @Override
     public MyNumber expt(MyNumber exponent) {
         // TODO implement
         return null;
