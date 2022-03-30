@@ -45,11 +45,6 @@ public class MyInteger extends MyNumber {
     }
 
     @Override
-    public MyNumber plus() {
-        return this;
-    }
-
-    @Override
     public MyNumber plus(MyNumber other) {
         if (other instanceof MyInteger) {
             return new MyInteger(value.add((other.toInteger())));
@@ -74,11 +69,6 @@ public class MyInteger extends MyNumber {
             return new MyReal(toReal().subtract(other.toReal()));
         }
         return new MyRational(other.negate().toRational().plus(value));
-    }
-
-    @Override
-    public MyNumber times() {
-        return this;
     }
 
     @Override
@@ -109,12 +99,6 @@ public class MyInteger extends MyNumber {
     }
 
     @Override
-    public MyNumber expt(MyNumber exponent) {
-        // TODO implement
-        return null;
-    }
-
-    @Override
     public MyNumber exp() {
         // TODO implement
         return null;
@@ -122,12 +106,6 @@ public class MyInteger extends MyNumber {
 
     @Override
     public MyNumber ln() {
-        // TODO implement
-        return null;
-    }
-
-    @Override
-    public MyNumber log(MyNumber base) {
         // TODO implement
         return null;
     }

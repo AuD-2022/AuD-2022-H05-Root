@@ -69,11 +69,6 @@ public class MyReal extends MyNumber {
     }
 
     @Override
-    public MyNumber plus() {
-        return this;
-    }
-
-    @Override
     public MyNumber plus(MyNumber other) {
         return new MyReal(value.add(other.toReal()));
     }
@@ -86,16 +81,6 @@ public class MyReal extends MyNumber {
     @Override
     public MyNumber minus(MyNumber other) {
         return new MyReal(value.subtract(other.toReal()));
-    }
-
-    public static void main(String[] args) {
-        MyNumber a = new MyReal(new BigDecimal("0.1"));
-        System.out.println(a);
-    }
-
-    @Override
-    public MyNumber times() {
-        return this;
     }
 
     @Override
@@ -116,12 +101,6 @@ public class MyReal extends MyNumber {
     }
 
     @Override
-    public MyNumber expt(MyNumber exponent) {
-        // TODO implement
-        return null;
-    }
-
-    @Override
     public MyNumber exp() {
         // TODO implement
         return null;
@@ -129,12 +108,6 @@ public class MyReal extends MyNumber {
 
     @Override
     public MyNumber ln() {
-        // TODO implement
-        return null;
-    }
-
-    @Override
-    public MyNumber log(MyNumber base) {
         // TODO implement
         return null;
     }

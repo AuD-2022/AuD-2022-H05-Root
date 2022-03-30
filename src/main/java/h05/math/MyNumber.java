@@ -98,7 +98,9 @@ public abstract class MyNumber {
      *
      * @return the sum of this number and the neutral element 0
      */
-    public abstract MyNumber plus();
+    public MyNumber plus() {
+        return this;
+    }
 
     /**
      * Returns the sum of this number and the given number ({@code this + other}).
@@ -142,7 +144,9 @@ public abstract class MyNumber {
      *
      * @return the product of this number and the neutral element 1
      */
-    public abstract MyNumber times();
+    public MyNumber times() {
+        return this;
+    }
 
     /**
      * Returns the product of this number and the given number ({@code this * other}).
