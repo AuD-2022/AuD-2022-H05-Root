@@ -109,6 +109,11 @@ public class MyInteger extends MyNumber {
     }
 
     @Override
+    public MyNumber sqrt() {
+        return new MyReal(toReal()).sqrt();
+    }
+
+    @Override
     public String toString() {
         return value.toString();
     }

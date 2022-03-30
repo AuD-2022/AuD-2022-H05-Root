@@ -184,4 +184,11 @@ public abstract class MyNumber {
      * @return the quotient of this number and the given number
      */
     public abstract MyNumber divide(MyNumber other);
+
+    /**
+     * Returns the square root of this number. The result will always be real.
+     *
+     * @return the square root of this number
+     */
+    public abstract MyNumber sqrt();
 }

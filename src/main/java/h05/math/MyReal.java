@@ -2,6 +2,7 @@ package h05.math;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
 import java.math.RoundingMode;
 
 /**
@@ -101,6 +102,11 @@ public class MyReal extends MyNumber {
     @Override
     public MyNumber divide(MyNumber other) {
         return new MyReal(value.divide(other.toReal(), ROUNDING_MODE));
+    }
+
+    @Override
+    public MyNumber sqrt() {
+        return new MyReal(value.sqrt(MathContext.DECIMAL128));
     }
 
     @Override
