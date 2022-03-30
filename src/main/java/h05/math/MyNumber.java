@@ -191,4 +191,41 @@ public abstract class MyNumber {
      * @return the square root of this number
      */
     public abstract MyNumber sqrt();
+
+    /**
+     * Returns {@code this} number raised to the power of {@code exponent}.
+     * TODO documentation
+     *
+     * @param exponent the exponent
+     *
+     * @return {@code this} number raised to the power of {@code exponent}
+     */
+    public abstract MyNumber expt(MyNumber exponent);
+
+    /**
+     * Returns Euler’s number raised to the power of {@code this} number. The result will always be
+     * real.
+     * TODO documentation
+     *
+     * @return Euler’s number raised to the power of {@code this}
+     */
+    public abstract MyNumber exp();
+
+    /**
+     * Returns the natural logarithm of this number. The result will always be real.
+     * TODO documentation
+     *
+     * @return the natural logarithm of this number
+     */
+    public abstract MyNumber ln();
+
+    /**
+     * Returns the logarithm of this number with base {@code base}. The result will always be real.
+     * TODO documentation
+     *
+     * @param base the base
+     *
+     * @return the logarithm of this number with base {@code base}
+     */
+    public abstract MyNumber log(MyNumber base);
 }

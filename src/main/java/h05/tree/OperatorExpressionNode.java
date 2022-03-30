@@ -1,8 +1,11 @@
 package h05.tree;
 
+import h05.exception.BadOperationException;
 import h05.exception.WrongNumberOfOperandsException;
+import h05.math.MyInteger;
 import h05.math.MyNumber;
 
+import java.math.BigInteger;
 import java.util.Map;
 import java.util.Objects;
 
@@ -99,8 +102,123 @@ public class OperatorExpressionNode implements ArithmeticExpressionNode {
 
     @Override
     public MyNumber evaluate(Map<String, MyNumber> identifiers) {
-        // TODO evaluate
-        return null;
+        switch (size) {
+            case 0:
+                return evaluateNullaryExpressions(identifiers);
+            case 1:
+                return evaluateUnaryExpressions(identifiers);
+            case 2:
+                return evaluateBinaryExpressions(identifiers);
+            default:
+                return evaluateNaryExpressions(identifiers);
+        }
+    }
+
+    /**
+     * Evaluates the nullary expressions.
+     *
+     * @param identifiers a map of identifiers and their values
+     *
+     * @return the result of the evaluation
+     */
+    private MyNumber evaluateNullaryExpressions(Map<String, MyNumber> identifiers) {
+        switch (operator) {
+            case ADD:
+                return new MyInteger(BigInteger.ZERO);
+            case MUL:
+                return new MyInteger(BigInteger.ONE);
+            default:
+                throw new BadOperationException(operator.toString());
+        }
+    }
+
+    /**
+     * Evaluates the unary expressions.
+     *
+     * @param identifiers a map of identifiers and their values
+     *
+     * @return the result of the evaluation
+     */
+    private MyNumber evaluateUnaryExpressions(Map<String, MyNumber> identifiers) {
+        MyNumber operand = operands.key.evaluate(identifiers);
+        switch (operator) {
+            case ADD:
+                return operand.plus();
+            case SUB:
+                return operand.minus();
+            case MUL:
+                return operand.times();
+            case DIV:
+                return operand.divide();
+            case POW:
+                return operand.exp();
+            case LOG:
+                return operand.ln();
+            case SQRT:
+                return operand.sqrt();
+            default:
+                throw new BadOperationException(operator.toString());
+        }
+    }
+
+    /**
+     * Evaluates the binary expressions.
+     *
+     * @param identifiers a map of identifiers and their values
+     *
+     * @return the result of the evaluation
+     */
+    private MyNumber evaluateBinaryExpressions(Map<String, MyNumber> identifiers) {
+        MyNumber operand1 = operands.key.evaluate(identifiers);
+        MyNumber operand2 = operands.next.key.evaluate(identifiers);
+        switch (operator) {
+            case ADD:
+                return operand1.plus(operand2);
+            case SUB:
+                return operand1.minus(operand2);
+            case MUL:
+                return operand1.times(operand2);
+            case DIV:
+                return operand1.divide(operand2);
+            case POW:
+                return operand1.expt(operand2);
+            case LOG:
+                return operand1.log(operand2);
+            default:
+                throw new BadOperationException(operator.toString());
+        }
+    }
+
+    /**
+     * Evaluates the nary expressions.
+     *
+     * @param identifiers a map of identifiers and their values
+     *
+     * @return the result of the evaluation
+     */
+    private MyNumber evaluateNaryExpressions(Map<String, MyNumber> identifiers) {
+        MyNumber operand1 = operands.key.evaluate(identifiers);
+        for (ListItem<ArithmeticExpressionNode> current = operands.next; current != null;
+             current = current.next) {
+            MyNumber operand2 = current.key.evaluate(identifiers);
+            switch (operator) {
+                case ADD:
+                    operand1 = operand1.plus(operand2);
+                    break;
+                case SUB:
+                    operand1 = operand1.minus(operand2);
+                    break;
+                case MUL:
+                    operand1 = operand1.times(operand2);
+                    break;
+                case DIV:
+                    operand1 = operand1.divide(operand2);
+                    break;
+                default:
+                    throw new BadOperationException(operator.toString());
+            }
+        }
+        return operand1;
     }
 
     @Override

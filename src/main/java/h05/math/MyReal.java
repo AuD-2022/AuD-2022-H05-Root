@@ -15,12 +15,18 @@ public class MyReal extends MyNumber {
     /**
      * The scale of the real number for inexact numbers.
      */
-    public static final int SCALE = 6;
+    public static final int SCALE = 15;
 
     /**
      * The rounding mode of the real number for inexact numbers.
      */
     public static RoundingMode ROUNDING_MODE = RoundingMode.HALF_UP;
+
+    /**
+     * The {@code MyReal} value that is closer than any other to <i>e</i>, the base of the natural
+     * logarithms.
+     */
+    public static final MyReal E = new MyReal(BigDecimal.valueOf(Math.E));
 
     /**
      * The value of this real number.
@@ -82,6 +88,11 @@ public class MyReal extends MyNumber {
         return new MyReal(value.subtract(other.toReal()));
     }
 
+    public static void main(String[] args) {
+        MyNumber a = new MyReal(new BigDecimal("0.1"));
+        System.out.println(a);
+    }
+
     @Override
     public MyNumber times() {
         return this;
@@ -110,7 +121,31 @@ public class MyReal extends MyNumber {
     }
 
     @Override
+    public MyNumber expt(MyNumber exponent) {
+        // TODO implement
+        return null;
+    }
+
+    @Override
+    public MyNumber exp() {
+        // TODO implement
+        return null;
+    }
+
+    @Override
+    public MyNumber ln() {
+        // TODO implement
+        return null;
+    }
+
+    @Override
+    public MyNumber log(MyNumber base) {
+        // TODO implement
+        return null;
+    }
+
+    @Override
     public String toString() {
-        return value.toString();
+        return value.stripTrailingZeros().toString();
     }
 }
