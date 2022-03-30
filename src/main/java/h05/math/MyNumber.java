@@ -1,5 +1,8 @@
 package h05.math;
 
+import h05.exception.Comparison;
+import h05.exception.WrongOperandException;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -226,8 +229,18 @@ public abstract class MyNumber {
      * TODO documentation
      *
      * @return the natural logarithm of this number
+     *
+     * @throws WrongOperandException if this number is not positive
      */
-    public abstract MyNumber ln();
+    public MyNumber ln() {
+        var r = toReal();
+
+        if (r.signum() < 1) {
+            throw new WrongOperandException(this, Comparison.GREATER_THAN, MyReal.ZERO);
+        }
+
+        return new MyReal(MyMath.ln(r));
+    }
 
     /**
      * Returns the logarithm of this number with base {@code base}. The result will always be real.

@@ -11,6 +11,16 @@ import java.math.BigInteger;
 public class MyInteger extends MyNumber {
 
     /**
+     * The constant {@link MyNumber} 0 as a {@link MyInteger}.
+     */
+    public static final MyNumber ZERO = new MyInteger(BigInteger.ZERO);
+
+    /**
+     * The constant {@link MyNumber} 1 as a {@link MyInteger}.
+     */
+    public static final MyNumber ONE = new MyInteger(BigInteger.ONE);
+
+    /**
      * The value of the integer.
      */
     private final BigInteger value;

@@ -11,6 +11,16 @@ import java.math.BigInteger;
 public class Rational {
 
     /**
+     * The constant 0 as a {@link Rational}.
+     */
+    public static final Rational ZERO = new Rational(BigInteger.ZERO, BigInteger.ONE);
+
+    /**
+     * The constant 1 as a {@link Rational}.
+     */
+    public static final Rational ONE = new Rational(BigInteger.ONE, BigInteger.ONE);
+
+    /**
      * The numerator of this rational number.
      */
     private final BigInteger numerator;

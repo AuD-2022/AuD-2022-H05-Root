@@ -13,6 +13,16 @@ import static h05.math.MyReal.ROUNDING_MODE;
 public class MyRational extends MyNumber {
 
     /**
+     * The {@link MyNumber} 0 as a {@link MyRational}.
+     */
+    public static final MyNumber ZERO = new MyRational(Rational.ZERO);
+
+    /**
+     * The {@link MyNumber} 1 as a {@link MyRational}.
+     */
+    public static final MyNumber ONE = new MyRational(Rational.ONE);
+
+    /**
      * The value of this rational number.
      */
     private final Rational value;
