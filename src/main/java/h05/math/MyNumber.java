@@ -203,7 +203,7 @@ public abstract class MyNumber {
      *
      * @return {@code this} number raised to the power of {@code exponent}
      */
-    public MyNumber expt(MyNumber exponent){
+    public MyNumber expt(MyNumber exponent) {
         // pow(x, y) = x^y = exp(y * ln(x))
         return ln().times(exponent).exp();
     }
@@ -233,5 +233,7 @@ public abstract class MyNumber {
      *
      * @return the logarithm of this number with base {@code base}
      */
-    public abstract MyNumber log(MyNumber base);
+    public MyNumber log(MyNumber base) {
+        return ln().divide(base.ln());
+    }
 }
