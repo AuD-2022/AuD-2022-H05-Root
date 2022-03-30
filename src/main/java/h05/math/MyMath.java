@@ -4,6 +4,10 @@ import java.math.BigDecimal;
 
 import static h05.math.MyReal.ROUNDING_MODE;
 
+/**
+ * Utils for working with {@link BigDecimal}.
+ * We use base 10 because of {@link BigDecimal}s internal implementation.
+ */
 public class MyMath {
 
     private static final BigDecimal LOG_BASE_10_OF_E = new BigDecimal("0.4342944819032518276511289189166050822943970058036665661144537831");
@@ -14,6 +18,13 @@ public class MyMath {
         return MyMath.log10(x).divide(MyMath.LOG_BASE_10_OF_E, ROUNDING_MODE);
     }
 
+    /**
+     * Compute log base 10 of x within 15 significant digits.
+     *
+     * @param x number to log
+     * @return log_10(x)
+     * @throws ArithmeticException if x is not positive
+     */
     public static BigDecimal log10(BigDecimal x) {
         if (x.signum() < 1) {
             throw new ArithmeticException("Only for positive numbers");
