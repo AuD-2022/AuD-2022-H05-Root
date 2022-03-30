@@ -39,7 +39,7 @@ public class ArithmeticExpressionEvaluator {
 
     /**
      * Evaluates the arithmetic expression tree by replacing the variables (identifiers) of the
-     * expression with their values.
+     * expression with their values and evaluates the most inner expression.
      *
      * @return the list of tokens representing  the evaluation
      */
@@ -78,6 +78,8 @@ public class ArithmeticExpressionEvaluator {
                 innerExpression.add("<unknown!>");
             }
         }
+        
+        root = ExpressionTreeHandler.buildIteratively(newExpression.iterator());
         return newExpression;
     }
 }
