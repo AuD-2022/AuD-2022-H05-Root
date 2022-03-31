@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 /**
  * Utils for working with {@link BigDecimal}. We use base 10 because of {@link BigDecimal}s internal implementation.
+ *
+ * @author Jonas Renk
  */
 public class MyMath {
 

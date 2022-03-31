@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 /**
  * The abstract class Number represents the numbers of the programming language Racket in a very simplified way.
  *
- * @author Nhan Huynh
+ * @author Nhan Huynh, Jonas Renk
  * @see <a href="https://docs.racket-lang.org/reference/number-types.html">
  * https://docs.racket-lang.org/reference/number-types.html</a>
  */
