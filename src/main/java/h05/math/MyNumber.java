@@ -204,7 +204,7 @@ public abstract class MyNumber {
     }
 
     /**
-     * Returns {@code this} number raised to the power of {@code n}. The result will always be real.
+     * Returns {@code this} number raised to the power of {@code n} (x^n). The result will always be real.
      *
      * @param n the exponent
      *
@@ -216,7 +216,7 @@ public abstract class MyNumber {
     }
 
     /**
-     * Returns Euler’s number raised to the power of {@code this} number. The result will always be real.
+     * Returns Euler’s number raised to the power of {@code this} number (exp(x)). The result will always be real.
      *
      * @return Euler’s number raised to the power of {@code this}
      *
@@ -227,7 +227,7 @@ public abstract class MyNumber {
     }
 
     /**
-     * Returns the natural logarithm of this number. The result will always be real.
+     * Returns the natural logarithm of this number (ln(x)). The result will always be real.
      *
      * @return the natural logarithm of this number
      *
@@ -244,14 +244,14 @@ public abstract class MyNumber {
     }
 
     /**
-     * Returns the logarithm of this number with base {@code base}. The result will always be real.
+     * Returns the logarithm of this number with base {@code base} (log_x(y)). The result will always be real.
      *
      * @param base the base of the logarithm
      *
      * @return the logarithm of this number with base {@code base}
      */
     public MyNumber log(MyNumber base) {
-        // log(x, y) = ln(x) / ln(y)
+        // log_x(y) = ln(y) / ln(x)
         return ln().divide(base.ln());
     }
 }

@@ -2,13 +2,14 @@ package h05.math;
 
 import java.math.BigDecimal;
 
-import static h05.math.MyReal.ROUNDING_MODE;
-
 /**
  * Utils for working with {@link BigDecimal}. We use base 10 because of {@link BigDecimal}s internal implementation.
  */
 public class MyMath {
 
+    /**
+     * The logarithm base 10 of the Euler's number.
+     */
     private static final BigDecimal LOG_BASE_10_OF_E = new BigDecimal(
         "0.4342944819032518276511289189166050822943970058036665661144537831"
     );
@@ -27,7 +28,7 @@ public class MyMath {
      * @return the natural logarithm of x
      */
     public static BigDecimal ln(BigDecimal x) {
-        return log10(x).divide(LOG_BASE_10_OF_E, ROUNDING_MODE);
+        return log10(x).divide(LOG_BASE_10_OF_E, MyReal.ROUNDING_MODE);
     }
 
     /**
@@ -45,11 +46,11 @@ public class MyMath {
             throw new ArithmeticException("Only for positive numbers");
         }
 
-        var log10 = BigDecimal.ZERO;
+        BigDecimal log10 = BigDecimal.ZERO;
 
         while (x.compareTo(BigDecimal.TEN) > 0) {
             log10 = log10.add(BigDecimal.ONE);
-            x = x.divide(BigDecimal.TEN, ROUNDING_MODE);
+            x = x.divide(BigDecimal.TEN, MyReal.ROUNDING_MODE);
         }
 
         while (x.compareTo(BigDecimal.ONE) < 0) {
@@ -57,7 +58,7 @@ public class MyMath {
             x = x.multiply(BigDecimal.TEN);
         }
 
-        var rest = BigDecimal.valueOf(Math.log10(x.doubleValue()));
+        BigDecimal rest = BigDecimal.valueOf(Math.log10(x.doubleValue()));
         return log10.add(rest);
     }
 
@@ -68,7 +69,7 @@ public class MyMath {
      *
      * @return 10**x
      *
-     * @throws ArithmeticException if x is negative or if x is to large
+     * @throws ArithmeticException if x is negative or if x is too large
      */
     public static BigDecimal pow10(BigDecimal x) {
         if (x.signum() == 0) {
@@ -79,15 +80,22 @@ public class MyMath {
             throw new ArithmeticException("Only for non negative numbers");
         }
 
-        var intPart = x.toBigInteger().intValueExact();
-        var rest = x.subtract(BigDecimal.valueOf(intPart));
+        int intPart = x.toBigInteger().intValueExact();
+        BigDecimal rest = x.subtract(BigDecimal.valueOf(intPart));
 
-        var a = BigDecimal.TEN.pow(intPart);
-        var b = BigDecimal.valueOf(Math.pow(10, rest.doubleValue()));
+        BigDecimal a = BigDecimal.TEN.pow(intPart);
+        BigDecimal b = BigDecimal.valueOf(Math.pow(10, rest.doubleValue()));
 
         return a.multiply(b);
     }
 
+    /**
+     * Returns Euler’s number raised to the power of x (exp(x)).
+     *
+     * @param x the exponent
+     *
+     * @return Euler’s number raised to the power of x
+     */
     public static BigDecimal exp(BigDecimal x) {
         return pow10(x.multiply(LOG_BASE_10_OF_E));
     }

@@ -32,7 +32,7 @@ public interface ArithmeticExpressionNode extends Cloneable {
      * @return the result of the arithmetic expression
      *
      * @throws IllegalIdentifierExceptions  if the identifier in the map is illegal to use
-     * @throws UndefinedIdentifierException if the identifier is not defined in the map
+     * @throws UndefinedIdentifierException if the identifier is not defined for use in the map
      */
     MyNumber evaluate(Map<String, MyNumber> identifiers);
 
