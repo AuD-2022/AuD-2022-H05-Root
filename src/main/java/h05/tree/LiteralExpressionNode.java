@@ -12,8 +12,16 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * This class represents a literal operand arithmetic expression node. A literal operand is a {@link
- * MyNumber}.
+ * This class represents a literal operand arithmetic expression node. A literal operand is a {@link MyNumber}.
+ *
+ * <p>Example:
+ * <ul>
+ *     <li>Literal node with the number 2.5/li>
+ * </ul>
+ *
+ * <pre>{@code
+ *    LiteralExpressionNode node = new LiteralExpressionNode(new MyReal(2.5));
+ * }</pre>
  *
  * @author Nhan Huynh
  */
@@ -25,8 +33,7 @@ public class LiteralExpressionNode extends OperandExpressionNode {
     private MyNumber value;
 
     /**
-     * Constructs and initializes a literal operand arithmetic expression node with the given
-     * value.
+     * Constructs and initializes a literal operand arithmetic expression node with the given value.
      *
      * @param value the literal operand
      *

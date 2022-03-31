@@ -10,8 +10,24 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * This class represents an operator arithmetic expression node. An operator expression node
- * contains and operator followed n operands depending on its arity.
+ * This class represents an operator arithmetic expression node. An operator expression node contains and operator followed n
+ * operands depending on its arity.
+ *
+ * <p>Example:
+ * <ul>
+ *     <li>Operator node with the operation "+" and the operands 2, 3, 4/li>
+ *     <li>Racket notation: (+ 2 3 4)</li>
+ * </ul>
+ *
+ * <pre>{@code
+ *    ListItem<ArithmeticExpressionNode> operands = new ListItem<>();
+ *    operands.key = new LiteralExpressionNode(new MyInteger(2));
+ *    operands.next = new ListItem<>();
+ *    operands.next.key = new LiteralExpressionNode(new MyInteger(3));
+ *    operands.next.next = new ListItem<>();
+ *    operands.next.next.key = new LiteralExpressionNode(new MyInteger(4));
+ *    OperatorExpressionNode node = new OperatorExpressionNode(Operator.ADD, operands);
+ * }</pre>
  *
  * @author Nhan Huynh
  */

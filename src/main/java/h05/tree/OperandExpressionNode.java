@@ -8,6 +8,14 @@ package h05.tree;
  */
 public abstract class OperandExpressionNode implements ArithmeticExpressionNode {
 
+
+    // We need to declare the visibility the clone method to be public since Object declares it as protected but the interface
+    // specify it as public
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public abstract ArithmeticExpressionNode clone();
 
     @Override

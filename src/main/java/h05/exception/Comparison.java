@@ -26,5 +26,9 @@ public enum Comparison {
      * The comparison is less than.
      */
     LESS_THAN,
+
+    /**
+     * The comparison is between and interval.
+     */
     BETWEEN
 }

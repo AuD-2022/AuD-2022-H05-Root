@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Evaluates an arithmetic expression by replacing the variables (identifiers) of the expression
- * with their values.
+ * Evaluates an arithmetic expression by replacing the variables (identifiers) of the expression with their values.
  *
  * @author Nhan Huynh
  */
@@ -38,17 +37,23 @@ public class ArithmeticExpressionEvaluator {
     }
 
     /**
-     * Evaluates the arithmetic expression tree by replacing the variables (identifiers) of the
-     * expression with their values and evaluates the most inner expressions.
+     * Evaluates the arithmetic expression tree by replacing the variables (identifiers) of the expression with their values
+     * and evaluates the most inner expressions.
      *
      * @return the list of tokens representing  the evaluation
      */
     public List<String> nextStep() {
         List<String> expression = ExpressionTreeHandler.reconstruct(root);
+
+        // No operation needed on a literal expression
         if (root instanceof LiteralExpressionNode) {
             return expression;
         }
+
+        // Building the "evaluated" expression
         List<String> newExpression = new ArrayList<>(expression.size());
+
+        // Most inner expressions are evaluated first
         List<String> innerExpression = new ArrayList<>();
 
         for (String token : expression) {

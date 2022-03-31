@@ -5,27 +5,42 @@ import java.math.BigDecimal;
 import static h05.math.MyReal.ROUNDING_MODE;
 
 /**
- * Utils for working with {@link BigDecimal}.
- * We use base 10 because of {@link BigDecimal}s internal implementation.
+ * Utils for working with {@link BigDecimal}. We use base 10 because of {@link BigDecimal}s internal implementation.
  */
 public class MyMath {
 
-    private static final BigDecimal LOG_BASE_10_OF_E = new BigDecimal("0.4342944819032518276511289189166050822943970058036665661144537831");
+    private static final BigDecimal LOG_BASE_10_OF_E = new BigDecimal(
+        "0.4342944819032518276511289189166050822943970058036665661144537831"
+    );
 
-    private MyMath() {}
-
-    public static BigDecimal ln(BigDecimal x) {
-        return MyMath.log10(x).divide(MyMath.LOG_BASE_10_OF_E, ROUNDING_MODE);
+    /**
+     * Don't let anyone instantiate this class.
+     */
+    private MyMath() {
     }
 
     /**
-     * Compute log base 10 of x within 15 significant digits.
+     * Computes the natural logarithm of x (ln(x)) within 15 significant digits.
      *
-     * @param x number to log
-     * @return log_10(x)
+     * @param x the number to compute the logarithm of
+     *
+     * @return the natural logarithm of x
+     */
+    public static BigDecimal ln(BigDecimal x) {
+        return log10(x).divide(LOG_BASE_10_OF_E, ROUNDING_MODE);
+    }
+
+    /**
+     * Computes log base 10 of x (log_10(x)) within 15 significant digits.
+     *
+     * @param x the number to compute the logarithm of
+     *
+     * @return the log base 10 of x
+     *
      * @throws ArithmeticException if x is not positive
      */
     public static BigDecimal log10(BigDecimal x) {
+
         if (x.signum() < 1) {
             throw new ArithmeticException("Only for positive numbers");
         }
@@ -50,7 +65,9 @@ public class MyMath {
      * Computes 10 to the x.
      *
      * @param x the exponent
+     *
      * @return 10**x
+     *
      * @throws ArithmeticException if x is negative or if x is to large
      */
     public static BigDecimal pow10(BigDecimal x) {

@@ -3,8 +3,8 @@ package h05.math;
 import java.math.BigInteger;
 
 /**
- * Represents a rational number (fraction). The fraction is stored as a numerator and denominator
- * and the sign will be stored in the numerator.
+ * Represents a rational number (fraction). The fraction is stored as a numerator and denominator and the sign will be stored in
+ * the numerator.
  *
  * @author Nhan Huynh
  */
@@ -40,7 +40,7 @@ public class Rational {
      */
     public Rational(BigInteger numerator, BigInteger denominator) {
         if (denominator.signum() == 0) {
-            throw new ArithmeticException("/ by zero");
+            throw new ArithmeticException("Division by zero");
         }
 
         BigInteger divisor = numerator.gcd(denominator);

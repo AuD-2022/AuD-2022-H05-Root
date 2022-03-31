@@ -32,12 +32,6 @@ public class MyReal extends MyNumber {
     public static final MyNumber ONE = new MyReal(BigDecimal.ONE);
 
     /**
-     * The {@code MyReal} value that is closer than any other to <i>e</i>, the base of the natural
-     * logarithms.
-     */
-    public static final MyReal E = new MyReal(BigDecimal.valueOf(Math.E));
-
-    /**
      * The value of this real number.
      */
     private final BigDecimal value;

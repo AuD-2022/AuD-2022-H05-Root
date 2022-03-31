@@ -2,6 +2,7 @@ package h05.tree;
 
 import h05.exception.BadOperationException;
 import h05.exception.ParenthesesMismatchException;
+import h05.exception.UndefinedOperatorException;
 import h05.math.MyNumber;
 
 import java.util.ArrayList;
@@ -28,8 +29,14 @@ public final class ExpressionTreeHandler {
      * @param expression the string representation of the arithmetic expression to parse
      *
      * @return the root node of the arithmetic expression tree
+     *
+     * @throws BadOperationException        if the iterator has no more tokens
+     * @throws ParenthesesMismatchException if the parentheses are mismatched
+     * @throws UndefinedOperatorException   if the operator is not defined
+     * @see #buildRecursively(Iterator, ListItem, ListItem)
      */
     public static ArithmeticExpressionNode buildRecursively(Iterator<String> expression) {
+        // This cannot happen, the recursion anchor is defined in the helper method
         if (!expression.hasNext()) {
             throw new BadOperationException("No expression");
         }
@@ -43,11 +50,8 @@ public final class ExpressionTreeHandler {
         } else if (isLeftParenthesis) {
             token = expression.next();
             // Validate operator
-            Operator operator = Operator.getOperator(token);
-            ListItem<ArithmeticExpressionNode> operands = buildRecursively(expression, null, null);
-            int size = getSizeRecursively(operands);
-            OperatorExpressionNode.validateOperator(operator, size);
-            return new OperatorExpressionNode(operator, operands);
+            // Operator and operands validation occurs in the constructor
+            return new OperatorExpressionNode(Operator.getOperator(token), buildRecursively(expression, null, null));
         } else if (isRightParenthesis) {
             // No tail
             return null;
@@ -57,7 +61,7 @@ public final class ExpressionTreeHandler {
         } else if (IdentifierExpressionNode.IDENTIFIER_FORMAT.reset(token).matches()) {
             return new IdentifierExpressionNode(token);
         }
-        throw new BadOperationException(token);
+        throw new ParenthesesMismatchException();
     }
 
     /**
@@ -71,6 +75,7 @@ public final class ExpressionTreeHandler {
         Iterator<String> expression,
         ListItem<ArithmeticExpressionNode> head,
         ListItem<ArithmeticExpressionNode> tail) {
+        // Recursion anchor - no tokens left
         if (!expression.hasNext()) {
             return head;
         }
@@ -97,15 +102,20 @@ public final class ExpressionTreeHandler {
      * @param expression the string representation of the arithmetic expression to parse
      *
      * @return the root node of the arithmetic expression tree
+     *
+     * @throws BadOperationException        if the iterator has no more tokens
+     * @throws ParenthesesMismatchException if the parentheses are mismatched
+     * @throws UndefinedOperatorException   if the operator is not defined
      */
     public static ArithmeticExpressionNode buildIteratively(Iterator<String> expression) {
         if (!expression.hasNext()) {
             throw new BadOperationException("No expression");
         }
 
+        // Stack to store/build the arithmetic expression node
         Stack<ListItem<ArithmeticExpressionNode>> tree = new Stack<>();
 
-        // Faster access the tail of an operand list
+        // Faster access of the tail of an operand list
         Stack<ListItem<ArithmeticExpressionNode>> tails = new Stack<>();
 
         while (expression.hasNext()) {
@@ -160,13 +170,10 @@ public final class ExpressionTreeHandler {
                 operands = operands.next;
 
                 Operator operator = operatorNode.getOperator();
-                int size = getSizeIteratively(operands);
-                OperatorExpressionNode.validateOperator(operator, size);
 
                 // Build the combined expression node
-                OperatorExpressionNode node = new OperatorExpressionNode(
-                    operator, operands
-                );
+                // Operator and operands validation occurs in the constructor
+                OperatorExpressionNode node = new OperatorExpressionNode(operator, operands);
                 ListItem<ArithmeticExpressionNode> operand = new ListItem<>();
                 operand.key = node;
                 tree.push(operand);
@@ -194,36 +201,6 @@ public final class ExpressionTreeHandler {
     }
 
     /**
-     * Returns the size of the arithmetic expression tree recursively.
-     *
-     * @param item the list item to start computing the size
-     *
-     * @return the size of the arithmetic expression tree recursively
-     */
-    private static int getSizeRecursively(ListItem<ArithmeticExpressionNode> item) {
-        if (item == null) {
-            return 0;
-        }
-        return 1 + getSizeRecursively(item.next);
-    }
-
-    /**
-     * Returns the size of the arithmetic expression tree iteratively.
-     *
-     * @param item the list item to start computing the size
-     *
-     * @return the size of the arithmetic expression tree iteratively
-     */
-    private static int getSizeIteratively(ListItem<ArithmeticExpressionNode> item) {
-        int size = 0;
-        for (ListItem<ArithmeticExpressionNode> current = item; current != null;
-             current = current.next) {
-            size++;
-        }
-        return size;
-    }
-
-    /**
      * Reconstructs the string representation of the arithmetic expression tree.
      *
      * @param root the root node of the arithmetic expression tree
@@ -242,14 +219,12 @@ public final class ExpressionTreeHandler {
      *
      * @return the string representation of the arithmetic expression tree
      */
-    private static List<String> reconstruct(
-        ArithmeticExpressionNode node,
-        List<String> expressions
-    ) {
+    private static List<String> reconstruct(ArithmeticExpressionNode node, List<String> expressions) {
         if (node.isOperand()) {
             expressions.add(node.toString());
             return expressions;
         }
+
         expressions.add(ArithmeticExpressionNode.LEFT_BRACKET);
         OperatorExpressionNode operatorNode = (OperatorExpressionNode) node;
         expressions.add(operatorNode.getOperator().toString());

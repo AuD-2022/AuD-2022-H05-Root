@@ -1,6 +1,7 @@
 package h05.tree;
 
-import h05.exception.BadOperationException;
+import h05.exception.IllegalIdentifierExceptions;
+import h05.exception.UndefinedIdentifierException;
 import h05.math.MyNumber;
 
 import java.util.Map;
@@ -9,8 +10,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * This class represents an identifier operand arithmetic expression node. An identifier operand is
- * a variable name.
+ * This class represents an identifier operand arithmetic expression node. An identifier operand is a variable name.
+ *
+ * <p>Example:
+ * <ul>
+ *     <li>Identifier node with the identifier a</li>
+ *     <li>Racket notation: (define a 2) - constant identifier a with the value 2</li>
+ * </ul>
+ *
+ * <pre>{@code
+ *    IdentifierExpressionNode node = new IdentifierExpressionNode("a");
+ * }</pre>
  *
  * @author Nhan Huynh
  */
@@ -32,8 +42,9 @@ public class IdentifierExpressionNode extends OperandExpressionNode {
      *
      * @param value the identifier name
      *
-     * @throws IllegalArgumentException if the identifier name is not valid
-     * @throws NullPointerException     if the identifier name is {@code null}
+     * @throws IllegalArgumentException    if the identifier name is not valid
+     * @throws IllegalIdentifierExceptions if the identifier name is not valid
+     * @throws NullPointerException        if the identifier name is {@code null}
      */
     public IdentifierExpressionNode(String value) {
         Objects.requireNonNull(value, "value null");
@@ -42,7 +53,7 @@ public class IdentifierExpressionNode extends OperandExpressionNode {
         }
 
         if (!IDENTIFIER_FORMAT.reset(value).matches()) {
-            throw new BadOperationException("bad identifier");
+            throw new IllegalIdentifierExceptions(value);
         }
 
         this.value = value;
@@ -59,6 +70,21 @@ public class IdentifierExpressionNode extends OperandExpressionNode {
 
     @Override
     public MyNumber evaluate(Map<String, MyNumber> identifiers) {
+        boolean isPredefined = Identifier.NAMES.contains(value);
+        boolean isDefined = identifiers.containsKey(value);
+
+        if (isDefined && isPredefined) {
+            throw new IllegalIdentifierExceptions(value);
+        }
+
+        if (isPredefined) {
+            return Identifier.getIdentifier(value).getValue();
+        }
+
+        if (!isDefined) {
+            throw new UndefinedIdentifierException(value);
+        }
+
         return identifiers.get(value);
     }
 

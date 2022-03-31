@@ -10,10 +10,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The abstract class Number represents the numbers of the programming language Racket in a very
- * simplified way.
+ * The abstract class Number represents the numbers of the programming language Racket in a very simplified way.
  *
  * @author Nhan Huynh
+ * @see <a href="https://docs.racket-lang.org/reference/number-types.html">
+ * https://docs.racket-lang.org/reference/number-types.html</a>
  */
 public abstract class MyNumber {
 
@@ -203,22 +204,19 @@ public abstract class MyNumber {
     }
 
     /**
-     * Returns {@code this} number raised to the power of {@code exponent}.
-     * TODO documentation
+     * Returns {@code this} number raised to the power of {@code n}. The result will always be real.
      *
-     * @param exponent the exponent
+     * @param n the exponent
      *
-     * @return {@code this} number raised to the power of {@code exponent}
+     * @return {@code this} number raised to the power of {@code n}
      */
-    public MyNumber expt(MyNumber exponent) {
-        // pow(x, y) = x^y = exp(y * ln(x))
-        return ln().times(exponent).exp();
+    public MyNumber expt(MyNumber n) {
+        // pow(x, n) = x^n = exp(n * ln(x))
+        return ln().times(n).exp();
     }
 
     /**
-     * Returns Euler’s number raised to the power of {@code this} number. The result will always be
-     * real.
-     * TODO documentation
+     * Returns Euler’s number raised to the power of {@code this} number. The result will always be real.
      *
      * @return Euler’s number raised to the power of {@code this}
      *
@@ -230,31 +228,30 @@ public abstract class MyNumber {
 
     /**
      * Returns the natural logarithm of this number. The result will always be real.
-     * TODO documentation
      *
      * @return the natural logarithm of this number
      *
      * @throws WrongOperandException if this number is not positive
      */
     public MyNumber ln() {
-        var r = toReal();
+        BigDecimal real = toReal();
 
-        if (r.signum() < 1) {
+        if (real.signum() < 1) {
             throw new WrongOperandException(this, Comparison.GREATER_THAN, MyReal.ZERO);
         }
 
-        return new MyReal(MyMath.ln(r));
+        return new MyReal(MyMath.ln(real));
     }
 
     /**
      * Returns the logarithm of this number with base {@code base}. The result will always be real.
-     * TODO documentation
      *
-     * @param base the base
+     * @param base the base of the logarithm
      *
      * @return the logarithm of this number with base {@code base}
      */
     public MyNumber log(MyNumber base) {
+        // log(x, y) = ln(x) / ln(y)
         return ln().divide(base.ln());
     }
 }

@@ -109,18 +109,6 @@ public class MyInteger extends MyNumber {
     }
 
     @Override
-    public MyNumber exp() {
-        // TODO implement
-        return null;
-    }
-
-    @Override
-    public MyNumber ln() {
-        // TODO implement
-        return null;
-    }
-
-    @Override
     public String toString() {
         return value.toString();
     }

@@ -1,6 +1,6 @@
 package h05.tree;
 
-import h05.exception.BadOperationException;
+import h05.exception.UndefinedOperatorException;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -46,7 +46,9 @@ public enum Operator {
      * Contains all operators symbol.
      */
     public static final Set<String> SYMBOLS = Arrays.stream(Operator.values())
-        .map(Operator::getSymbol).collect(Collectors.toSet());
+        .map(Operator::getSymbol)
+        .collect(Collectors.toSet());
+
     /**
      * The operator's symbol.
      */
@@ -68,7 +70,7 @@ public enum Operator {
      *
      * @return the operator corresponding to the given symbol
      *
-     * @throws BadOperationException if the given symbol is not a valid operator
+     * @throws UndefinedOperatorException if the given symbol is not corresponding to any operator.
      */
     public static Operator getOperator(String symbol) {
         for (Operator operator : Operator.values()) {
@@ -76,7 +78,7 @@ public enum Operator {
                 return operator;
             }
         }
-        throw new BadOperationException(symbol);
+        throw new UndefinedOperatorException(symbol);
     }
 
     /**

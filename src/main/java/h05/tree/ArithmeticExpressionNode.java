@@ -1,5 +1,7 @@
 package h05.tree;
 
+import h05.exception.IllegalIdentifierExceptions;
+import h05.exception.UndefinedIdentifierException;
 import h05.math.MyNumber;
 
 import java.util.Map;
@@ -28,6 +30,9 @@ public interface ArithmeticExpressionNode extends Cloneable {
      * @param identifiers a map of identifiers and their values
      *
      * @return the result of the arithmetic expression
+     *
+     * @throws IllegalIdentifierExceptions  if the identifier in the map is illegal to use
+     * @throws UndefinedIdentifierException if the identifier is not defined in the map
      */
     MyNumber evaluate(Map<String, MyNumber> identifiers);
 
@@ -46,7 +51,7 @@ public interface ArithmeticExpressionNode extends Cloneable {
     boolean isOperator();
 
     /**
-     * Returns a clone of this node.
+     * Returns a clone of this node (deep copy).
      *
      * @return a clone of this node
      */

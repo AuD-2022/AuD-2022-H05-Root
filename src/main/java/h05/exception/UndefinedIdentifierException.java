@@ -8,7 +8,7 @@ package h05.exception;
 public class UndefinedIdentifierException extends RuntimeException {
 
     /**
-     * Constructs and initializes a undefined identifier exception  with no detail message.
+     * Constructs and initializes an undefined identifier exception with no detail message.
      */
     public UndefinedIdentifierException(String message) {
         super(message);
