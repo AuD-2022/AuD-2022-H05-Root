@@ -54,7 +54,7 @@ public final class MyReal extends MyNumber {
 
     private BigDecimal round() {
         int sign = value.signum();
-        BigDecimal rounded = value.abs().setScale(SCALE, ROUNDING_MODE);
+        BigDecimal rounded = value.abs();
         return sign == -1 ? rounded.negate() : rounded;
     }
 

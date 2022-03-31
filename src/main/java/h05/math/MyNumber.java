@@ -121,6 +121,13 @@ public abstract class MyNumber {
     @Override
     public abstract boolean equals(Object obj);
 
+    /**
+     * Returns the string representation of this {@code MyNumber}.
+     *
+     * @return the string representation of this {@code MyNumber}.
+     */
+    @Override
+    public abstract String toString();
 
     /**
      * Returns a number whose value is {@code (-this)}.
