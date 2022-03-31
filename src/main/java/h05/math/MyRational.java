@@ -1,7 +1,11 @@
 package h05.math;
 
+import h05.exception.Comparison;
+import h05.exception.WrongOperandException;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Objects;
 
 import static h05.math.MyReal.ROUNDING_MODE;
 
@@ -10,7 +14,7 @@ import static h05.math.MyReal.ROUNDING_MODE;
  *
  * @author Nhan Huynh
  */
-public class MyRational extends MyNumber {
+public final class MyRational extends MyNumber {
 
     /**
      * The {@link MyNumber} 0 as a {@link MyRational}.
@@ -31,9 +35,11 @@ public class MyRational extends MyNumber {
      * Constructs and initializes a rational number with the specified value.
      *
      * @param value the value of the rational number
+     *
+     * @throws NullPointerException if the value is null
      */
     public MyRational(Rational value) {
-        this.value = value;
+        this.value = Objects.requireNonNull(value, "value null");
     }
 
     @Override
@@ -53,6 +59,28 @@ public class MyRational extends MyNumber {
         BigDecimal denominator = new BigDecimal(value.getDenominator())
             .setScale(MyReal.SCALE, ROUNDING_MODE);
         return numerator.divide(denominator, ROUNDING_MODE);
+    }
+
+    @Override
+    public boolean isZero() {
+        return this.equals(ZERO);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MyRational)) {
+            return false;
+        }
+        MyRational number = (MyRational) o;
+        return value.equals(number.value);
     }
 
     @Override
@@ -100,11 +128,20 @@ public class MyRational extends MyNumber {
 
     @Override
     public MyNumber divide() {
+        if(isZero()) {
+            throw new WrongOperandException(this, Comparison.GREATER_THAN, ZERO);
+        }
         return new MyRational(value.inverse());
     }
 
     @Override
     public MyNumber divide(MyNumber other) {
+        if (isZero()) {
+            throw new WrongOperandException(this, Comparison.GREATER_THAN, ZERO);
+        }
+        if (other.isZero()) {
+            throw new WrongOperandException(other, Comparison.GREATER_THAN, ZERO);
+        }
         if (other instanceof MyInteger) {
             return new MyRational(value.divide(other.toInteger()));
         }

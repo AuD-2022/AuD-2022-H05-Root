@@ -8,8 +8,7 @@ package h05.exception;
 public class WrongNumberOfOperandsException extends RuntimeException {
 
     /**
-     * Constructs and initializes a wrong number of operands exception with the given inputs as its
-     * detail message.
+     * Constructs and initializes a wrong number of operands exception with the given inputs as its detail message.
      *
      * @param actual         the actual operand count
      * @param startInclusive the left bound of interval (inclusive) of the expected operand count

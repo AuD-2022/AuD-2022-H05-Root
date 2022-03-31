@@ -91,6 +91,38 @@ public abstract class MyNumber {
     public abstract BigDecimal toReal();
 
     /**
+     * Returns {@code true} if this number is zero.
+     *
+     * @return {@code true} if this number is zero
+     */
+    public abstract boolean isZero();
+
+    /**
+     * Returns the hash code for this {@code MyNumber}. The hash code is computed by the value representation of this number.
+     *
+     * @return hash code for this {@code MyNumber}.
+     *
+     * @see #equals(Object)
+     */
+    @Override
+    public abstract int hashCode();
+
+    /**
+     * Compares this {@code MyNumber} with the specified {@code Object} for equality. Two {@code MyNumber} objects equal only if
+     * they are equal their class and their value representation. Therefore, 0.5 is not equal to 1/2 when compared by this.
+     *
+     * @param x {@code Object} to which this {@code MyNumber} is to be compared.
+     *
+     * @return {@code true} if and only if the specified {@code Object} is a {@code MyNumber} whose value representation and class
+     * are equal to this {@code MyNumber}'s.
+     *
+     * @see #hashCode
+     */
+    @Override
+    public abstract boolean equals(Object obj);
+
+
+    /**
      * Returns a number whose value is {@code (-this)}.
      *
      * @return {@code -this}

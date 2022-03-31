@@ -1,6 +1,7 @@
 package h05.math;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 /**
  * Represents a rational number (fraction). The fraction is stored as a numerator and denominator and the sign will be stored in
@@ -8,7 +9,7 @@ import java.math.BigInteger;
  *
  * @author Nhan Huynh
  */
-public class Rational {
+public final class Rational {
 
     /**
      * The constant 0 as a {@link Rational}.
@@ -39,6 +40,8 @@ public class Rational {
      * @throws ArithmeticException if the denominator is zero
      */
     public Rational(BigInteger numerator, BigInteger denominator) {
+        Objects.requireNonNull(numerator, "numerator null");
+        Objects.requireNonNull(denominator, "denominator null");
         if (denominator.signum() == 0) {
             throw new ArithmeticException("Division by zero");
         }
@@ -191,6 +194,23 @@ public class Rational {
             numerator.multiply(other.denominator),
             denominator.multiply(other.numerator)
         );
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(numerator, denominator);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Rational)) {
+            return false;
+        }
+        Rational number = (Rational) o;
+        return numerator.equals(number.numerator) && denominator.equals(number.denominator);
     }
 
     @Override

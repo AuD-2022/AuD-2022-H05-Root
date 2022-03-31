@@ -1,7 +1,6 @@
 package h05.exception;
 
 /**
- * TODO: Removal?
  * The comparison enumeration used in the exception detail message.
  *
  * @auhor Nhan Huynh

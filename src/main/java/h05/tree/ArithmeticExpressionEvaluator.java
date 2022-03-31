@@ -37,8 +37,8 @@ public class ArithmeticExpressionEvaluator {
     }
 
     /**
-     * Evaluates the arithmetic expression tree by replacing the variables (identifiers) of the expression with their values
-     * and evaluates the most inner expressions.
+     * Evaluates the arithmetic expression tree by replacing the variables (identifiers) of the expression with their values and
+     * evaluates the most inner expressions.
      *
      * @return the list of tokens representing  the evaluation
      */

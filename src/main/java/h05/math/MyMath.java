@@ -65,11 +65,11 @@ public class MyMath {
     }
 
     /**
-     * Computes 10 to the x.
+     * Returns x raised to the power of {@code 10} (x^10).
      *
      * @param x the exponent
      *
-     * @return 10**x
+     * @return x raised to the power of {@code 10}
      *
      * @throws ArithmeticException if x is negative or if x is too large
      */

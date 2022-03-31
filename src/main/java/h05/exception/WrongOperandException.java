@@ -10,8 +10,7 @@ import h05.math.MyNumber;
 public class WrongOperandException extends RuntimeException {
 
     /**
-     * Constructs and initializes a wrong number of operands exception with the given inputs as its
-     * detail message.
+     * Constructs and initializes a wrong operand exception with the given inputs as its detail message.
      *
      * @param actual   the actual operand
      * @param cmp      the comparison between the actual and expected operand

@@ -1,15 +1,19 @@
 package h05.math;
 
+import h05.exception.Comparison;
+import h05.exception.WrongOperandException;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.Objects;
 
 /**
  * Represents a real number in Racket.
  *
  * @author Nhan Huynh
  */
-public class MyReal extends MyNumber {
+public final class MyReal extends MyNumber {
 
     /**
      * The scale of the real number for inexact numbers.
@@ -40,8 +44,11 @@ public class MyReal extends MyNumber {
      * Constructs and initializes a real number with the specified value.
      *
      * @param value the value of the real number
+     *
+     * @throws NullPointerException if the value is null
      */
     public MyReal(BigDecimal value) {
+        Objects.requireNonNull(value, "value null");
         this.value = value.setScale(SCALE, ROUNDING_MODE);
     }
 
@@ -64,6 +71,28 @@ public class MyReal extends MyNumber {
     @Override
     public BigDecimal toReal() {
         return value;
+    }
+
+    @Override
+    public boolean isZero() {
+        return this.equals(ZERO);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MyReal)) {
+            return false;
+        }
+        MyReal number = (MyReal) o;
+        return value.equals(number.value);
     }
 
     @Override
@@ -93,6 +122,9 @@ public class MyReal extends MyNumber {
 
     @Override
     public MyNumber divide() {
+        if (isZero()) {
+            throw new WrongOperandException(this, Comparison.GREATER_THAN, ZERO);
+        }
         return new MyReal(
             BigDecimal.ONE.setScale(SCALE, ROUNDING_MODE).divide(value, ROUNDING_MODE)
         );
@@ -100,6 +132,12 @@ public class MyReal extends MyNumber {
 
     @Override
     public MyNumber divide(MyNumber other) {
+        if (isZero()) {
+            throw new WrongOperandException(this, Comparison.GREATER_THAN, ZERO);
+        }
+        if (other.isZero()) {
+            throw new WrongOperandException(other, Comparison.GREATER_THAN, ZERO);
+        }
         return new MyReal(value.divide(other.toReal(), ROUNDING_MODE));
     }
 
