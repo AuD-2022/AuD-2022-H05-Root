@@ -24,7 +24,7 @@ public abstract class OperandExpressionNode implements ArithmeticExpressionNode 
     }
 
     @Override
-    public boolean isOperator() {
+    public boolean isOperation() {
         return false;
     }
 }

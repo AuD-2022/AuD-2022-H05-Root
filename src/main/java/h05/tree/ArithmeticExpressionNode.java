@@ -44,11 +44,11 @@ public interface ArithmeticExpressionNode extends Cloneable {
     boolean isOperand();
 
     /**
-     * Returns {@code true} if this node is an operator.
+     * Returns {@code true} if this node is an operation.
      *
-     * @return {@code true} if this node is an operator
+     * @return {@code true} if this node is an operation
      */
-    boolean isOperator();
+    boolean isOperation();
 
     /**
      * Returns a clone of this node (deep copy).

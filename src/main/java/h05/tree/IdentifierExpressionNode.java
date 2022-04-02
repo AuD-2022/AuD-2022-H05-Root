@@ -29,8 +29,7 @@ public class IdentifierExpressionNode extends OperandExpressionNode {
     /**
      * A matcher used to validate the allowed identifier.
      */
-    public static final Matcher IDENTIFIER_FORMAT =
-        Pattern.compile("[a-zA-Z\\-][a-zA-Z\\-]*").matcher("");
+    public static final Matcher IDENTIFIER_FORMAT = Pattern.compile("[a-zA-Z\\-][a-zA-Z\\-]*").matcher("");
 
     /**
      * The identifier name.

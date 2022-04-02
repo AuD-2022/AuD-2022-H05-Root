@@ -51,7 +51,7 @@ public final class ExpressionTreeHandler {
             token = expression.next();
             // Validate operator
             // Operator and operands validation occurs in the constructor
-            return new OperatorExpressionNode(Operator.getOperator(token), buildRecursively(expression, null, null));
+            return new OperationExpressionNode(Operator.getOperator(token), buildRecursively(expression, null, null));
         } else if (isRightParenthesis) {
             // No tail
             return null;
@@ -132,7 +132,7 @@ public final class ExpressionTreeHandler {
 
                 // Marker node - Contains only the operator
                 ListItem<ArithmeticExpressionNode> item = new ListItem<>();
-                item.key = new OperatorExpressionNode(operator, null);
+                item.key = new OperationExpressionNode(operator, null);
                 tree.push(item);
                 tails.push(item);
             } else if (isRightParenthesis) {
@@ -153,8 +153,8 @@ public final class ExpressionTreeHandler {
                     operands = item;
 
                     // Break if we reached the marker node - Contains only the operator
-                    if (node instanceof OperatorExpressionNode) {
-                        OperatorExpressionNode operatorNode = (OperatorExpressionNode) node;
+                    if (node instanceof OperationExpressionNode) {
+                        OperationExpressionNode operatorNode = (OperationExpressionNode) node;
                         if (operatorNode.getOperands() == null) {
                             break;
                         }
@@ -166,14 +166,14 @@ public final class ExpressionTreeHandler {
                     throw new ParenthesesMismatchException();
                 }
                 // Marker node - Contains only the operator
-                OperatorExpressionNode operatorNode = (OperatorExpressionNode) operands.key;
+                OperationExpressionNode operatorNode = (OperationExpressionNode) operands.key;
                 operands = operands.next;
 
                 Operator operator = operatorNode.getOperator();
 
                 // Build the combined expression node
                 // Operator and operands validation occurs in the constructor
-                OperatorExpressionNode node = new OperatorExpressionNode(operator, operands);
+                OperationExpressionNode node = new OperationExpressionNode(operator, operands);
                 ListItem<ArithmeticExpressionNode> operand = new ListItem<>();
                 operand.key = node;
                 tree.push(operand);
@@ -226,7 +226,7 @@ public final class ExpressionTreeHandler {
         }
 
         expressions.add(ArithmeticExpressionNode.LEFT_BRACKET);
-        OperatorExpressionNode operatorNode = (OperatorExpressionNode) node;
+        OperationExpressionNode operatorNode = (OperationExpressionNode) node;
         expressions.add(operatorNode.getOperator().toString());
 
         // Parse operands recursively

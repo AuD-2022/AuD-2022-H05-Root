@@ -1,8 +1,8 @@
 package h05.tree;
 
 /**
- * An instance of this class represents a sequence of list items (wrapped elements) of an ordered sequence that can be
- * addressed by means of a reference to the direct successor.
+ * An instance of this class represents a sequence of list items (wrapped elements) of an ordered sequence that can be addressed
+ * by means of a reference to the direct successor.
  *
  * <p>Example:
  * <ul>

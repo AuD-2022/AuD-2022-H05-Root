@@ -111,7 +111,7 @@ public abstract class MyNumber {
      * Compares this {@code MyNumber} with the specified {@code Object} for equality. Two {@code MyNumber} objects equal only if
      * they are equal their class and their value representation. Therefore, 0.5 is not equal to 1/2 when compared by this.
      *
-     * @param x {@code Object} to which this {@code MyNumber} is to be compared.
+     * @param obj {@code Object} to which this {@code MyNumber} is to be compared.
      *
      * @return {@code true} if and only if the specified {@code Object} is a {@code MyNumber} whose value representation and class
      * are equal to this {@code MyNumber}'s.
@@ -215,6 +215,8 @@ public abstract class MyNumber {
      * </ol>
      *
      * @return the quotient of this number and the neutral element 1
+     *
+     * @throws WrongOperandException if the number is 0
      */
     public abstract MyNumber divide();
 
@@ -230,6 +232,8 @@ public abstract class MyNumber {
      * @param other the number to divide
      *
      * @return the quotient of this number and the given number
+     *
+     * @throws WrongOperandException if the given number is 0
      */
     public abstract MyNumber divide(MyNumber other);
 
@@ -288,6 +292,8 @@ public abstract class MyNumber {
      * @param base the base of the logarithm
      *
      * @return the logarithm of this number with base {@code base}
+     *
+     * @throws WrongOperandException if this number is not positive or the base is not positive
      */
     public MyNumber log(MyNumber base) {
         // log_x(y) = ln(y) / ln(x)

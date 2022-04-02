@@ -37,6 +37,24 @@ public class ArithmeticExpressionEvaluator {
     }
 
     /**
+     * Returns the root of the arithmetic expression tree to evaluate.
+     *
+     * @return the root of the arithmetic expression tree to evaluate
+     */
+    public ArithmeticExpressionNode getRoot() {
+        return root;
+    }
+
+    /**
+     * Returns the map of variables and their values.
+     *
+     * @return the map of variables and their values
+     */
+    public Map<String, MyNumber> getIdentifiers() {
+        return identifiers;
+    }
+
+    /**
      * Evaluates the arithmetic expression tree by replacing the variables (identifiers) of the expression with their values and
      * evaluates the most inner expressions.
      *

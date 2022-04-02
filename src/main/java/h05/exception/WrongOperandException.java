@@ -19,10 +19,10 @@ public class WrongOperandException extends RuntimeException {
     public WrongOperandException(MyNumber actual, Comparison cmp, MyNumber expected) {
         super(
             String.format(
-                "%s should be %s %s",
-                actual,
+                "The given number should be %s %s, but was %s",
                 cmp.name().replace("_", " ").toLowerCase(),
-                expected
+                expected,
+                actual
             )
         );
     }

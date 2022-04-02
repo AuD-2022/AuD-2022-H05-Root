@@ -23,7 +23,7 @@ public final class MyReal extends MyNumber {
     /**
      * The rounding mode of the real number for inexact numbers.
      */
-    public static RoundingMode ROUNDING_MODE = RoundingMode.HALF_UP;
+    public static final RoundingMode ROUNDING_MODE = RoundingMode.HALF_UP;
 
     /**
      * The constant {@link MyNumber} 0 as a {@link MyReal}.
@@ -132,9 +132,6 @@ public final class MyReal extends MyNumber {
 
     @Override
     public MyNumber divide(MyNumber other) {
-        if (isZero()) {
-            throw new WrongOperandException(this, Comparison.GREATER_THAN, ZERO);
-        }
         if (other.isZero()) {
             throw new WrongOperandException(other, Comparison.GREATER_THAN, ZERO);
         }

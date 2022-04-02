@@ -128,7 +128,7 @@ public final class MyRational extends MyNumber {
 
     @Override
     public MyNumber divide() {
-        if(isZero()) {
+        if (isZero()) {
             throw new WrongOperandException(this, Comparison.GREATER_THAN, ZERO);
         }
         return new MyRational(value.inverse());
@@ -136,9 +136,6 @@ public final class MyRational extends MyNumber {
 
     @Override
     public MyNumber divide(MyNumber other) {
-        if (isZero()) {
-            throw new WrongOperandException(this, Comparison.GREATER_THAN, ZERO);
-        }
         if (other.isZero()) {
             throw new WrongOperandException(other, Comparison.GREATER_THAN, ZERO);
         }

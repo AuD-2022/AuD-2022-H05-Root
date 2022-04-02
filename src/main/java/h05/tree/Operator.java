@@ -30,9 +30,17 @@ public enum Operator {
      */
     DIV("/"),
     /**
-     * The power operator.
+     * The exponential function operator.
      */
-    POW("pow"),
+    EXP("exp"),
+    /**
+     * The exponentiation operator.
+     */
+    EXPT("expt"),
+    /**
+     * The natural logarithm operator.
+     */
+    LN("ln"),
     /**
      * The logarithm operator.
      */
