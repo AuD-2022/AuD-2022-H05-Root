@@ -140,9 +140,9 @@ public class OperatorExpressionNode implements ArithmeticExpressionNode {
     private MyNumber evaluateNullaryExpressions(Map<String, MyNumber> identifiers) {
         switch (operator) {
             case ADD:
-                return new MyInteger(BigInteger.ZERO);
+                return MyInteger.ZERO;
             case MUL:
-                return new MyInteger(BigInteger.ONE);
+                return MyInteger.ONE;
             default:
                 throw new BadOperationException(operator.toString());
         }
