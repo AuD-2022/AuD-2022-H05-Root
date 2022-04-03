@@ -154,6 +154,8 @@ public abstract class MyNumber {
      *     <li>Otherwise (both numbers are rational,) the result will be rational</li>
      * </ol>
      *
+     * <p>Notice if the result can be represented as an integer, it will be an integer.
+     *
      * @param other the number to add
      *
      * @return the sum of this number and the given number
@@ -176,6 +178,8 @@ public abstract class MyNumber {
      *     <li>Otherwise (both numbers are rational,) the result will be rational</li>
      * </ol>
      *
+     * <p>Notice if the result can be represented as an integer, it will be an integer.
+     *
      * @param other the number to subtract
      *
      * @return the difference of this number and the given number
@@ -197,8 +201,10 @@ public abstract class MyNumber {
      * <ol>
      *     <li>If both numbers are integers, the result will be an integer</li>
      *     <li>If one of the number is real, the result will be real</li>
-     *     <li>Otherwise (both numbers are rational,) the result will be rational</li>
+     *     <li>If both numbers are rational, the result will be rational</li></li>
      * </ol>
+     *
+     * <p>Notice if the result can be represented as an integer, it will be an integer.
      *
      * @param other the number to multiply
      *
@@ -208,6 +214,7 @@ public abstract class MyNumber {
 
     /**
      * Returns the quotient of this number and the neutral element 1 ({@code 1 / this}).
+     *
      * <ol>
      *     <li>If the number is an integer, the result will be rational</li>
      *      <li>If the number is an real, the result will be real</li>
@@ -229,6 +236,8 @@ public abstract class MyNumber {
      *     <li>Otherwise (both numbers are rational,) the result will be rational</li>
      * </ol>
      *
+     * <p>Notice if the result can be represented as an integer, it will be an integer.
+     *
      * @param other the number to divide
      *
      * @return the quotient of this number and the given number
@@ -238,12 +247,12 @@ public abstract class MyNumber {
     public abstract MyNumber divide(MyNumber other);
 
     /**
-     * Returns the square root of this number. The result will always be real.
+     * Returns the square root of this number. The result will always be real or an integer.
      *
      * @return the square root of this number
      */
     public MyNumber sqrt() {
-        return new MyReal(toReal().sqrt(MathContext.DECIMAL128));
+        return checkRealToInt(toReal().sqrt(MathContext.DECIMAL128));
     }
 
     /**
@@ -298,5 +307,34 @@ public abstract class MyNumber {
     public MyNumber log(MyNumber base) {
         // log_x(y) = ln(y) / ln(x)
         return ln().divide(base.ln());
+    }
+
+    /**
+     * Checks if the given real number can be represented as an integer.
+     *
+     * @param real the real number to check
+     *
+     * @return an integer if the real number can be represented as an integer, otherwise the real number
+     */
+    protected MyNumber checkRealToInt(BigDecimal real) {
+        BigDecimal stripped = real.stripTrailingZeros();
+        if (stripped.scale() <= 0) {
+            return new MyInteger(new BigInteger(stripped.toString()));
+        }
+        return new MyReal(real);
+    }
+
+    /**
+     * Checks if the given rational number can be represented as an integer.
+     *
+     * @param rational the real number to check
+     *
+     * @return an integer if the rational number can be represented as an integer, otherwise the rational number
+     */
+    protected MyNumber checkRationalToInt(Rational rational) {
+        if (rational.getDenominator().equals(BigInteger.ONE)) {
+            return new MyInteger(rational.getNumerator());
+        }
+        return new MyRational(rational);
     }
 }

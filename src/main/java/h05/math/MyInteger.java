@@ -88,9 +88,9 @@ public final class MyInteger extends MyNumber {
             return new MyInteger(value.add((other.toInteger())));
         }
         if (other instanceof MyReal) {
-            return new MyReal(toReal().add(other.toReal()));
+            return checkRealToInt(toReal().add(other.toReal()));
         }
-        return new MyRational(other.toRational().plus(value));
+        return checkRationalToInt(other.toRational().plus(value));
     }
 
     @Override
@@ -104,9 +104,9 @@ public final class MyInteger extends MyNumber {
             return new MyInteger(value.subtract(other.toInteger()));
         }
         if (other instanceof MyReal) {
-            return new MyReal(toReal().subtract(other.toReal()));
+            return checkRealToInt(toReal().subtract(other.toReal()));
         }
-        return new MyRational(other.negate().toRational().plus(value));
+        return checkRationalToInt(other.toRational().minus(value));
     }
 
     @Override
@@ -115,9 +115,9 @@ public final class MyInteger extends MyNumber {
             return new MyInteger(value.multiply(other.toInteger()));
         }
         if (other instanceof MyReal) {
-            return new MyReal(toReal().multiply(other.toReal()));
+            return checkRealToInt(toReal().multiply(other.toReal()));
         }
-        return new MyRational(other.toRational().times(value));
+        return checkRationalToInt(other.toRational().times(value));
     }
 
     @Override
@@ -137,9 +137,9 @@ public final class MyInteger extends MyNumber {
             return new MyRational(new Rational(value, other.toInteger()));
         }
         if (other instanceof MyReal) {
-            return new MyReal(toReal().divide(other.toReal(), MyReal.ROUNDING_MODE));
+            return checkRealToInt(toReal().divide(other.toReal(), MyReal.ROUNDING_MODE));
         }
-        return new MyRational(other.toRational().inverse().times(value));
+        return checkRationalToInt(other.toRational().divide(value));
     }
 
     @Override

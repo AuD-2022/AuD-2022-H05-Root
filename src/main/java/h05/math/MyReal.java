@@ -102,7 +102,7 @@ public final class MyReal extends MyNumber {
 
     @Override
     public MyNumber plus(MyNumber other) {
-        return new MyReal(value.add(other.toReal()));
+        return checkRealToInt(value.add(other.toReal()));
     }
 
     @Override
@@ -112,12 +112,12 @@ public final class MyReal extends MyNumber {
 
     @Override
     public MyNumber minus(MyNumber other) {
-        return new MyReal(value.subtract(other.toReal()));
+        return checkRealToInt(value.subtract(other.toReal()));
     }
 
     @Override
     public MyNumber times(MyNumber other) {
-        return new MyReal(value.multiply(other.toReal()));
+        return checkRealToInt(value.multiply(other.toReal()));
     }
 
     @Override
@@ -135,7 +135,7 @@ public final class MyReal extends MyNumber {
         if (other.isZero()) {
             throw new WrongOperandException(other, Comparison.GREATER_THAN, ZERO);
         }
-        return new MyReal(value.divide(other.toReal(), ROUNDING_MODE));
+        return checkRealToInt(value.divide(other.toReal(), ROUNDING_MODE));
     }
 
     @Override
