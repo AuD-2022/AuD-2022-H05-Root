@@ -94,11 +94,6 @@ public final class MyInteger extends MyNumber {
     }
 
     @Override
-    public MyNumber minus() {
-        return new MyInteger(value.negate());
-    }
-
-    @Override
     public MyNumber minus(MyNumber other) {
         if (other instanceof MyInteger) {
             return new MyInteger(value.subtract(other.toInteger()));

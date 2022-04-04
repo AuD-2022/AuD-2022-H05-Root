@@ -100,11 +100,6 @@ public final class MyRational extends MyNumber {
     }
 
     @Override
-    public MyNumber minus() {
-        return new MyRational(value.negate());
-    }
-
-    @Override
     public MyNumber minus(MyNumber other) {
         if (other instanceof MyInteger) {
             return new MyRational(value.minus(other.toInteger()));

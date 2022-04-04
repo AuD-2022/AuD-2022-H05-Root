@@ -106,11 +106,6 @@ public final class MyReal extends MyNumber {
     }
 
     @Override
-    public MyNumber minus() {
-        return new MyReal(value.negate());
-    }
-
-    @Override
     public MyNumber minus(MyNumber other) {
         return checkRealToInt(value.subtract(other.toReal()));
     }

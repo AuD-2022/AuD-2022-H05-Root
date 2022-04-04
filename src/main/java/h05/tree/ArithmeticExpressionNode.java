@@ -56,4 +56,12 @@ public interface ArithmeticExpressionNode extends Cloneable {
      * @return a clone of this node
      */
     ArithmeticExpressionNode clone();
+
+    /**
+     * Returns the string representation of this node.
+     *
+     * @return the string representation of this node
+     */
+    @Override
+    String toString();
 }

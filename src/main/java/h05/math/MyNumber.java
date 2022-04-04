@@ -167,7 +167,9 @@ public abstract class MyNumber {
      *
      * @return the difference of this number and the neutral element 0
      */
-    public abstract MyNumber minus();
+    public MyNumber minus() {
+        return this.negate();
+    }
 
     /**
      * Returns the difference of this number and the given number ({@code this - other}).
