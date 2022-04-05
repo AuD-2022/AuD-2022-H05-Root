@@ -61,7 +61,7 @@ public final class ExpressionTreeHandler {
         } else if (IdentifierExpressionNode.IDENTIFIER_FORMAT.reset(token).matches()) {
             return new IdentifierExpressionNode(token);
         }
-        throw new ParenthesesMismatchException();
+        throw new BadOperationException(token);
     }
 
     /**
