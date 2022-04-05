@@ -19,30 +19,30 @@ class ExpressionTreeHandlerTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/ExpressionTreeHandlerTest.csv", numLinesToSkip = 1)
-    void testBuildIteratively(String expected, String tokens) {
-        givenIterativelyBuiltTree(tokens);
+    void testBuildIteratively(String expected, String expression) {
+        givenIterativelyBuiltTree(expression);
         whenEvaluatingWithNoIdentifiers();
         itShouldBe(expected);
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/ExpressionTreeHandlerTest.csv", numLinesToSkip = 1)
-    void testBuildRecursively(String expected, String tokens) {
-        givenRecursivelyBuiltTree(tokens);
+    void testBuildRecursively(String expected, String expression) {
+        givenRecursivelyBuiltTree(expression);
         whenEvaluatingWithNoIdentifiers();
         itShouldBe(expected);
     }
 
-    private void givenRecursivelyBuiltTree(String tokens) {
-        var split = tokens.split("\\s+");
-        var iterator = List.of(split).iterator();
+    private void givenRecursivelyBuiltTree(String expression) {
+        var tokens = expression.split("\\s+");
+        var iterator = List.of(tokens).iterator();
         root = ExpressionTreeHandler.buildRecursively(iterator);
     }
 
-    private void givenIterativelyBuiltTree(String tokens) {
-        var split = tokens.split("\\s+");
-        var iterator = List.of(split).iterator();
-        root = ExpressionTreeHandler.buildIteratively(iterator);
+    private void givenIterativelyBuiltTree(String expression) {
+        var split = expression.split("\\s+");
+        var tokens = List.of(split).iterator();
+        root = ExpressionTreeHandler.buildIteratively(tokens);
     }
 
     private void whenEvaluatingWithNoIdentifiers() {
