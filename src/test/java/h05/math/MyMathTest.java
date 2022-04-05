@@ -9,7 +9,9 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class MyMathTest {
+public class MyMathTest {
+
+    private static final BigDecimal EPSILON = BigDecimal.valueOf(1.0E-14);
 
     @ParameterizedTest
     @CsvSource({
@@ -78,9 +80,9 @@ class MyMathTest {
             MyMath.log10(BigDecimal.ZERO));
     }
 
-    private static void assertIsCloseTo(BigDecimal expected, BigDecimal actual) {
+    public static void assertIsCloseTo(BigDecimal expected, BigDecimal actual) {
         var d = expected.subtract(actual).abs();
-        assertTrue(d.compareTo(BigDecimal.valueOf(1.0E-14)) < 0,
+        assertTrue(d.compareTo(EPSILON) < 0,
             String.format("<%s> is too far away from <%s>", actual, expected));
     }
 }
