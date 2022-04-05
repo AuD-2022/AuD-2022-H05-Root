@@ -31,8 +31,7 @@ public abstract class MyNumber {
     /**
      * A matcher used to match a string to a {@link MyRational}.
      */
-    private static final Matcher RATIONAL_FORMAT = Pattern.compile("-?\\(\\d+ / \\d+\\)")
-        .matcher("");
+    private static final Matcher RATIONAL_FORMAT = Pattern.compile("-?\\d+/\\d+").matcher("");
 
     /**
      * Parses the given token to a {@link MyNumber}.
@@ -49,7 +48,7 @@ public abstract class MyNumber {
             return new MyReal(new BigDecimal(token));
         }
         if (RATIONAL_FORMAT.reset(token).matches()) {
-            String[] data = token.substring(1, token.length() - 1).replace(" ", "").split("/");
+            String[] data = token.split("/");
             return new MyRational(
                 new Rational(new BigInteger(data[0]), new BigInteger(data[1]))
             );

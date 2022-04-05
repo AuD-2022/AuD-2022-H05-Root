@@ -216,8 +216,8 @@ public final class Rational {
     @Override
     public String toString() {
         if (numerator.signum() == -1) {
-            return String.format("-(%s / %s)", numerator.negate(), denominator);
+            return String.format("-%s/%s", numerator.negate(), denominator);
         }
-        return String.format("(%s / %s)", numerator, denominator);
+        return String.format("%s/%s", numerator, denominator);
     }
 }
