@@ -134,8 +134,10 @@ public final class ExpressionTreeHandler {
                 stack.peek().addArgument(argument.toArithmeticExpressionNode());
             } else if (isIdentifier(token)) {
                 stack.peek().addArgument(new IdentifierExpressionNode(token));
+            } else if (MyNumber.isNumber(token)) {
+                stack.peek().addArgument(new LiteralExpressionNode(MyNumber.parseNumber(token)));
             } else {
-                stack.peek().addArgument(new LiteralExpressionNode(toNumber(token)));
+                throw new BadOperationException(token);
             }
         }
 
@@ -144,21 +146,6 @@ public final class ExpressionTreeHandler {
         }
 
         return stack.pop().arguments.key;
-    }
-
-    private static MyNumber toNumber(String token) {
-        if (token.contains("/")) {
-            var parts = token.split("/");
-            BigInteger top = new BigInteger(parts[0]);
-            BigInteger bottom = new BigInteger(parts[1]);
-            return new MyRational(new Rational(top, bottom));
-        }
-
-        if (token.matches("-?\\d+")) {
-            return new MyInteger(new BigInteger(token));
-        }
-
-        return new MyReal(new BigDecimal(token));
     }
 
     private static boolean isIdentifier(String token) {
