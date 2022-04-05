@@ -48,7 +48,7 @@ public class MyMath {
             throw new ArithmeticException("Only for positive numbers");
         }
 
-        BigDecimal log10 = BigDecimal.ZERO;
+        BigDecimal log10 = BigDecimal.ZERO.setScale(MyReal.SCALE, MyReal.ROUNDING_MODE);
 
         while (x.compareTo(BigDecimal.TEN) > 0) {
             log10 = log10.add(BigDecimal.ONE);

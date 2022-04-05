@@ -129,7 +129,7 @@ public final class MyInteger extends MyNumber {
             throw new WrongOperandException(other, Comparison.GREATER_THAN, ZERO);
         }
         if (other instanceof MyInteger) {
-            return new MyRational(new Rational(value, other.toInteger()));
+            return checkRationalToInt(new Rational(value, other.toInteger()));
         }
         if (other instanceof MyReal) {
             return checkRealToInt(toReal().divide(other.toReal(), MyReal.ROUNDING_MODE));

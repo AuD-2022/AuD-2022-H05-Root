@@ -42,7 +42,7 @@ public abstract class MyNumber {
      */
     public static MyNumber parseNumber(String token) {
         if (INTEGER_FORMAT.reset(token).matches()) {
-            return new MyReal(new BigDecimal(token));
+            return new MyInteger(new BigInteger(token));
         }
         if (REAL_FORMAT.reset(token).matches()) {
             return new MyReal(new BigDecimal(token));
@@ -257,7 +257,7 @@ public abstract class MyNumber {
     }
 
     /**
-     * Returns {@code this} number raised to the power of {@code n} (x^n). The result will always be real.
+     * Returns {@code this} number raised to the power of {@code n} (x^n). The result will always be real or an integer.
      *
      * @param n the exponent
      *
@@ -269,18 +269,18 @@ public abstract class MyNumber {
     }
 
     /**
-     * Returns Euler’s number raised to the power of {@code this} number (exp(x)). The result will always be real.
+     * Returns Euler’s number raised to the power of {@code this} number (exp(x)). The result will always be real or an integer.
      *
      * @return Euler’s number raised to the power of {@code this}
      *
      * @throws WrongOperandException if this number is not positive or the large
      */
     public MyNumber exp() {
-        return new MyReal(MyMath.exp(toReal()));
+        return checkRealToInt(MyMath.exp(toReal()));
     }
 
     /**
-     * Returns the natural logarithm of this number (ln(x)). The result will always be real.
+     * Returns the natural logarithm of this number (ln(x)). The result will always be real or an integer.
      *
      * @return the natural logarithm of this number
      *
@@ -293,11 +293,11 @@ public abstract class MyNumber {
             throw new WrongOperandException(this, Comparison.GREATER_THAN, MyReal.ZERO);
         }
 
-        return new MyReal(MyMath.ln(real));
+        return checkRealToInt(MyMath.ln(real));
     }
 
     /**
-     * Returns the logarithm of this number with base {@code base} (log_x(y)). The result will always be real.
+     * Returns the logarithm of this number with base {@code base} (log_x(y)). The result will always be real or an integer.
      *
      * @param base the base of the logarithm
      *
