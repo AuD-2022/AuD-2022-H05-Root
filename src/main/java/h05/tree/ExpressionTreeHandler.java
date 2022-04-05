@@ -3,8 +3,10 @@ package h05.tree;
 import h05.exception.BadOperationException;
 import h05.exception.ParenthesesMismatchException;
 import h05.exception.UndefinedOperatorException;
-import h05.math.MyNumber;
+import h05.math.*;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -108,96 +110,59 @@ public final class ExpressionTreeHandler {
      * @throws UndefinedOperatorException   if the operator is not defined
      */
     public static ArithmeticExpressionNode buildIteratively(Iterator<String> expression) {
+        var stack = new Stack<BuildIterativelyStackFrame>();
+
         if (!expression.hasNext()) {
             throw new BadOperationException("No expression");
         }
 
-        // Stack to store/build the arithmetic expression node
-        Stack<ListItem<ArithmeticExpressionNode>> tree = new Stack<>();
-
-        // Faster access of the tail of an operand list
-        Stack<ListItem<ArithmeticExpressionNode>> tails = new Stack<>();
+        stack.push(new BuildIterativelyStackFrame(null));
 
         while (expression.hasNext()) {
-            String token = expression.next();
-            boolean isLeftParenthesis = token.equals(ArithmeticExpressionNode.LEFT_BRACKET);
-            boolean isRightParenthesis = token.equals(ArithmeticExpressionNode.RIGHT_BRACKET);
-            if (isLeftParenthesis && !expression.hasNext()) {
-                // Validate parentheses
-                throw new ParenthesesMismatchException();
-            } else if (isLeftParenthesis) {
-                token = expression.next();
-                // Validate operator
-                Operator operator = Operator.getOperator(token);
+            var token = expression.next();
 
-                // Marker node - Contains only the operator
-                ListItem<ArithmeticExpressionNode> item = new ListItem<>();
-                item.key = new OperationExpressionNode(operator, null);
-                tree.push(item);
-                tails.push(item);
-            } else if (isRightParenthesis) {
-                ListItem<ArithmeticExpressionNode> operands = null;
+            if (token.equals(ArithmeticExpressionNode.LEFT_BRACKET)) {
+                var operator = Operator.getOperator(expression.next());
+                stack.push(new BuildIterativelyStackFrame(operator));
+            } else if (token.equals(ArithmeticExpressionNode.RIGHT_BRACKET)) {
+                var argument = stack.pop();
 
-                // Retrieve operands
-                while (!tree.isEmpty()) {
-                    ListItem<ArithmeticExpressionNode> item = tree.pop();
-                    ListItem<ArithmeticExpressionNode> tail = tails.pop();
-                    ArithmeticExpressionNode node = item.key;
-
-                    // Combine all operands
-                    if (operands != null) {
-                        // Old operands are added to the last of the previous operands
-                        tail.next = operands;
-                    }
-                    // New operands head
-                    operands = item;
-
-                    // Break if we reached the marker node - Contains only the operator
-                    if (node instanceof OperationExpressionNode) {
-                        OperationExpressionNode operatorNode = (OperationExpressionNode) node;
-                        if (operatorNode.getOperands() == null) {
-                            break;
-                        }
-                    }
-                }
-
-                // Missing left parenthesis to a right parenthesis
-                if (operands == null) {
+                if (stack.isEmpty()) {
                     throw new ParenthesesMismatchException();
                 }
-                // Marker node - Contains only the operator
-                OperationExpressionNode operatorNode = (OperationExpressionNode) operands.key;
-                operands = operands.next;
 
-                Operator operator = operatorNode.getOperator();
-
-                // Build the combined expression node
-                // Operator and operands validation occurs in the constructor
-                OperationExpressionNode node = new OperationExpressionNode(operator, operands);
-                ListItem<ArithmeticExpressionNode> operand = new ListItem<>();
-                operand.key = node;
-                tree.push(operand);
-                tails.push(operand);
-            } else if (MyNumber.isNumber(token)) {
-                // Add new expression node to the last of a list of operands
-                ListItem<ArithmeticExpressionNode> expressions = tails.pop();
-                MyNumber number = MyNumber.parseNumber(token);
-                LiteralExpressionNode node = new LiteralExpressionNode(number);
-                expressions = expressions.next = new ListItem<>();
-                expressions.key = node;
-                tails.push(expressions);
-            } else if (IdentifierExpressionNode.IDENTIFIER_FORMAT.reset(token).matches()) {
-                // Add new expression node to the last of a list of operands
-                ListItem<ArithmeticExpressionNode> expressions = tails.pop();
-                IdentifierExpressionNode node = new IdentifierExpressionNode(token);
-                expressions = expressions.next = new ListItem<>();
-                expressions.key = node;
-                tails.push(expressions);
+                stack.peek().addArgument(argument.toArithmeticExpressionNode());
+            } else if (isIdentifier(token)) {
+                stack.peek().addArgument(new IdentifierExpressionNode(token));
             } else {
-                throw new BadOperationException(token);
+                stack.peek().addArgument(new LiteralExpressionNode(toNumber(token)));
             }
         }
-        return tree.pop().key;
+
+        if (stack.size() > 1) {
+            throw new ParenthesesMismatchException();
+        }
+
+        return stack.pop().arguments.key;
+    }
+
+    private static MyNumber toNumber(String token) {
+        if (token.contains("/")) {
+            var parts = token.split("/");
+            BigInteger top = new BigInteger(parts[0]);
+            BigInteger bottom = new BigInteger(parts[1]);
+            return new MyRational(new Rational(top, bottom));
+        }
+
+        if (token.matches("-?\\d+")) {
+            return new MyInteger(new BigInteger(token));
+        }
+
+        return new MyReal(new BigDecimal(token));
+    }
+
+    private static boolean isIdentifier(String token) {
+        return IdentifierExpressionNode.IDENTIFIER_FORMAT.reset(token).matches();
     }
 
     /**
@@ -237,5 +202,30 @@ public final class ExpressionTreeHandler {
 
         expressions.add(ArithmeticExpressionNode.RIGHT_BRACKET);
         return expressions;
+    }
+
+    private static class BuildIterativelyStackFrame {
+        private final Operator operator;
+        private ListItem<ArithmeticExpressionNode> arguments;
+        private ListItem<ArithmeticExpressionNode> tail;
+
+        public BuildIterativelyStackFrame(Operator operator) {
+            this.operator = operator;
+            arguments = tail = null;
+        }
+
+        ArithmeticExpressionNode toArithmeticExpressionNode() {
+            return new OperationExpressionNode(operator, arguments);
+        }
+
+        public void addArgument(ArithmeticExpressionNode node) {
+            if (arguments == null) {
+                arguments = tail = new ListItem<>();
+            } else {
+                tail = tail.next = new ListItem<>();
+            }
+
+            tail.key = node;
+        }
     }
 }
