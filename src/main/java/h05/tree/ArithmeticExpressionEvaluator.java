@@ -75,34 +75,49 @@ public class ArithmeticExpressionEvaluator {
         List<String> innerExpression = new ArrayList<>();
 
         for (String token : expression) {
+            boolean isEmpty = innerExpression.isEmpty();
+            boolean isEnd = token.equals(ArithmeticExpressionNode.RIGHT_BRACKET);
+
             if (token.equals(ArithmeticExpressionNode.LEFT_BRACKET)) {
                 // Found a new inner expression, no evaluation needed
-                if (!innerExpression.isEmpty()) {
+                if (!isEmpty) {
                     newExpression.addAll(innerExpression);
                     innerExpression.clear();
                 }
                 innerExpression.add(token);
-            } else if (token.equals(ArithmeticExpressionNode.RIGHT_BRACKET)) {
+            } else if (isEnd && isEmpty) {
+                // End of the expression, add closing bracket to the new expression
+                newExpression.add(token);
+            } else if (isEnd) {
                 innerExpression.add(token);
                 // Evaluate the inner expression
-                ArithmeticExpressionNode node = ExpressionTreeHandler.buildIteratively(
-                    innerExpression.iterator()
-                );
+                ArithmeticExpressionNode node = ExpressionTreeHandler.buildRecursively(innerExpression.iterator());
+                assert node != null;
                 MyNumber number = node.evaluate(identifiers);
-                LiteralExpressionNode literal = new LiteralExpressionNode(number);
-                List<String> literalExpression = ExpressionTreeHandler.reconstruct(literal);
-                newExpression.addAll(literalExpression);
+                LiteralExpressionNode newNode = new LiteralExpressionNode(number);
+
+                // Replace the inner expression with the evaluated expression
+                List<String> nodeExpression = ExpressionTreeHandler.reconstruct(newNode);
+                newExpression.addAll(nodeExpression);
+                innerExpression.clear();
             } else if (Operator.SYMBOLS.contains(token) || MyNumber.isNumber(token)) {
-                innerExpression.add(token);
+                // If we did not read an inner expression, add the token to the new expression
+                if (isEmpty) {
+                    newExpression.add(token);
+                } else {
+                    innerExpression.add(token);
+                }
             } else if (identifiers.containsKey(token)) {
                 innerExpression.add(identifiers.get(token).toString());
+            } else if (Identifier.NAMES.contains(token)) {
+                innerExpression.add(token);
             } else {
                 // Identifier not found
                 innerExpression.add("<unknown!>");
             }
         }
 
-        root = ExpressionTreeHandler.buildIteratively(newExpression.iterator());
+        root = ExpressionTreeHandler.buildRecursively(newExpression.iterator());
         return newExpression;
     }
 }
