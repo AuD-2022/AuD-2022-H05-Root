@@ -96,6 +96,7 @@ public final class ExpressionTreeHandler {
         }
     }
 
+
     /**
      * Builds an arithmetic expression tree from a string iteratively.
      *
@@ -112,92 +113,94 @@ public final class ExpressionTreeHandler {
             throw new BadOperationException("No expression");
         }
 
+        Stack<Operator> operators = new Stack<>();
         // Stack to store/build the arithmetic expression node
-        Stack<ListItem<ArithmeticExpressionNode>> tree = new Stack<>();
-
+        Stack<ListItem<ArithmeticExpressionNode>> operands = new Stack<>();
         // Faster access of the tail of an operand list
         Stack<ListItem<ArithmeticExpressionNode>> tails = new Stack<>();
 
         while (expression.hasNext()) {
             String token = expression.next();
-            boolean isLeftParenthesis = token.equals(ArithmeticExpressionNode.LEFT_BRACKET);
-            boolean isRightParenthesis = token.equals(ArithmeticExpressionNode.RIGHT_BRACKET);
-            if (isLeftParenthesis && !expression.hasNext()) {
+
+            boolean isLeft = token.equals(ArithmeticExpressionNode.LEFT_BRACKET);
+            boolean isRight = token.equals(ArithmeticExpressionNode.RIGHT_BRACKET);
+
+            if (isLeft && !expression.hasNext()) {
                 // Validate parentheses
                 throw new ParenthesesMismatchException();
-            } else if (isLeftParenthesis) {
+            } else if (isLeft) {
                 token = expression.next();
                 // Validate operator
                 Operator operator = Operator.getOperator(token);
 
-                // Marker node - Contains only the operator
-                ListItem<ArithmeticExpressionNode> item = new ListItem<>();
-                item.key = new OperationExpressionNode(operator, null);
-                tree.push(item);
-                tails.push(item);
-            } else if (isRightParenthesis) {
-                ListItem<ArithmeticExpressionNode> operands = null;
-
+                operators.push(operator);
+                // Marker node
+                operands.push(null);
+            } else if (isRight) {
+                ListItem<ArithmeticExpressionNode> ops = null;
                 // Retrieve operands
-                while (!tree.isEmpty()) {
-                    ListItem<ArithmeticExpressionNode> item = tree.pop();
+                while (!operands.isEmpty() && operands.peek() != null) {
+                    ListItem<ArithmeticExpressionNode> head = operands.pop();
                     ListItem<ArithmeticExpressionNode> tail = tails.pop();
-                    ArithmeticExpressionNode node = item.key;
 
                     // Combine all operands
-                    if (operands != null) {
+                    if (ops != null) {
                         // Old operands are added to the last of the previous operands
-                        tail.next = operands;
+                        tail.next = ops;
                     }
                     // New operands head
-                    operands = item;
-
-                    // Break if we reached the marker node - Contains only the operator
-                    if (node instanceof OperationExpressionNode) {
-                        OperationExpressionNode operatorNode = (OperationExpressionNode) node;
-                        if (operatorNode.getOperands() == null) {
-                            break;
-                        }
-                    }
+                    ops = head;
                 }
 
-                // Missing left parenthesis to a right parenthesis
-                if (operands == null) {
+                // Missing left bracket to a right bracket
+                if (operands.isEmpty()) {
                     throw new ParenthesesMismatchException();
                 }
-                // Marker node - Contains only the operator
-                OperationExpressionNode operatorNode = (OperationExpressionNode) operands.key;
-                operands = operands.next;
-
-                Operator operator = operatorNode.getOperator();
+                // Remove marker node
+                operands.pop();
 
                 // Build the combined expression node
                 // Operator and operands validation occurs in the constructor
-                OperationExpressionNode node = new OperationExpressionNode(operator, operands);
-                ListItem<ArithmeticExpressionNode> operand = new ListItem<>();
-                operand.key = node;
-                tree.push(operand);
-                tails.push(operand);
+                Operator operator = operators.pop();
+                ListItem<ArithmeticExpressionNode> node = new ListItem<>();
+                node.key = new OperationExpressionNode(operator, ops);
+                operands.push(node);
+                tails.push(node);
             } else if (MyNumber.isNumber(token)) {
-                // Add new expression node to the last of a list of operands
-                ListItem<ArithmeticExpressionNode> expressions = tails.pop();
                 MyNumber number = MyNumber.parseNumber(token);
-                LiteralExpressionNode node = new LiteralExpressionNode(number);
-                expressions = expressions.next = new ListItem<>();
-                expressions.key = node;
-                tails.push(expressions);
+                ListItem<ArithmeticExpressionNode> node = new ListItem<>();
+                node.key = new LiteralExpressionNode(number);
+
+                // Create a new operand list if the previous element was the marker node
+                if (operands.peek() == null) {
+                    operands.push(node);
+                    tails.push(node);
+                } else {
+                    // Add new operand to the tail of the previous operand list
+                    ListItem<ArithmeticExpressionNode> tail = tails.pop();
+                    tail = tail.next = node;
+                    tails.push(tail);
+                }
             } else if (IdentifierExpressionNode.IDENTIFIER_FORMAT.reset(token).matches()) {
-                // Add new expression node to the last of a list of operands
-                ListItem<ArithmeticExpressionNode> expressions = tails.pop();
-                IdentifierExpressionNode node = new IdentifierExpressionNode(token);
-                expressions = expressions.next = new ListItem<>();
-                expressions.key = node;
-                tails.push(expressions);
+                ListItem<ArithmeticExpressionNode> node = new ListItem<>();
+                node.key = new IdentifierExpressionNode(token);
+
+                // Create a new operand list if the previous element was the marker node
+                if (operands.peek() == null) {
+                    operands.push(node);
+                    tails.push(node);
+                } else {
+                    // Add new operand to the tail of the previous operand list
+                    ListItem<ArithmeticExpressionNode> tail = tails.pop();
+                    tail = tail.next = node;
+                    tails.push(tail);
+                }
             } else {
                 throw new BadOperationException(token);
             }
+
         }
-        return tree.pop().key;
+        return operands.pop().key;
     }
 
     /**
