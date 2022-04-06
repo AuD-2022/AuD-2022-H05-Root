@@ -91,7 +91,7 @@ public class ArithmeticExpressionEvaluator {
             } else if (isEnd) {
                 innerExpression.add(token);
                 // Evaluate the inner expression
-                ArithmeticExpressionNode node = ExpressionTreeHandler.buildRecursively(innerExpression.iterator());
+                ArithmeticExpressionNode node = ExpressionTreeHandler.buildIteratively(innerExpression.iterator());
                 assert node != null;
                 MyNumber number = node.evaluate(identifiers);
                 LiteralExpressionNode newNode = new LiteralExpressionNode(number);
@@ -100,7 +100,7 @@ public class ArithmeticExpressionEvaluator {
                 List<String> nodeExpression = ExpressionTreeHandler.reconstruct(newNode);
                 newExpression.addAll(nodeExpression);
                 innerExpression.clear();
-            } else if (Operator.SYMBOLS.contains(token) || MyNumber.isNumber(token)) {
+            } else if (Operator.isOperator(token) || MyNumber.isNumber(token)) {
                 // If we did not read an inner expression, add the token to the new expression
                 if (isEmpty) {
                     newExpression.add(token);
@@ -109,7 +109,7 @@ public class ArithmeticExpressionEvaluator {
                 }
             } else if (identifiers.containsKey(token)) {
                 innerExpression.add(identifiers.get(token).toString());
-            } else if (Identifier.NAMES.contains(token)) {
+            } else if (Identifier.isIdentifier(token)) {
                 innerExpression.add(token);
             } else {
                 // Identifier not found
@@ -117,7 +117,7 @@ public class ArithmeticExpressionEvaluator {
             }
         }
 
-        root = ExpressionTreeHandler.buildRecursively(newExpression.iterator());
+        root = ExpressionTreeHandler.buildIteratively(newExpression.iterator());
         return newExpression;
     }
 }

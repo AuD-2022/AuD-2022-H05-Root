@@ -57,6 +57,17 @@ public enum Identifier {
     }
 
     /**
+     * Returns {@code true} if the given name is corresponding to any identifier, {@code false} otherwise.
+     *
+     * @param name the name of the identifier
+     *
+     * @return {@code true} if the given name is corresponding to any identifier, {@code false} otherwise
+     */
+    public static boolean isIdentifier(String name) {
+        return NAMES.contains(name);
+    }
+
+    /**
      * Returns the identifier corresponding to the given name.
      *
      * @param name the name of the identifier.

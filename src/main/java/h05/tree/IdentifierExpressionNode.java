@@ -59,6 +59,17 @@ public class IdentifierExpressionNode extends OperandExpressionNode {
     }
 
     /**
+     * Returns {@code true} if the given value is a valid identifier name.
+     *
+     * @param value the value to check
+     *
+     * @return {@code true} if the given value is a valid identifier name
+     */
+    public static boolean isIdentifier(String value) {
+        return IDENTIFIER_FORMAT.reset(value).matches();
+    }
+
+    /**
      * Returns the identifier name.
      *
      * @return the identifier name

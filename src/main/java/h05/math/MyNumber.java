@@ -57,15 +57,15 @@ public abstract class MyNumber {
     }
 
     /**
-     * Returns {@code true} if the given token represents a {@link MyNumber}.
+     * Returns {@code true} if the given value represents a {@link MyNumber}.
      *
-     * @param token the token to check
+     * @param value the value to check
      *
-     * @return {@code true} if the given token represents a {@link MyNumber}
+     * @return {@code true} if the given value represents a {@link MyNumber}
      */
-    public static boolean isNumber(String token) {
-        return INTEGER_FORMAT.reset(token).matches() || REAL_FORMAT.reset(token).matches()
-            || RATIONAL_FORMAT.reset(token).matches();
+    public static boolean isNumber(String value) {
+        return INTEGER_FORMAT.reset(value).matches() || REAL_FORMAT.reset(value).matches()
+            || RATIONAL_FORMAT.reset(value).matches();
     }
 
     /**

@@ -72,6 +72,17 @@ public enum Operator {
     }
 
     /**
+     * Returns {@code true} if the given symbol is corresponding to an operator, {@code false} otherwise.
+     *
+     * @param symbol the symbol to check
+     *
+     * @return {@code true} if the given symbol is corresponding to an operator, {@code false} otherwise
+     */
+    public static boolean isOperator(String symbol) {
+        return SYMBOLS.contains(symbol);
+    }
+
+    /**
      * Returns the operator corresponding to the given symbol.
      *
      * @param symbol the symbol of the operator.

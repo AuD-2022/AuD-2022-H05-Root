@@ -41,24 +41,24 @@ public final class ExpressionTreeHandler {
             throw new BadOperationException("No expression");
         }
         String token = expression.next();
-        boolean isLeftParenthesis = token.equals(ArithmeticExpressionNode.LEFT_BRACKET);
-        boolean isRightParenthesis = token.equals(ArithmeticExpressionNode.RIGHT_BRACKET);
+        boolean isLeft = token.equals(ArithmeticExpressionNode.LEFT_BRACKET);
+        boolean isRight = token.equals(ArithmeticExpressionNode.RIGHT_BRACKET);
 
-        if (isLeftParenthesis && !expression.hasNext()) {
+        if (isLeft && !expression.hasNext()) {
             // Validate parentheses
             throw new ParenthesesMismatchException();
-        } else if (isLeftParenthesis) {
+        } else if (isLeft) {
             token = expression.next();
             // Validate operator
             // Operator and operands validation occurs in the constructor
             return new OperationExpressionNode(Operator.getOperator(token), buildRecursively(expression, null, null));
-        } else if (isRightParenthesis) {
+        } else if (isRight) {
             // No tail
             return null;
         } else if (MyNumber.isNumber(token)) {
             MyNumber number = MyNumber.parseNumber(token);
             return new LiteralExpressionNode(number);
-        } else if (IdentifierExpressionNode.IDENTIFIER_FORMAT.reset(token).matches()) {
+        } else if (IdentifierExpressionNode.isIdentifier(token)) {
             return new IdentifierExpressionNode(token);
         }
         throw new BadOperationException(token);
@@ -95,7 +95,6 @@ public final class ExpressionTreeHandler {
             return buildRecursively(expression, head, item);
         }
     }
-
 
     /**
      * Builds an arithmetic expression tree from a string iteratively.
@@ -181,7 +180,7 @@ public final class ExpressionTreeHandler {
                     tail = tail.next = node;
                     tails.push(tail);
                 }
-            } else if (IdentifierExpressionNode.IDENTIFIER_FORMAT.reset(token).matches()) {
+            } else if (IdentifierExpressionNode.isIdentifier(token)) {
                 ListItem<ArithmeticExpressionNode> node = new ListItem<>();
                 node.key = new IdentifierExpressionNode(token);
 
@@ -211,7 +210,9 @@ public final class ExpressionTreeHandler {
      * @return the string representation of the arithmetic expression tree
      */
     public static List<String> reconstruct(ArithmeticExpressionNode root) {
-        return reconstruct(root, new ArrayList<>());
+        List<String> tokens = new ArrayList<String>();
+        reconstruct(root, tokens);
+        return tokens;
     }
 
     /**
@@ -219,26 +220,30 @@ public final class ExpressionTreeHandler {
      *
      * @param node        the current node of the arithmetic expression tree
      * @param expressions the list of string representation of the arithmetic expression tree
-     *
-     * @return the string representation of the arithmetic expression tree
      */
-    private static List<String> reconstruct(ArithmeticExpressionNode node, List<String> expressions) {
-        if (node.isOperand()) {
-            expressions.add(node.toString());
-            return expressions;
+    private static void reconstruct(ArithmeticExpressionNode node, List<String> expressions) {
+        if (node.isOperation()) {
+            expressions.add(ArithmeticExpressionNode.LEFT_BRACKET);
+            OperationExpressionNode operatorNode = (OperationExpressionNode) node;
+            expressions.add(operatorNode.getOperator().toString());
+
+            // Parse operands recursively
+            for (ListItem<ArithmeticExpressionNode> operand = operatorNode.getOperands();
+                 operand != null; operand = operand.next) {
+                reconstruct(operand.key, expressions);
+            }
+
+            expressions.add(ArithmeticExpressionNode.RIGHT_BRACKET);
+            return;
+        } else if (node instanceof LiteralExpressionNode) {
+            LiteralExpressionNode literalNode = (LiteralExpressionNode) node;
+            expressions.add(literalNode.getValue().toString());
+            return;
+        } else if (node instanceof IdentifierExpressionNode) {
+            IdentifierExpressionNode identifierNode = (IdentifierExpressionNode) node;
+            expressions.add(identifierNode.getValue());
+            return;
         }
-
-        expressions.add(ArithmeticExpressionNode.LEFT_BRACKET);
-        OperationExpressionNode operatorNode = (OperationExpressionNode) node;
-        expressions.add(operatorNode.getOperator().toString());
-
-        // Parse operands recursively
-        for (ListItem<ArithmeticExpressionNode> operand = operatorNode.getOperands();
-             operand != null; operand = operand.next) {
-            reconstruct(operand.key, expressions);
-        }
-
-        expressions.add(ArithmeticExpressionNode.RIGHT_BRACKET);
-        return expressions;
+        throw new IllegalArgumentException("Unknown node type");
     }
 }
