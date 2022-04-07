@@ -30,7 +30,7 @@ public class LiteralExpressionNode extends OperandExpressionNode {
     /**
      * The literal operand.
      */
-    private MyNumber value;
+    private final MyNumber value;
 
     /**
      * Constructs and initializes a literal operand arithmetic expression node with the given value.
@@ -61,11 +61,9 @@ public class LiteralExpressionNode extends OperandExpressionNode {
     @Override
     public ArithmeticExpressionNode clone() {
         MyNumber number;
-        if (value instanceof MyInteger) {
-            MyInteger integer = (MyInteger) value;
+        if (value instanceof MyInteger integer) {
             number = new MyInteger(new BigInteger(integer.toInteger().toString()));
-        } else if (value instanceof MyRational) {
-            MyRational rational = (MyRational) value;
+        } else if (value instanceof MyRational rational) {
             number = new MyRational(
                 new Rational(
                     new BigInteger(rational.toRational().getNumerator().toString()),

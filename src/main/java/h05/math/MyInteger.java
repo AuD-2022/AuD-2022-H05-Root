@@ -70,10 +70,9 @@ public final class MyInteger extends MyNumber {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof MyInteger)) {
+        if (!(o instanceof MyInteger number)) {
             return false;
         }
-        MyInteger number = (MyInteger) o;
         return value.equals(number.value);
     }
 

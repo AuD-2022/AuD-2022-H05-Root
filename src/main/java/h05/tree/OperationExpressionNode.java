@@ -4,6 +4,7 @@ import h05.exception.BadOperationException;
 import h05.exception.WrongNumberOfOperandsException;
 import h05.math.MyInteger;
 import h05.math.MyNumber;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 import java.util.Map;
@@ -43,7 +44,7 @@ public class OperationExpressionNode implements ArithmeticExpressionNode {
     /**
      * The operands of this node.
      */
-    private final ListItem<ArithmeticExpressionNode> operands;
+    private final @Nullable ListItem<ArithmeticExpressionNode> operands;
 
     /**
      * The number of operands of this node.
@@ -58,7 +59,7 @@ public class OperationExpressionNode implements ArithmeticExpressionNode {
      *
      * @throws NullPointerException if the operator is {@code null}
      */
-    public OperationExpressionNode(Operator operator, ListItem<ArithmeticExpressionNode> operands) {
+    public OperationExpressionNode(Operator operator, @Nullable ListItem<ArithmeticExpressionNode> operands) {
         Objects.requireNonNull(operator, "operator null");
 
         int size = 0;
@@ -126,16 +127,12 @@ public class OperationExpressionNode implements ArithmeticExpressionNode {
 
     @Override
     public MyNumber evaluate(Map<String, MyNumber> identifiers) {
-        switch (size) {
-            case 0:
-                return evaluateNullaryExpressions(identifiers);
-            case 1:
-                return evaluateUnaryExpressions(identifiers);
-            case 2:
-                return evaluateBinaryExpressions(identifiers);
-            default:
-                return evaluateNaryExpressions(identifiers);
-        }
+        return switch (size) {
+            case 0 -> evaluateNullaryExpressions(identifiers);
+            case 1 -> evaluateUnaryExpressions(identifiers);
+            case 2 -> evaluateBinaryExpressions(identifiers);
+            default -> evaluateNaryExpressions(identifiers);
+        };
     }
 
     /**
@@ -146,14 +143,11 @@ public class OperationExpressionNode implements ArithmeticExpressionNode {
      * @return the result of the evaluation
      */
     private MyNumber evaluateNullaryExpressions(Map<String, MyNumber> identifiers) {
-        switch (operator) {
-            case ADD:
-                return new MyInteger(BigInteger.ZERO);
-            case MUL:
-                return new MyInteger(BigInteger.ONE);
-            default:
-                throw new BadOperationException(operator.toString());
-        }
+        return switch (operator) {
+            case ADD -> new MyInteger(BigInteger.ZERO);
+            case MUL -> new MyInteger(BigInteger.ONE);
+            default -> throw new BadOperationException(operator.toString());
+        };
     }
 
     /**
@@ -164,25 +158,19 @@ public class OperationExpressionNode implements ArithmeticExpressionNode {
      * @return the result of the evaluation
      */
     private MyNumber evaluateUnaryExpressions(Map<String, MyNumber> identifiers) {
+        // Cannot be null, since we checked the arity
+        assert operands != null;
         MyNumber operand = operands.key.evaluate(identifiers);
-        switch (operator) {
-            case ADD:
-                return operand.plus();
-            case SUB:
-                return operand.minus();
-            case MUL:
-                return operand.times();
-            case DIV:
-                return operand.divide();
-            case EXP:
-                return operand.exp();
-            case LN:
-                return operand.ln();
-            case SQRT:
-                return operand.sqrt();
-            default:
-                throw new BadOperationException(operator.toString());
-        }
+        return switch (operator) {
+            case ADD -> operand.plus();
+            case SUB -> operand.minus();
+            case MUL -> operand.times();
+            case DIV -> operand.divide();
+            case EXP -> operand.exp();
+            case LN -> operand.ln();
+            case SQRT -> operand.sqrt();
+            default -> throw new BadOperationException(operator.toString());
+        };
     }
 
     /**
@@ -193,24 +181,20 @@ public class OperationExpressionNode implements ArithmeticExpressionNode {
      * @return the result of the evaluation
      */
     private MyNumber evaluateBinaryExpressions(Map<String, MyNumber> identifiers) {
+        // Cannot be null, since we checked the arity
+        assert operands != null;
         MyNumber operand1 = operands.key.evaluate(identifiers);
+        assert operands.next != null;
         MyNumber operand2 = operands.next.key.evaluate(identifiers);
-        switch (operator) {
-            case ADD:
-                return operand1.plus(operand2);
-            case SUB:
-                return operand1.minus(operand2);
-            case MUL:
-                return operand1.times(operand2);
-            case DIV:
-                return operand1.divide(operand2);
-            case EXPT:
-                return operand1.expt(operand2);
-            case LOG:
-                return operand1.log(operand2);
-            default:
-                throw new BadOperationException(operator.toString());
-        }
+        return switch (operator) {
+            case ADD -> operand1.plus(operand2);
+            case SUB -> operand1.minus(operand2);
+            case MUL -> operand1.times(operand2);
+            case DIV -> operand1.divide(operand2);
+            case EXPT -> operand1.expt(operand2);
+            case LOG -> operand1.log(operand2);
+            default -> throw new BadOperationException(operator.toString());
+        };
     }
 
     /**
@@ -221,26 +205,19 @@ public class OperationExpressionNode implements ArithmeticExpressionNode {
      * @return the result of the evaluation
      */
     private MyNumber evaluateNaryExpressions(Map<String, MyNumber> identifiers) {
+        // Cannot be null, since we checked the arity
+        assert operands != null;
         MyNumber operand1 = operands.key.evaluate(identifiers);
         for (ListItem<ArithmeticExpressionNode> current = operands.next; current != null;
              current = current.next) {
             MyNumber operand2 = current.key.evaluate(identifiers);
-            switch (operator) {
-                case ADD:
-                    operand1 = operand1.plus(operand2);
-                    break;
-                case SUB:
-                    operand1 = operand1.minus(operand2);
-                    break;
-                case MUL:
-                    operand1 = operand1.times(operand2);
-                    break;
-                case DIV:
-                    operand1 = operand1.divide(operand2);
-                    break;
-                default:
-                    throw new BadOperationException(operator.toString());
-            }
+            operand1 = switch (operator) {
+                case ADD -> operand1.plus(operand2);
+                case SUB -> operand1.minus(operand2);
+                case MUL -> operand1.times(operand2);
+                case DIV -> operand1.divide(operand2);
+                default -> throw new BadOperationException(operator.toString());
+            };
         }
         return operand1;
     }

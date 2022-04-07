@@ -210,7 +210,7 @@ public final class ExpressionTreeHandler {
      * @return the string representation of the arithmetic expression tree
      */
     public static List<String> reconstruct(ArithmeticExpressionNode root) {
-        List<String> tokens = new ArrayList<String>();
+        List<String> tokens = new ArrayList<>();
         reconstruct(root, tokens);
         return tokens;
     }
@@ -235,12 +235,10 @@ public final class ExpressionTreeHandler {
 
             expressions.add(ArithmeticExpressionNode.RIGHT_BRACKET);
             return;
-        } else if (node instanceof LiteralExpressionNode) {
-            LiteralExpressionNode literalNode = (LiteralExpressionNode) node;
+        } else if (node instanceof LiteralExpressionNode literalNode) {
             expressions.add(literalNode.getValue().toString());
             return;
-        } else if (node instanceof IdentifierExpressionNode) {
-            IdentifierExpressionNode identifierNode = (IdentifierExpressionNode) node;
+        } else if (node instanceof IdentifierExpressionNode identifierNode) {
             expressions.add(identifierNode.getValue());
             return;
         }
