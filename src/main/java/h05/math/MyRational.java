@@ -76,10 +76,9 @@ public final class MyRational extends MyNumber {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof MyRational)) {
+        if (!(o instanceof MyRational number)) {
             return false;
         }
-        MyRational number = (MyRational) o;
         return value.equals(number.value);
     }
 

@@ -206,10 +206,9 @@ public final class Rational {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Rational)) {
+        if (!(o instanceof Rational number)) {
             return false;
         }
-        Rational number = (Rational) o;
         return numerator.equals(number.numerator) && denominator.equals(number.denominator);
     }
 

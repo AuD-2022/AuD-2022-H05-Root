@@ -88,10 +88,9 @@ public final class MyReal extends MyNumber {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof MyReal)) {
+        if (!(o instanceof MyReal number)) {
             return false;
         }
-        MyReal number = (MyReal) o;
         return value.equals(number.value);
     }
 
