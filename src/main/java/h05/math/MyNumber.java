@@ -335,7 +335,7 @@ public abstract class MyNumber {
     protected MyNumber checkRealToInt(BigDecimal real) {
         BigDecimal stripped = real.stripTrailingZeros();
         if (stripped.scale() <= 0) {
-            return new MyInteger(new BigInteger(stripped.toString()));
+            return new MyInteger(stripped.toBigInteger());
         }
         return new MyReal(real);
     }

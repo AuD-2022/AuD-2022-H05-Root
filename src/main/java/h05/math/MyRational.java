@@ -111,9 +111,6 @@ public final class MyRational extends MyNumber {
 
     @Override
     public MyNumber times(MyNumber other) {
-        if (other instanceof MyInteger) {
-            return new MyRational(value.times(other.toInteger()));
-        }
         if (other instanceof MyReal) {
             return checkRealToInt(toReal().multiply(other.toReal()));
         }
