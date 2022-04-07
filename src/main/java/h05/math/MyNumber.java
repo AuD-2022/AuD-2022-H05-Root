@@ -265,7 +265,8 @@ public abstract class MyNumber {
      */
     public MyNumber expt(MyNumber n) {
         // pow(x, n) = x^n = exp(n * ln(x))
-        return ln().times(n).exp();
+        var exponent = MyMath.log10(toReal()).multiply(n.toReal());
+        return checkRealToInt(MyMath.pow10(exponent));
     }
 
     /**
@@ -307,7 +308,21 @@ public abstract class MyNumber {
      */
     public MyNumber log(MyNumber base) {
         // log_x(y) = ln(y) / ln(x)
-        return ln().divide(base.ln());
+
+        var thisReal = toReal();
+        var baseReal = base.toReal();
+
+        if (baseReal.signum() < 1) {
+            throw new WrongOperandException(base, Comparison.GREATER_THAN, MyInteger.ZERO);
+        }
+
+        if (thisReal.signum() < 1) {
+            throw new WrongOperandException(this, Comparison.GREATER_THAN, MyInteger.ZERO);
+        }
+
+        var top = MyMath.log10(thisReal);
+        var bottom = MyMath.log10(baseReal);
+        return checkRealToInt(top.divide(bottom, MyReal.ROUNDING_MODE));
     }
 
     /**
