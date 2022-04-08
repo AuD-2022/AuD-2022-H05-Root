@@ -33,9 +33,31 @@ public final class ExpressionTreeHandler {
      * @throws BadOperationException        if the iterator has no more tokens
      * @throws ParenthesesMismatchException if the parentheses are mismatched
      * @throws UndefinedOperatorException   if the operator is not defined
-     * @see #buildRecursively(Iterator, ListItem, ListItem)
+     * @see #buildExpression(Iterator)
      */
     public static ArithmeticExpressionNode buildRecursively(Iterator<String> expression) {
+        ArithmeticExpressionNode root = buildExpression(expression);
+        // All tokens should be consumed
+        // Otherwise we returned before the recursion anchor - probably read too many )
+        if (expression.hasNext()) {
+            throw new ParenthesesMismatchException();
+        }
+        return root;
+    }
+
+    /**
+     * Builds an arithmetic expression tree from a string recursively.
+     *
+     * @param expression the string representation of the arithmetic expression to parse
+     *
+     * @return the root node of the arithmetic expression tree
+     *
+     * @throws BadOperationException        if the iterator has no more tokens
+     * @throws ParenthesesMismatchException if the parentheses are mismatched
+     * @throws UndefinedOperatorException   if the operator is not defined
+     * @see #buildExpression(Iterator, ListItem, ListItem)
+     */
+    private static ArithmeticExpressionNode buildExpression(Iterator<String> expression) {
         // This cannot happen, the recursion anchor is defined in the helper method
         if (!expression.hasNext()) {
             throw new BadOperationException("No expression");
@@ -49,9 +71,10 @@ public final class ExpressionTreeHandler {
             throw new ParenthesesMismatchException();
         } else if (isLeft) {
             token = expression.next();
+
             // Validate operator
             // Operator and operands validation occurs in the constructor
-            return new OperationExpressionNode(Operator.getOperator(token), buildRecursively(expression, null, null));
+            return new OperationExpressionNode(Operator.getOperator(token), buildExpression(expression, null, null));
         } else if (isRight) {
             // No tail
             return null;
@@ -71,7 +94,7 @@ public final class ExpressionTreeHandler {
      *
      * @return the sequence of arithmetic expression node
      */
-    private static ListItem<ArithmeticExpressionNode> buildRecursively(
+    private static ListItem<ArithmeticExpressionNode> buildExpression(
         Iterator<String> expression,
         ListItem<ArithmeticExpressionNode> head,
         ListItem<ArithmeticExpressionNode> tail) {
@@ -80,7 +103,7 @@ public final class ExpressionTreeHandler {
             return head;
         }
 
-        ArithmeticExpressionNode node = buildRecursively(expression);
+        ArithmeticExpressionNode node = buildExpression(expression);
 
         // Reached right parenthesis
         if (node == null) {
@@ -89,10 +112,10 @@ public final class ExpressionTreeHandler {
         ListItem<ArithmeticExpressionNode> item = new ListItem<>();
         item.key = node;
         if (head == null) {
-            return buildRecursively(expression, item, item);
+            return buildExpression(expression, item, item);
         } else {
             tail.next = item;
-            return buildRecursively(expression, head, item);
+            return buildExpression(expression, head, item);
         }
     }
 
@@ -170,8 +193,11 @@ public final class ExpressionTreeHandler {
                 ListItem<ArithmeticExpressionNode> node = new ListItem<>();
                 node.key = new LiteralExpressionNode(number);
 
-                // Create a new operand list if the previous element was the marker node
-                if (operands.peek() == null) {
+                if (operands.isEmpty()) {
+                    // Expression is an operand
+                    operands.push(node);
+                } else if (operands.peek() == null) {
+                    // Create a new operand list if the previous element was the marker node
                     operands.push(node);
                     tails.push(node);
                 } else {
@@ -184,8 +210,12 @@ public final class ExpressionTreeHandler {
                 ListItem<ArithmeticExpressionNode> node = new ListItem<>();
                 node.key = new IdentifierExpressionNode(token);
 
-                // Create a new operand list if the previous element was the marker node
+                if (operands.isEmpty()) {
+                    // Expression is an operand
+                    operands.push(node);
+                }
                 if (operands.peek() == null) {
+                    // Create a new operand list if the previous element was the marker node
                     operands.push(node);
                     tails.push(node);
                 } else {
