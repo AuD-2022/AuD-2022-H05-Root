@@ -1,11 +1,14 @@
 package h05.tree;
 
+import h05.exception.ParenthesesMismatchException;
 import h05.math.*;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,30 +21,36 @@ class ExpressionTreeHandlerTest {
     private MyNumber result = null;
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/ExpressionTreeHandlerTest.csv", numLinesToSkip = 1)
-    void testBuildIteratively(String expected, String expression) {
+    @CsvFileSource(resources = "/ExpressionTreeHandlerTest/evaluate_expressions.csv", numLinesToSkip = 1)
+    void testThat_buildIterativelyAndEvaluateWorks(String expected, String expression) {
         givenIterativelyBuiltTree(expression);
         whenEvaluatingWithNoIdentifiers();
-        itShouldBe(expected);
+        thenItShouldBe(expected);
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/ExpressionTreeHandlerTest.csv", numLinesToSkip = 1)
-    void testBuildRecursively(String expected, String expression) {
+    @CsvFileSource(resources = "/ExpressionTreeHandlerTest/evaluate_expressions.csv", numLinesToSkip = 1)
+    void testThat_buildRecursivelyAndEvaluateWorks(String expected, String expression) {
         givenRecursivelyBuiltTree(expression);
         whenEvaluatingWithNoIdentifiers();
-        itShouldBe(expected);
+        thenItShouldBe(expected);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/ExpressionTreeHandlerTest/bad_expressions.csv", numLinesToSkip = 1)
+    void testThat_buildRecursivelyThrowsOnBadExpressions(String expression) {
+        var tokens = tokenize(expression);
+        assertThrows(ParenthesesMismatchException.class, () ->
+            ExpressionTreeHandler.buildRecursively(tokens));
     }
 
     private void givenRecursivelyBuiltTree(String expression) {
-        var tokens = expression.split("\\s+");
-        var iterator = List.of(tokens).iterator();
-        root = ExpressionTreeHandler.buildRecursively(iterator);
+        var tokens = tokenize(expression);
+        root = ExpressionTreeHandler.buildRecursively(tokens);
     }
 
     private void givenIterativelyBuiltTree(String expression) {
-        var split = expression.split("\\s+");
-        var tokens = List.of(split).iterator();
+        var tokens = tokenize(expression);
         root = ExpressionTreeHandler.buildIteratively(tokens);
     }
 
@@ -49,48 +58,54 @@ class ExpressionTreeHandlerTest {
         result = root.evaluate(Map.of());
     }
 
-    private void itShouldBe(String expected) {
+    private void thenItShouldBe(String expected) {
         var split = expected.split("\\s+");
 
         switch (split[0]) {
-            case "int":
-                itShouldBeTheInteger(split[1]);
+            case "int" -> {
+                thenItShouldBeTheInteger(split[1]);
                 return;
-            case "ratio":
-                itShouldBeTheRatio(split[1], split[2]);
+            }
+            case "ratio" -> {
+                thenItShouldBeTheRatio(split[1], split[2]);
                 return;
-            case "real":
-                itShouldBeTheReal(split[1]);
+            }
+            case "real" -> {
+                thenItShouldBeTheReal(split[1]);
                 return;
+            }
         }
 
         throw new IllegalArgumentException(expected);
     }
 
-    private void itShouldBeTheInteger(String expected) {
-        assertTrue(result instanceof MyInteger, "Evaluated result was not a MyInteger");
+    private void thenItShouldBeTheInteger(String expected) {
+        assertInstanceOf(MyInteger.class, result);
         assertEquals(new BigInteger(expected), result.toInteger());
     }
 
-    private void itShouldBeTheRatio(String top, String bottom) {
-        assertTrue(result instanceof MyRational, "Evaluated result was not a MyRatio");
+    private void thenItShouldBeTheRatio(String top, String bottom) {
+        assertInstanceOf(MyRational.class, result);
         var expected = new Rational(new BigInteger(top), new BigInteger(bottom));
         assertEquals(expected, result.toRational());
     }
 
-    private void itShouldBeTheReal(String expected) {
-        assertTrue(result instanceof MyReal, "Evaluated result was not a MyReal");
+    private void thenItShouldBeTheReal(String expected) {
+        assertInstanceOf(MyReal.class, result);
         MyMathTest.assertIsCloseTo(getExpectedReal(expected), result.toReal());
     }
 
     private BigDecimal getExpectedReal(String expected) {
-        switch (expected) {
-            case "pi":
-                return new BigDecimal(Math.PI);
-            case "e":
-                return new BigDecimal(Math.E);
-        }
+        return switch (expected) {
+            case "pi" -> new BigDecimal(Math.PI);
+            case "e" -> new BigDecimal(Math.E);
+            default -> new BigDecimal(expected);
+        };
+    }
 
-        return new BigDecimal(expected);
+    @NotNull
+    private Iterator<String> tokenize(String expression) {
+        var tokens = expression.split("\\s+");
+        return List.of(tokens).iterator();
     }
 }
