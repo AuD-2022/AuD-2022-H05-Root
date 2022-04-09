@@ -52,6 +52,11 @@ public final class MyReal extends MyNumber {
         this.value = value.setScale(SCALE, ROUNDING_MODE);
     }
 
+    /**
+     * Rounds the number down.
+     *
+     * @return the rounded number
+     */
     private BigDecimal round() {
         int sign = value.signum();
         BigDecimal rounded = value.abs();
