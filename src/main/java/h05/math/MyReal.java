@@ -2,6 +2,7 @@ package h05.math;
 
 import h05.exception.Comparison;
 import h05.exception.WrongOperandException;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -89,7 +90,7 @@ public final class MyReal extends MyNumber {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (this == o) {
             return true;
         }

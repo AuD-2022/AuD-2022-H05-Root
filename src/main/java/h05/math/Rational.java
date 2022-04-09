@@ -1,5 +1,7 @@
 package h05.math;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.math.BigInteger;
 import java.util.Objects;
 
@@ -202,7 +204,7 @@ public final class Rational {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (this == o) {
             return true;
         }
