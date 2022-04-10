@@ -1,4 +1,18 @@
-( + ( + 1 2 )
-+ ( + 1 2 ) 3 )
-) + 1 2 (
-( + ( + 1 2 3 ) 4 ) )
+exception,                      message,          expression
+
+BadOperationException,          No expression,    ""
+BadOperationException,          +,                + ( + 1 2 ) 3 )
+
+ParenthesesMismatchException,   ,                 ( + ( + 1 2 )
+ParenthesesMismatchException,   ,                 ) + 1 2 (
+ParenthesesMismatchException,   ,                 ( + ( + 1 2 3 ) 4 ) )
+
+UndefinedIdentifierException,   was-diese,        ( was-diese 1 2 3 )
+
+WrongNumberOfOperandsException, 3 not satisfying condition: 1 <= x <= 1,        ( ln 1 2 3 )
+WrongNumberOfOperandsException, 2 not satisfying condition: 1 <= x <= 1,        ( sqrt 1 3 )
+WrongNumberOfOperandsException, 0 not satisfying condition: 1 <= x <= 1,        ( - )
+WrongNumberOfOperandsException, 0 not satisfying condition: 1 <= x <= 1,        ( / )
+WrongNumberOfOperandsException, 1 not satisfying condition: 2 <= x <= 2,        ( expt 3 )
+WrongNumberOfOperandsException, 2 not satisfying condition: 1 <= x <= 1,        ( exp 3 2 )
+WrongNumberOfOperandsException, 1 not satisfying condition: 2 <= x <= 2,        ( log 1 )

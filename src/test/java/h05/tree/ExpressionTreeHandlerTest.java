@@ -1,6 +1,5 @@
 package h05.tree;
 
-import h05.exception.ParenthesesMismatchException;
 import h05.math.*;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,6 +7,7 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -38,10 +38,17 @@ class ExpressionTreeHandlerTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/ExpressionTreeHandlerTest/bad_expressions.csv", numLinesToSkip = 1)
-    void testThat_buildRecursivelyThrowsOnBadExpressions(String expression) {
+    void testThat_buildRecursivelyThrowsOnBadExpressions(String exception, String message, String expression) throws ClassNotFoundException {
         var tokens = tokenize(expression);
-        assertThrows(ParenthesesMismatchException.class, () ->
+        var e = assertThrows(getException(exception), () ->
             ExpressionTreeHandler.buildRecursively(tokens));
+        assertEquals(message, e.getMessage());
+    }
+
+    private Class<? extends Throwable> getException(String exception) throws ClassNotFoundException {
+        return Class
+            .forName("h05.exception." + exception)
+            .asSubclass(Throwable.class);
     }
 
     private void givenRecursivelyBuiltTree(String expression) {
@@ -105,6 +112,10 @@ class ExpressionTreeHandlerTest {
 
     @NotNull
     private Iterator<String> tokenize(String expression) {
+        if (expression.isBlank()) {
+            return Collections.emptyIterator();
+        }
+
         var tokens = expression.split("\\s+");
         return List.of(tokens).iterator();
     }
