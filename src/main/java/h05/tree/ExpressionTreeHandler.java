@@ -66,7 +66,7 @@ public final class ExpressionTreeHandler {
         boolean isLeft = token.equals(ArithmeticExpressionNode.LEFT_BRACKET);
         boolean isRight = token.equals(ArithmeticExpressionNode.RIGHT_BRACKET);
 
-        if (isLeft && !expression.hasNext()) {
+        if (isLeft && !expression.hasNext() || Operator.isOperator(token)) {
             // Validate parentheses
             throw new ParenthesesMismatchException();
         } else if (isLeft) {
