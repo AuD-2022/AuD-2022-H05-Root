@@ -85,6 +85,12 @@ public class OperationExpressionNode implements ArithmeticExpressionNode {
      */
     public static void validateOperator(Operator operator, int size) {
         switch (operator) {
+            case SUB:
+            case DIV:
+                if(size ==0) {
+                    throw new WrongNumberOfOperandsException(size, 1, 1);
+                }
+                break;
             case EXP:
             case LN:
                 if (size != 1) {

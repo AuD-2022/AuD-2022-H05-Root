@@ -109,6 +109,11 @@ public final class ExpressionTreeHandler {
         if (node == null) {
             return head;
         }
+        // Cannot be empty - we have read less closing parentheses than opening
+        if (!expression.hasNext()) {
+            throw new ParenthesesMismatchException();
+        }
+
         ListItem<ArithmeticExpressionNode> item = new ListItem<>();
         item.key = node;
         if (head == null) {
@@ -147,7 +152,7 @@ public final class ExpressionTreeHandler {
             boolean isLeft = token.equals(ArithmeticExpressionNode.LEFT_BRACKET);
             boolean isRight = token.equals(ArithmeticExpressionNode.RIGHT_BRACKET);
 
-            if (isLeft && !expression.hasNext()) {
+            if (isLeft && !expression.hasNext() || Operator.isOperator(token)) {
                 // Validate parentheses
                 throw new ParenthesesMismatchException();
             } else if (isLeft) {
@@ -188,6 +193,9 @@ public final class ExpressionTreeHandler {
                 node.key = new OperationExpressionNode(operator, ops);
                 operands.push(node);
                 tails.push(node);
+            } else if (!operands.isEmpty() && operators.isEmpty()) {
+                // Cannot parse token if there is no operator
+                throw new ParenthesesMismatchException();
             } else if (MyNumber.isNumber(token)) {
                 MyNumber number = MyNumber.parseNumber(token);
                 ListItem<ArithmeticExpressionNode> node = new ListItem<>();
@@ -227,7 +235,10 @@ public final class ExpressionTreeHandler {
             } else {
                 throw new BadOperationException(token);
             }
+        }
 
+        if (operands.size() != 1) {
+            throw new ParenthesesMismatchException();
         }
         return operands.pop().key;
     }
