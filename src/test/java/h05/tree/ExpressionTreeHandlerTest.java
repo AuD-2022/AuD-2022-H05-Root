@@ -2,6 +2,7 @@ package h05.tree;
 
 import h05.math.*;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
@@ -39,9 +40,23 @@ class ExpressionTreeHandlerTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/ExpressionTreeHandlerTest/bad_expressions.csv", numLinesToSkip = 1)
     void testThat_buildRecursivelyThrowsOnBadExpressions(String exception, String message, String expression) throws ClassNotFoundException {
-        var tokens = tokenize(expression);
-        var e = assertThrows(getException(exception), () ->
-            ExpressionTreeHandler.buildRecursively(tokens));
+        itShouldThrow(exception, message, () -> {
+            givenRecursivelyBuiltTree(expression);
+            whenEvaluatingWithNoIdentifiers();
+        });
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/ExpressionTreeHandlerTest/bad_expressions.csv", numLinesToSkip = 1)
+    void testThat_buildIterativelyThrowsOnBadExpressions(String exception, String message, String expression) throws ClassNotFoundException {
+        itShouldThrow(exception, message, () -> {
+            givenIterativelyBuiltTree(expression);
+            whenEvaluatingWithNoIdentifiers();
+        });
+    }
+
+    private void itShouldThrow(String exception, String message, Executable executable) throws ClassNotFoundException {
+        var e = assertThrows(getException(exception), executable);
         assertEquals(message, e.getMessage());
     }
 
