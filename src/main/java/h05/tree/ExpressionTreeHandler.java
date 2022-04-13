@@ -4,6 +4,7 @@ import h05.exception.BadOperationException;
 import h05.exception.ParenthesesMismatchException;
 import h05.exception.UndefinedOperatorException;
 import h05.math.MyNumber;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -142,7 +143,7 @@ public final class ExpressionTreeHandler {
 
         Stack<Operator> operators = new Stack<>();
         // Stack to store/build the arithmetic expression node
-        Stack<ListItem<ArithmeticExpressionNode>> operands = new Stack<>();
+        Stack<ListItem<@Nullable ArithmeticExpressionNode>> operands = new Stack<>();
         // Faster access of the tail of an operand list
         Stack<ListItem<ArithmeticExpressionNode>> tails = new Stack<>();
 
