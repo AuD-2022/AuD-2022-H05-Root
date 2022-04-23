@@ -29,13 +29,6 @@ public enum Identifier {
     PI("pi", new MyReal(BigDecimal.valueOf(Math.PI)));
 
     /**
-     * Contains all identifiers name.
-     */
-    public static final Set<String> NAMES = Arrays.stream(Identifier.values())
-        .map(Identifier::getName)
-        .collect(Collectors.toSet());
-
-    /**
      * The name of this identifier.
      */
     private final String name;
@@ -64,7 +57,12 @@ public enum Identifier {
      * @return {@code true} if the given name is corresponding to any identifier, {@code false} otherwise
      */
     public static boolean isIdentifier(String name) {
-        return NAMES.contains(name);
+        for (Identifier identifier : Identifier.values()) {
+            if (identifier.name.equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
