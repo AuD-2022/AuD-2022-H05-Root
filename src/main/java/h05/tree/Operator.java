@@ -51,13 +51,6 @@ public enum Operator {
     SQRT("sqrt");
 
     /**
-     * Contains all operators symbol.
-     */
-    public static final Set<String> SYMBOLS = Arrays.stream(Operator.values())
-        .map(Operator::getSymbol)
-        .collect(Collectors.toSet());
-
-    /**
      * The operator's symbol.
      */
     private final String symbol;
@@ -79,7 +72,12 @@ public enum Operator {
      * @return {@code true} if the given symbol is corresponding to an operator, {@code false} otherwise
      */
     public static boolean isOperator(String symbol) {
-        return SYMBOLS.contains(symbol);
+        for (Operator operator : Operator.values()) {
+            if (operator.symbol.equals(symbol)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
