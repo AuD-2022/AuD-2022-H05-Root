@@ -87,7 +87,7 @@ public class OperationExpressionNode implements ArithmeticExpressionNode {
         switch (operator) {
             case SUB:
             case DIV:
-                if(size ==0) {
+                if (size == 0) {
                     throw new WrongNumberOfOperandsException(size, 1, 1);
                 }
                 break;
