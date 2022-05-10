@@ -80,7 +80,7 @@ public class IdentifierExpressionNode extends OperandExpressionNode {
 
     @Override
     public MyNumber evaluate(Map<String, MyNumber> identifiers) {
-        boolean isPredefined = Identifier.NAMES.contains(value);
+        boolean isPredefined = Identifier.isIdentifier(value);
         boolean isDefined = identifiers.containsKey(value);
 
         if (isDefined && isPredefined) {
