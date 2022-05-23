@@ -82,10 +82,8 @@ public final class ExpressionTreeHandler {
         } else if (MyNumber.isNumber(token)) {
             MyNumber number = MyNumber.parseNumber(token);
             return new LiteralExpressionNode(number);
-        } else if (IdentifierExpressionNode.isIdentifier(token)) {
-            return new IdentifierExpressionNode(token);
         }
-        throw new BadOperationException(token);
+        return new IdentifierExpressionNode(token);
     }
 
     /**
@@ -215,7 +213,7 @@ public final class ExpressionTreeHandler {
                     tail = tail.next = node;
                     tails.push(tail);
                 }
-            } else if (IdentifierExpressionNode.isIdentifier(token)) {
+            } else {
                 ListItem<ArithmeticExpressionNode> node = new ListItem<>();
                 node.key = new IdentifierExpressionNode(token);
 
@@ -228,13 +226,15 @@ public final class ExpressionTreeHandler {
                     operands.push(node);
                     tails.push(node);
                 } else {
+                    // Expression is an identifier, nothing to do
+                    if (tails.isEmpty()) {
+                        continue;
+                    }
                     // Add new operand to the tail of the previous operand list
                     ListItem<ArithmeticExpressionNode> tail = tails.pop();
                     tail = tail.next = node;
                     tails.push(tail);
                 }
-            } else {
-                throw new BadOperationException(token);
             }
         }
 
