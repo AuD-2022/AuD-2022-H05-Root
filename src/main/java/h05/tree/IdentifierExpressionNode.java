@@ -51,7 +51,7 @@ public class IdentifierExpressionNode extends OperandExpressionNode {
             throw new IllegalArgumentException("empty string");
         }
 
-        if (!IDENTIFIER_FORMAT.reset(value).matches()) {
+        if (!isIdentifier(value)) {
             throw new IllegalIdentifierExceptions(value);
         }
 
