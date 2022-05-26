@@ -72,6 +72,13 @@ public class ArithmeticExpressionEvaluator {
         return nextStep(expression.iterator(), new ArrayList<>(expression.size()));
     }
 
+    public static void main(String[] args) {
+        List<String> list = List.of("( + a ( + 2 3 ) )".split(" "));
+        var node = ExpressionTreeHandler.buildRecursively(list.iterator());
+        var a = new ArithmeticExpressionEvaluator(node, Map.of());
+        a.nextStep();
+    }
+
     /**
      * Evaluates the arithmetic expression tree by replacing the variables (identifiers) of the expression with their values and
      * evaluates the most inner expressions.
@@ -85,9 +92,8 @@ public class ArithmeticExpressionEvaluator {
         boolean isInner = true;
         while (tokens.hasNext()) {
             String token = tokens.next();
-            boolean isLeft = token.equals(ArithmeticExpressionNode.LEFT_BRACKET);
             boolean isRight = token.equals(ArithmeticExpressionNode.RIGHT_BRACKET);
-            if (isLeft) {
+            if (token.equals(ArithmeticExpressionNode.LEFT_BRACKET)) {
                 // If the iteration contains an open bracket, it cannot be the innermost expression since the open bracket will
                 // be added by the caller
                 List<String> innerExpression = new ArrayList<>();
@@ -106,8 +112,12 @@ public class ArithmeticExpressionEvaluator {
             } else if (isRight) {
                 expression.add(token);
                 return expression;
-            } else if (identifiers.containsKey(token)) {
-                expression.add(identifiers.get(token).toString());
+            } else if (IdentifierExpressionNode.isIdentifier(token)) {
+                if (identifiers.containsKey(token)) {
+                    expression.add(identifiers.get(token).toString());
+                } else {
+                    expression.add("<unknown!>");
+                }
             } else {
                 expression.add(token);
             }
