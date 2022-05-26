@@ -88,7 +88,7 @@ public class OperationExpressionNode implements ArithmeticExpressionNode {
             case SUB:
             case DIV:
                 if (size == 0) {
-                    throw new WrongNumberOfOperandsException(size, 1, 1);
+                    throw new WrongNumberOfOperandsException(size, 1, Integer.MAX_VALUE);
                 }
                 break;
             case EXP:

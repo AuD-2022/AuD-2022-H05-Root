@@ -3,6 +3,7 @@ package h05.tree;
 import h05.math.MyNumber;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -68,56 +69,50 @@ public class ArithmeticExpressionEvaluator {
             return expression;
         }
 
-        // Building the "evaluated" expression
-        List<String> newExpression = new ArrayList<>(expression.size());
+        return nextStep(expression.iterator(), new ArrayList<>(expression.size()));
+    }
 
-        // Most inner expressions are evaluated first
-        List<String> innerExpression = new ArrayList<>();
-
-        for (String token : expression) {
-            boolean isEmpty = innerExpression.isEmpty();
-            boolean isEnd = token.equals(ArithmeticExpressionNode.RIGHT_BRACKET);
-
-            if (token.equals(ArithmeticExpressionNode.LEFT_BRACKET)) {
-                // Found a new inner expression, no evaluation needed
-                if (!isEmpty) {
-                    newExpression.addAll(innerExpression);
-                    innerExpression.clear();
-                }
+    /**
+     * Evaluates the arithmetic expression tree by replacing the variables (identifiers) of the expression with their values and
+     * evaluates the most inner expressions.
+     *
+     * @param tokens     the tokens to evaluate
+     * @param expression the built expression so far
+     *
+     * @return the list of tokens representing  the evaluation
+     */
+    private List<String> nextStep(Iterator<String> tokens, List<String> expression) {
+        boolean isInner = true;
+        while (tokens.hasNext()) {
+            String token = tokens.next();
+            boolean isLeft = token.equals(ArithmeticExpressionNode.LEFT_BRACKET);
+            boolean isRight = token.equals(ArithmeticExpressionNode.RIGHT_BRACKET);
+            if (isLeft) {
+                // If the iteration contains an open bracket, it cannot be the innermost expression since the open bracket will
+                // be added by the caller
+                List<String> innerExpression = new ArrayList<>();
                 innerExpression.add(token);
-            } else if (isEnd && isEmpty) {
-                // End of the expression, add closing bracket to the new expression
-                newExpression.add(token);
-            } else if (isEnd) {
-                innerExpression.add(token);
-                // Evaluate the inner expression
-                ArithmeticExpressionNode node = ExpressionTreeHandler.buildIteratively(innerExpression.iterator());
-                assert node != null;
+                expression.addAll(nextStep(tokens, innerExpression));
+                isInner = false;
+            } else if (isRight && isInner) {
+                // Evaluate only the innermost expression
+                expression.add(token);
+                ArithmeticExpressionNode node = ExpressionTreeHandler.buildRecursively(expression.iterator());
                 MyNumber number = node.evaluate(identifiers);
                 LiteralExpressionNode newNode = new LiteralExpressionNode(number);
-
-                // Replace the inner expression with the evaluated expression
-                List<String> nodeExpression = ExpressionTreeHandler.reconstruct(newNode);
-                newExpression.addAll(nodeExpression);
-                innerExpression.clear();
-            } else if (Operator.isOperator(token) || MyNumber.isNumber(token)) {
-                // If we did not read an inner expression, add the token to the new expression
-                if (isEmpty) {
-                    newExpression.add(token);
-                } else {
-                    innerExpression.add(token);
-                }
+                expression.clear();
+                expression.addAll(ExpressionTreeHandler.reconstruct(newNode));
+                return expression;
+            } else if (isRight) {
+                expression.add(token);
+                return expression;
             } else if (identifiers.containsKey(token)) {
-                innerExpression.add(identifiers.get(token).toString());
-            } else if (Identifier.isIdentifier(token)) {
-                innerExpression.add(token);
+                expression.add(identifiers.get(token).toString());
             } else {
-                // Identifier not found
-                innerExpression.add("<unknown!>");
+                expression.add(token);
             }
         }
-
-        root = ExpressionTreeHandler.buildIteratively(newExpression.iterator());
-        return newExpression;
+        root = ExpressionTreeHandler.buildRecursively(expression.iterator());
+        return expression;
     }
 }
