@@ -2,6 +2,7 @@ package h05.math;
 
 import h05.exception.Comparison;
 import h05.exception.WrongOperandException;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -118,7 +119,7 @@ public abstract class MyNumber {
      * @see #hashCode
      */
     @Override
-    public abstract boolean equals(Object obj);
+    public abstract boolean equals(@Nullable Object obj);
 
     /**
      * Returns the string representation of this {@code MyNumber}.
