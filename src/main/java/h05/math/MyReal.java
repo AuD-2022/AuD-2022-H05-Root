@@ -53,25 +53,14 @@ public final class MyReal extends MyNumber {
         this.value = value.setScale(SCALE, ROUNDING_MODE);
     }
 
-    /**
-     * Rounds the number down.
-     *
-     * @return the rounded number
-     */
-    private BigDecimal round() {
-        int sign = value.signum();
-        BigDecimal rounded = value.abs();
-        return sign == -1 ? rounded.negate() : rounded;
-    }
-
     @Override
     public BigInteger toInteger() {
-        return round().toBigInteger();
+        return value.toBigInteger();
     }
 
     @Override
     public Rational toRational() {
-        return new Rational(round().toBigInteger(), BigInteger.ONE);
+        return new Rational(toInteger(), BigInteger.ONE);
     }
 
     @Override
