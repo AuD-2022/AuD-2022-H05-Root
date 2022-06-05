@@ -2,7 +2,6 @@ package h05.math;
 
 import h05.exception.Comparison;
 import h05.exception.WrongOperandException;
-import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -105,7 +104,7 @@ public final class MyInteger extends MyNumber {
     }
 
     @Override
-    public MyNumber times(@Nullable MyNumber other) {
+    public MyNumber times(MyNumber other) {
         if (other instanceof MyInteger) {
             return new MyInteger(value.multiply(other.toInteger()));
         }
