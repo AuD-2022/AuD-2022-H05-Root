@@ -60,7 +60,9 @@ public final class MyReal extends MyNumber {
 
     @Override
     public Rational toRational() {
-        return new Rational(toInteger(), BigInteger.ONE);
+        BigInteger numerator = value.multiply(BigDecimal.TEN.setScale(SCALE,ROUNDING_MODE).pow(SCALE)).toBigInteger();
+        BigInteger denominator = BigInteger.TEN.pow(SCALE);
+        return new Rational(numerator, denominator);
     }
 
     @Override
