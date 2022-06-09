@@ -2,6 +2,10 @@ package h05;
 
 import h05.math.*;
 import h05.tree.*;
+import h05.math.MyInteger;
+import h05.math.MyRational;
+import h05.math.MyReal;
+import h05.math.Rational;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PublicTests {
 
@@ -24,6 +30,7 @@ public class PublicTests {
                 mul(
                     ln(identifier("e")),
                     identifier("c"))));
+
     private static final Map<String, MyNumber> IDENTIFIERS = Map.of(
         "a", mratio(2, 3),
         "b", mint(3),
