@@ -334,7 +334,10 @@ public abstract class MyNumber {
      * @return an integer if the real number can be represented as an integer, otherwise the real number
      */
     protected MyNumber checkRealToInt(BigDecimal real) {
-        BigDecimal stripped = real.stripTrailingZeros();
+        BigDecimal stripped = real
+            .setScale(MyReal.SCALE, MyReal.ROUNDING_MODE)
+            .stripTrailingZeros();
+
         if (stripped.scale() <= 0) {
             return new MyInteger(stripped.toBigIntegerExact());
         }
