@@ -39,11 +39,11 @@ int 16,             ( expt 2 4 )
 int 100000,         ( expt 10 5 )
 int 10,             ( expt 100 ( / 1 2 ) )
 
-real 1,             ( ln e )
+int 1,              ( ln e )
 int 3,              ( ln ( exp 3 ) )
 
 int 2,              ( log 100 10 )
-real -1,            ( log ( / 1 2 ) 2 )
+int -1,             ( log ( / 1 2 ) 2 )
 
 int 2,              ( sqrt 4 )
 int 5,              ( sqrt 25 )

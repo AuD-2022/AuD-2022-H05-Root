@@ -137,6 +137,14 @@ public final class MyInteger extends MyNumber {
     }
 
     @Override
+    public MyNumber expt(MyNumber n) {
+        if (n instanceof MyInteger i) {
+            return new MyInteger(value.pow(i.value.intValueExact()));
+        }
+        return super.expt(n);
+    }
+
+    @Override
     public String toString() {
         return value.toString();
     }
