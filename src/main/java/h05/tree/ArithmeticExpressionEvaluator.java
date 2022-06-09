@@ -72,13 +72,6 @@ public class ArithmeticExpressionEvaluator {
         return nextStep(expression.iterator(), new ArrayList<>(expression.size()));
     }
 
-    public static void main(String[] args) {
-        List<String> list = List.of("( + a ( + 2 3 ) )".split(" "));
-        var node = ExpressionTreeHandler.buildRecursively(list.iterator());
-        var a = new ArithmeticExpressionEvaluator(node, Map.of());
-        a.nextStep();
-    }
-
     /**
      * Evaluates the arithmetic expression tree by replacing the variables (identifiers) of the expression with their values and
      * evaluates the most inner expressions.

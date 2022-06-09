@@ -91,7 +91,7 @@ public final class MyRational extends MyNumber {
     @Override
     public MyNumber plus(MyNumber other) {
         if (other instanceof MyInteger) {
-            return new MyRational(value.plus(other.toInteger()));
+            return checkRationalToInt(value.plus(other.toInteger()));
         }
         if (other instanceof MyReal) {
             return checkRealToInt(toReal().add(other.toReal()));
