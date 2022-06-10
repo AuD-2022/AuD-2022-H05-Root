@@ -7,7 +7,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
-import java.lang.reflect.Field;
 import java.math.BigInteger;
 
 import static h05.utils.ReflectionUtils.*;
@@ -15,9 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestForSubmission("h05")
 public class RationalTests {
-
-    private static final Field NUMERATOR_FIELD = getField(Rational.class, "numerator");
-    private static final Field DENOMINATOR_FIELD = getField(Rational.class, "denominator");
 
     @ParameterizedTest
     @ArgumentsSource(BigIntegerProvider.class)
@@ -27,9 +23,9 @@ public class RationalTests {
         Rational instance = new Rational(numerator, denominator);
         Pair<BigInteger, BigInteger> expected = calculateExpected(numerator, denominator);
 
-        assertEquals(expected.getFirst(), getFieldValue(NUMERATOR_FIELD, instance),
+        assertEquals(expected.getFirst(), getFieldValue(getField(Rational.class, "numerator"), instance),
             "Field [[[numerator]]] does not have correct value");
-        assertEquals(expected.getSecond(), getFieldValue(DENOMINATOR_FIELD, instance),
+        assertEquals(expected.getSecond(), getFieldValue(getField(Rational.class, "denominator"), instance),
             "Field [[[denominator]]] does not have correct value");
     }
 
@@ -41,9 +37,9 @@ public class RationalTests {
         Rational instance = new Rational(numerator, denominator);
         Pair<BigInteger, BigInteger> expected = calculateExpected(numerator, denominator);
 
-        assertEquals(expected.getFirst(), getFieldValue(NUMERATOR_FIELD, instance),
+        assertEquals(expected.getFirst(), getFieldValue(getField(Rational.class, "numerator"), instance),
             "Field [[[numerator]]] does not have correct value");
-        assertEquals(expected.getSecond(), getFieldValue(DENOMINATOR_FIELD, instance),
+        assertEquals(expected.getSecond(), getFieldValue(getField(Rational.class, "denominator"), instance),
             "Field [[[denominator]]] does not have correct value");
     }
 
