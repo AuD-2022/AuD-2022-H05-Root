@@ -90,9 +90,6 @@ public final class MyRational extends MyNumber {
 
     @Override
     public MyNumber plus(MyNumber other) {
-        if (other instanceof MyInteger) {
-            return checkRationalToInt(value.plus(other.toInteger()));
-        }
         if (other instanceof MyReal) {
             return checkRealToInt(toReal().add(other.toReal()));
         }
@@ -101,9 +98,6 @@ public final class MyRational extends MyNumber {
 
     @Override
     public MyNumber minus(MyNumber other) {
-        if (other instanceof MyInteger) {
-            return new MyRational(value.minus(other.toInteger()));
-        }
         if (other instanceof MyReal) {
             return checkRealToInt(toReal().subtract(other.toReal()));
         }
@@ -130,9 +124,6 @@ public final class MyRational extends MyNumber {
     public MyNumber divide(MyNumber other) {
         if (other.isZero()) {
             throw new WrongOperandException(other, Comparison.GREATER_THAN, ZERO);
-        }
-        if (other instanceof MyInteger) {
-            return new MyRational(value.divide(other.toInteger()));
         }
         if (other instanceof MyReal) {
             return checkRealToInt(toReal().divide(other.toReal(), MyReal.ROUNDING_MODE));

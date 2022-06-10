@@ -341,6 +341,7 @@ public abstract class MyNumber {
         if (stripped.scale() <= 0) {
             return new MyInteger(stripped.toBigIntegerExact());
         }
+
         return new MyReal(real);
     }
 
