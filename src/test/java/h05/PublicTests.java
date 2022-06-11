@@ -328,6 +328,31 @@ public class PublicTests {
         }
     }
 
+    @Nested
+    class ExpressionTreeHandlerTest {
+
+        private static final List<String> EXPRESSION = List.of(
+            "(", "+", "a","(", "/", "(", "expt", "2", "b", ")", "(", "*", "(", "ln", "e", ")", "c", ")", ")", ")");
+
+        @Test
+        void testBuildRecursively() {
+            var actual = ExpressionTreeHandler.buildRecursively(EXPRESSION.iterator());
+            assertEquals(ROOT.toString(), actual.toString());
+        }
+
+        @Test
+        void testBuildIteratively() {
+            var actual = ExpressionTreeHandler.buildIteratively(EXPRESSION.iterator());
+            assertEquals(ROOT.toString(), actual.toString());
+        }
+
+        @Test
+        void testReconstruct() {
+            var actual = ExpressionTreeHandler.reconstruct(ROOT);
+            assertIterableEquals(EXPRESSION, actual);
+        }
+    }
+
     private static ArithmeticExpressionNode add(ArithmeticExpressionNode... operands) {
         return new OperationExpressionNode(Operator.ADD, operands2list(operands));
     }
