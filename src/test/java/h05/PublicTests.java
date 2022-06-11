@@ -1,18 +1,34 @@
 package h05;
 
 import h05.math.*;
-import h05.tree.Identifier;
+import h05.tree.*;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PublicTests {
 
     private static final BigDecimal EPSILON = real("0.0000000000001");
+
+    private static final ArithmeticExpressionNode ROOT =
+        add(
+            identifier("a"),
+            div(
+                expt(aint(2), identifier("b")),
+                mul(
+                    ln(identifier("e")),
+                    identifier("c"))));
+
+    @Test
+    void printRoot() {
+        System.out.println(ROOT);
+    }
 
     @Nested
     class RationalTest {
@@ -276,12 +292,90 @@ public class PublicTests {
         }
     }
 
+    @Nested
+    class ArithmeticExpressionEvaluatorTest {
+
+        @Test
+        void testNextStep() {
+            var evaluator = new ArithmeticExpressionEvaluator(ROOT, Map.of(
+                "a", mratio(2, 3),
+                "b", mint(3),
+                "c", mreal("2.5")
+            ));
+
+            var steps = List.of(
+                List.of("(", "+", "2/3", "(", "/", "8", "(", "*", "1", "2.5", ")", ")", ")"),
+                List.of("(", "+", "2/3", "(", "/", "8", "2.5", ")", ")"),
+                List.of("(", "+", "2/3", "3.2", ")"),
+                List.of("3.866666666666667"),
+                List.of("3.866666666666667"),
+                List.of("3.866666666666667"));
+
+            for (int i = 0; i < steps.size(); i++) {
+                var expected = steps.get(i);
+                assertIterableEquals(expected, evaluator.nextStep(),
+                    "Evaluation step %d, got unexpected result".formatted(i+1));
+            }
+        }
+    }
+
+    private static ArithmeticExpressionNode add(ArithmeticExpressionNode... operands) {
+        return new OperationExpressionNode(Operator.ADD, operands2list(operands));
+    }
+
+    private static ArithmeticExpressionNode mul(ArithmeticExpressionNode... operands) {
+        return new OperationExpressionNode(Operator.MUL, operands2list(operands));
+    }
+
+    private static ArithmeticExpressionNode div(ArithmeticExpressionNode... operands) {
+        return new OperationExpressionNode(Operator.DIV, operands2list(operands));
+    }
+
+    private static ArithmeticExpressionNode expt(ArithmeticExpressionNode... operands) {
+        return new OperationExpressionNode(Operator.EXPT, operands2list(operands));
+    }
+
+    private static ArithmeticExpressionNode ln(ArithmeticExpressionNode... operands) {
+        return new OperationExpressionNode(Operator.LN, operands2list(operands));
+    }
+
+    private static ArithmeticExpressionNode identifier(String identifier) {
+        return new IdentifierExpressionNode(identifier);
+    }
+
+    private static ListItem<ArithmeticExpressionNode> operands2list(ArithmeticExpressionNode[] operands) {
+        if (operands.length == 0) {
+            return null;
+        }
+
+        ListItem<ArithmeticExpressionNode> head, tail;
+        head = tail = new ListItem<>();
+
+        for (int i = 0; i < operands.length; i++) {
+            tail.key = operands[i];
+
+            if (i < operands.length-1) {
+                tail = tail.next = new ListItem<>();
+            }
+        }
+
+        return head;
+    }
+
+    private static ArithmeticExpressionNode aint(long value) {
+        return new LiteralExpressionNode(mint(value));
+    }
+
     private static MyInteger mint(long value) {
         return new MyInteger(integer(value));
     }
 
     private static BigInteger integer(long value) {
         return BigInteger.valueOf(value);
+    }
+
+    private static ArithmeticExpressionNode aratio(long numerator, long denominator) {
+        return new LiteralExpressionNode(mratio(numerator, denominator));
     }
 
     private static MyRational mratio(long numerator, long denominator) {
