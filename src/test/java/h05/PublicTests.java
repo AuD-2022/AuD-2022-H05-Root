@@ -295,27 +295,36 @@ public class PublicTests {
     @Nested
     class ArithmeticExpressionEvaluatorTest {
 
-        @Test
-        void testNextStep() {
-            var evaluator = new ArithmeticExpressionEvaluator(ROOT, Map.of(
+        private final ArithmeticExpressionEvaluator evaluator =
+            new ArithmeticExpressionEvaluator(ROOT, Map.of(
                 "a", mratio(2, 3),
                 "b", mint(3),
                 "c", mreal("2.5")
             ));
 
-            var steps = List.of(
-                List.of("(", "+", "2/3", "(", "/", "8", "(", "*", "1", "2.5", ")", ")", ")"),
-                List.of("(", "+", "2/3", "(", "/", "8", "2.5", ")", ")"),
-                List.of("(", "+", "2/3", "3.2", ")"),
-                List.of("3.866666666666667"),
-                List.of("3.866666666666667"),
-                List.of("3.866666666666667"));
+        @Test
+        void testNextStep() {
+            assertNextStep(
+                "(+ 2/3 (/ 8 (* 1 2.5)))",
+                "(", "+", "2/3", "(", "/", "8", "(", "*", "1", "2.5", ")", ")", ")");
+            assertNextStep(
+                "(+ 2/3 (/ 8 2.5))",
+                "(", "+", "2/3", "(", "/", "8", "2.5", ")", ")");
+            assertNextStep(
+                "(+ 2/3 3.2)",
+                "(", "+", "2/3", "3.2", ")");
+            assertNextStep(
+                "3.866666666666667",
+                "3.866666666666667");
+            assertNextStep(
+                "3.866666666666667",
+                "3.866666666666667");
+        }
 
-            for (int i = 0; i < steps.size(); i++) {
-                var expected = steps.get(i);
-                assertIterableEquals(expected, evaluator.nextStep(),
-                    "Evaluation step %d, got unexpected result".formatted(i+1));
-            }
+        private void assertNextStep(String expectedRootString, String... expectedExpression) {
+            assertIterableEquals(
+                List.of(expectedExpression), evaluator.nextStep());
+            assertEquals(expectedRootString, evaluator.getRoot().toString());
         }
     }
 
