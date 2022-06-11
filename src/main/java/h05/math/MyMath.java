@@ -76,19 +76,23 @@ public class MyMath {
     public static BigDecimal pow10(BigDecimal x) {
         if (x.signum() == 0) {
             return BigDecimal.ONE;
+        } else if (x.signum() < 0) {
+            int intPart = x.toBigInteger().intValue() - 1;
+            BigDecimal rest = x.subtract(BigDecimal.valueOf(intPart));
+
+            BigDecimal a = BigDecimal.valueOf(Math.pow(10, rest.doubleValue()));
+            BigDecimal b = BigDecimal.TEN.pow(-intPart);
+
+            return a.divide(b, MyReal.ROUNDING_MODE);
+        } else {
+            int intPart = x.toBigInteger().intValueExact();
+            BigDecimal rest = x.subtract(BigDecimal.valueOf(intPart));
+
+            BigDecimal a = BigDecimal.TEN.pow(intPart);
+            BigDecimal b = BigDecimal.valueOf(Math.pow(10, rest.doubleValue()));
+
+            return a.multiply(b);
         }
-
-        if (x.signum() < 0) {
-            throw new ArithmeticException("Only for non negative numbers");
-        }
-
-        int intPart = x.toBigInteger().intValueExact();
-        BigDecimal rest = x.subtract(BigDecimal.valueOf(intPart));
-
-        BigDecimal a = BigDecimal.TEN.pow(intPart);
-        BigDecimal b = BigDecimal.valueOf(Math.pow(10, rest.doubleValue()));
-
-        return a.multiply(b);
     }
 
     /**
