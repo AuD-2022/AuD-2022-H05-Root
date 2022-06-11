@@ -1,16 +1,14 @@
 package h05;
 
-import h05.math.MyInteger;
-import h05.math.MyRational;
-import h05.math.MyReal;
-import h05.math.Rational;
+import h05.math.*;
+import h05.tree.Identifier;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PublicTests {
 
@@ -195,19 +193,102 @@ public class PublicTests {
     }
 
 
-    private static MyInteger mint(int value) {
+    @Nested
+    class MyRealTest {
+
+        private final MyNumber pi = Identifier.PI.getValue();
+
+        @Test
+        void testToRational() {
+            assertEquals(
+                ratio(3141592653589793L, 1000000000000000L),
+                pi.toRational());
+        }
+
+        @Test
+        void testToReal() {
+            assertEquals(
+                real("3.14159265358979323846"),
+                pi.toReal());
+        }
+
+        @Test
+        void testMinus() {
+            assertEquals(
+                mreal("-3.14159265358979323846"),
+                pi.minus());
+        }
+
+        @Test
+        void testMinusWithOperand() {
+            assertEquals(
+                mreal("2.14159265358979323846"),
+                pi.minus(MyReal.ONE));
+        }
+
+        @Test
+        void testDivide() {
+            assertEquals(
+                mreal("4"),
+                mreal("0.25").divide());
+        }
+
+        @Test
+        void testDivideWithOperand() {
+            assertEquals(
+                mint(8),
+                mreal("2").divide(mreal("0.25")));
+        }
+
+        @Test
+        void testSqrt() {
+            assertEquals(
+                mreal("0.5"),
+                mreal("0.25").sqrt());
+        }
+
+        @Test
+        void testExpt() {
+            assertAlmostEquals(
+                mreal("0.8325532074018731").toReal(),
+                mreal("0.4").expt(mreal("0.2")).toReal());
+        }
+
+        @Test
+        void testExp() {
+            assertAlmostEquals(
+                mreal("23.140692632779267").toReal(),
+                pi.exp().toReal());
+        }
+
+        @Test
+        void testLn() {
+            assertAlmostEquals(
+                pi.toReal(),
+                mreal("23.140692632779267").ln().toReal());
+        }
+
+        @Test
+        void testLog() {
+            assertAlmostEquals(
+                mreal("-4").toReal(),
+                mreal("16").log(mreal("0.5")).toReal());
+        }
+    }
+
+    private static MyInteger mint(long value) {
         return new MyInteger(integer(value));
     }
 
-    private static BigInteger integer(int value) {
+    private static BigInteger integer(long value) {
         return BigInteger.valueOf(value);
     }
 
-    private static MyRational mratio(int numerator, int denominator) {
+    private static MyRational mratio(long numerator, long denominator) {
         return new MyRational(ratio(numerator, denominator));
     }
 
-    private static Rational ratio(int numerator, int denominator) {
+    private static Rational ratio(long numerator, long denominator) {
         return new Rational(BigInteger.valueOf(numerator), BigInteger.valueOf(denominator));
     }
 
