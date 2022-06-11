@@ -1,6 +1,7 @@
 package h05.math;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * Utils for working with {@link BigDecimal}. We use base 10 because of {@link BigDecimal}s internal implementation.
@@ -81,17 +82,17 @@ public class MyMath {
             BigDecimal rest = x.subtract(BigDecimal.valueOf(intPart));
 
             BigDecimal a = BigDecimal.valueOf(Math.pow(10, rest.doubleValue()));
-            BigDecimal b = BigDecimal.TEN.pow(-intPart);
+            BigInteger b = BigInteger.TEN.pow(-intPart);
 
-            return a.divide(b, MyReal.ROUNDING_MODE);
+            return a.divide(new BigDecimal(b), MyReal.ROUNDING_MODE);
         } else {
             int intPart = x.toBigInteger().intValueExact();
             BigDecimal rest = x.subtract(BigDecimal.valueOf(intPart));
 
-            BigDecimal a = BigDecimal.TEN.pow(intPart);
+            BigInteger a = BigInteger.TEN.pow(intPart);
             BigDecimal b = BigDecimal.valueOf(Math.pow(10, rest.doubleValue()));
 
-            return a.multiply(b);
+            return new BigDecimal(a).multiply(b);
         }
     }
 
