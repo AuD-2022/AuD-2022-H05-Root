@@ -107,9 +107,6 @@ public class ArithmeticExpressionEvaluator {
                 return expression;
             } else if (Operator.isOperator(token)) {
                 expression.add(token);
-            } else if (Identifier.isIdentifier(token)) {
-                var value = Identifier.getIdentifier(token).getValue();
-                expression.add(value.toString());
             } else if (IdentifierExpressionNode.isIdentifier(token)) {
                 if (identifiers.containsKey(token)) {
                     expression.add(identifiers.get(token).toString());
