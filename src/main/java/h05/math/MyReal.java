@@ -114,7 +114,7 @@ public final class MyReal extends MyNumber {
     @Override
     public MyNumber divide() {
         if (isZero()) {
-            throw new WrongOperandException(this, Comparison.GREATER_THAN, ZERO);
+            throw new WrongOperandException(this, Comparison.GREATER_THAN, zero());
         }
         return new MyReal(
             BigDecimal.ONE.setScale(SCALE, ROUNDING_MODE).divide(value, ROUNDING_MODE)
@@ -124,9 +124,14 @@ public final class MyReal extends MyNumber {
     @Override
     public MyNumber divide(MyNumber other) {
         if (other.isZero()) {
-            throw new WrongOperandException(other, Comparison.GREATER_THAN, ZERO);
+            throw new WrongOperandException(other, Comparison.GREATER_THAN, other.zero());
         }
         return checkRealToInt(value.divide(other.toReal(), ROUNDING_MODE));
+    }
+
+    @Override
+    public MyNumber zero() {
+        return ZERO;
     }
 
     @Override

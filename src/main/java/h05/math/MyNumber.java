@@ -292,7 +292,7 @@ public abstract class MyNumber {
         BigDecimal real = toReal();
 
         if (real.signum() < 1) {
-            throw new WrongOperandException(this, Comparison.GREATER_THAN, MyReal.ZERO);
+            throw new WrongOperandException(this, Comparison.GREATER_THAN, zero());
         }
 
         return checkRealToInt(MyMath.ln(real));
@@ -314,17 +314,24 @@ public abstract class MyNumber {
         var baseReal = base.toReal();
 
         if (baseReal.signum() < 1) {
-            throw new WrongOperandException(base, Comparison.GREATER_THAN, MyInteger.ZERO);
+            throw new WrongOperandException(base, Comparison.GREATER_THAN, base.zero());
         }
 
         if (thisReal.signum() < 1) {
-            throw new WrongOperandException(this, Comparison.GREATER_THAN, MyInteger.ZERO);
+            throw new WrongOperandException(this, Comparison.GREATER_THAN, zero());
         }
 
         var top = MyMath.log10(thisReal);
         var bottom = MyMath.log10(baseReal);
         return checkRealToInt(top.divide(bottom, MyReal.ROUNDING_MODE));
     }
+
+    /**
+     * Returns the zero element of this number.
+     *
+     * @return the zero element of this number
+     */
+    public abstract MyNumber zero();
 
     /**
      * Checks if the given real number can be represented as an integer.
