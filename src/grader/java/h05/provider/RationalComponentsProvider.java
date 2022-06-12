@@ -8,7 +8,7 @@ import java.math.BigInteger;
 import java.util.Random;
 import java.util.stream.Stream;
 
-public class BigIntegerProvider implements ArgumentsProvider {
+public class RationalComponentsProvider implements ArgumentsProvider {
 
     private static final long SEED = 0L;
     private static final int STREAM_SIZE = 5;

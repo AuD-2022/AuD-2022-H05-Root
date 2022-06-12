@@ -1,7 +1,7 @@
 package h05.h1_1;
 
 import h05.math.Rational;
-import h05.provider.BigIntegerProvider;
+import h05.provider.RationalComponentsProvider;
 import kotlin.Pair;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class RationalTests {
 
     @ParameterizedTest
-    @ArgumentsSource(BigIntegerProvider.class)
+    @ArgumentsSource(RationalComponentsProvider.class)
     public void testConstructorPositive(BigInteger numerator, BigInteger denominator) {
         if (numerator.signum() == -1) numerator = numerator.negate();
         if (denominator.signum() == -1) denominator = denominator.negate();
@@ -30,7 +30,7 @@ public class RationalTests {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(BigIntegerProvider.class)
+    @ArgumentsSource(RationalComponentsProvider.class)
     public void testConstructorNegative(BigInteger numerator, BigInteger denominator) {
         if (numerator.signum() == 1) numerator = numerator.negate();
         if (denominator.signum() == -1) denominator = denominator.negate();
