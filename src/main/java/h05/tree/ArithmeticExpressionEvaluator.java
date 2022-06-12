@@ -1,13 +1,7 @@
 package h05.tree;
 
-import h05.math.MyInteger;
 import h05.math.MyNumber;
-import h05.math.MyRational;
-import h05.math.MyReal;
-import h05.math.Rational;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
