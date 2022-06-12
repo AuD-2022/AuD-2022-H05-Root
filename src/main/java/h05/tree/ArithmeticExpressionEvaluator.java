@@ -1,7 +1,13 @@
 package h05.tree;
 
+import h05.math.MyInteger;
 import h05.math.MyNumber;
+import h05.math.MyRational;
+import h05.math.MyReal;
+import h05.math.Rational;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -105,6 +111,8 @@ public class ArithmeticExpressionEvaluator {
             } else if (isRight) {
                 expression.add(token);
                 return expression;
+            } else if (Operator.isOperator(token)) {
+                expression.add(token);
             } else if (IdentifierExpressionNode.isIdentifier(token)) {
                 if (identifiers.containsKey(token)) {
                     expression.add(identifiers.get(token).toString());
