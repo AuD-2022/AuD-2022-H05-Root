@@ -117,7 +117,7 @@ public final class MyInteger extends MyNumber {
     @Override
     public MyNumber divide() {
         if (isZero()) {
-            throw new WrongOperandException(this, Comparison.GREATER_THAN, ZERO);
+            throw new WrongOperandException(this, Comparison.GREATER_THAN, zero());
         }
         return new MyRational(new Rational(BigInteger.ONE, value));
     }
@@ -125,7 +125,7 @@ public final class MyInteger extends MyNumber {
     @Override
     public MyNumber divide(MyNumber other) {
         if (other.isZero()) {
-            throw new WrongOperandException(other, Comparison.GREATER_THAN, ZERO);
+            throw new WrongOperandException(other, Comparison.GREATER_THAN, other.zero());
         }
         if (other instanceof MyInteger) {
             return checkRationalToInt(new Rational(value, other.toInteger()));
@@ -142,6 +142,11 @@ public final class MyInteger extends MyNumber {
             return new MyInteger(value.pow(i.value.intValueExact()));
         }
         return super.expt(n);
+    }
+
+    @Override
+    public MyNumber zero() {
+        return ZERO;
     }
 
     @Override

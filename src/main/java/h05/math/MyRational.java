@@ -115,7 +115,7 @@ public final class MyRational extends MyNumber {
     @Override
     public MyNumber divide() {
         if (isZero()) {
-            throw new WrongOperandException(this, Comparison.GREATER_THAN, ZERO);
+            throw new WrongOperandException(this, Comparison.GREATER_THAN, zero());
         }
         return new MyRational(value.inverse());
     }
@@ -123,12 +123,17 @@ public final class MyRational extends MyNumber {
     @Override
     public MyNumber divide(MyNumber other) {
         if (other.isZero()) {
-            throw new WrongOperandException(other, Comparison.GREATER_THAN, ZERO);
+            throw new WrongOperandException(other, Comparison.GREATER_THAN, other.zero());
         }
         if (other instanceof MyReal) {
             return checkRealToInt(toReal().divide(other.toReal(), MyReal.ROUNDING_MODE));
         }
         return checkRationalToInt(value.divide(other.toRational()));
+    }
+
+    @Override
+    public MyNumber zero() {
+        return ZERO;
     }
 
     @Override
