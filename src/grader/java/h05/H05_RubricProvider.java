@@ -1,9 +1,13 @@
 package h05;
 
 import h05.h1_1.RationalTests;
+import h05.h1_2.MyIntegerTests;
+import h05.h1_2.MyRationalTests;
+import h05.h1_2.MyRealTests;
 import org.sourcegrade.jagr.api.rubric.*;
 
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.concurrent.Callable;
 
@@ -22,6 +26,40 @@ public class H05_RubricProvider implements RubricProvider {
                         makeCriterion("Der Konstruktor von [[[Rational]]] funktioniert mit negativen Brüchen.",
                             () -> RationalTests.class
                                 .getDeclaredMethod("testConstructorNegative", BigInteger.class, BigInteger.class))
+                    ),
+                    makeCriterionFromChildCriteria("H1.2 | Konvertierung einer Zahlenmenge in eine andere Zahlenmenge.",
+                        Criterion.builder()
+                            .shortDescription("Methode [[[toRational()]]] in den Klassen [[[MyInteger]]], [[[MyRational]]] und"
+                                + " [[[MyReal]]] gibt korrekte Werte zurück.")
+                            .grader(Grader.testAwareBuilder()
+                                .requirePass(JUnitTestRef.and(
+                                    JUnitTestRef.ofMethod(() -> MyIntegerTests.class
+                                        .getDeclaredMethod("testToRational", BigDecimal.class)),
+                                    JUnitTestRef.ofMethod(() -> MyRationalTests.class
+                                        .getDeclaredMethod("testToRational", BigDecimal.class)),
+                                    JUnitTestRef.ofMethod(() -> MyRealTests.class
+                                        .getDeclaredMethod("testToRational", BigDecimal.class))
+                                ))
+                                .pointsFailedMin()
+                                .pointsPassedMax()
+                                .build())
+                            .build(),
+                        Criterion.builder()
+                            .shortDescription("Methode [[[toReal()]]] in den Klassen [[[MyInteger]]], [[[MyRational]]] und"
+                                + " [[[MyReal]]] gibt korrekte Werte zurück.")
+                            .grader(Grader.testAwareBuilder()
+                                .requirePass(JUnitTestRef.and(
+                                    JUnitTestRef.ofMethod(() -> MyIntegerTests.class
+                                        .getDeclaredMethod("testToReal", BigDecimal.class)),
+                                    JUnitTestRef.ofMethod(() -> MyRationalTests.class
+                                        .getDeclaredMethod("testToReal", BigDecimal.class)),
+                                    JUnitTestRef.ofMethod(() -> MyRealTests.class
+                                        .getDeclaredMethod("testToReal", BigDecimal.class))
+                                ))
+                                .pointsFailedMin()
+                                .pointsPassedMax()
+                                .build())
+                            .build()
                     )
                 )
             )
