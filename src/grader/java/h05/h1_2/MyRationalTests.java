@@ -1,7 +1,7 @@
 package h05.h1_2;
 
 import h05.math.*;
-import h05.provider.H1_2Provider;
+import h05.provider.BigDecimalProvider;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MyRationalTests {
 
     @ParameterizedTest
-    @ArgumentsSource(H1_2Provider.class)
+    @ArgumentsSource(BigDecimalProvider.class)
     public void testToRational(BigDecimal value) {
         BigInteger numerator = new BigInteger(value.toString().replaceAll("\\..*", ""));
         BigInteger denominator = numerator.abs().shiftRight(8).add(BigInteger.ONE);
@@ -28,7 +28,7 @@ public class MyRationalTests {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(H1_2Provider.class)
+    @ArgumentsSource(BigDecimalProvider.class)
     public void testToReal(BigDecimal value) {
         BigInteger numerator = new BigInteger(value.toString().replaceAll("\\..*", ""));
         BigInteger denominator = numerator.shiftRight(8);

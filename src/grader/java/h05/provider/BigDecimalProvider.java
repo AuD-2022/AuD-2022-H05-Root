@@ -1,5 +1,6 @@
 package h05.provider;
 
+import h05.math.MyReal;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
@@ -8,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.Random;
 import java.util.stream.Stream;
 
-public class H1_2Provider implements ArgumentsProvider {
+public class BigDecimalProvider implements ArgumentsProvider {
 
     private static final long SEED = 0L;
     private static final BigDecimal MAX_DEVIATION = new BigDecimal("0.001");
@@ -20,6 +21,7 @@ public class H1_2Provider implements ArgumentsProvider {
 
         return Stream.generate(() -> new BigDecimal("%d.%d".formatted(random.nextLong(), Math.abs(random.nextLong()))))
             .limit(STREAM_SIZE)
+            .map(bigDecimal -> bigDecimal.setScale(MyReal.SCALE, MyReal.ROUNDING_MODE))
 //            .map(value -> Arguments.of(value, value.subtract(MAX_DEVIATION), value.add(MAX_DEVIATION)));
             .map(Arguments::of);
     }
