@@ -353,31 +353,117 @@ public class PublicTests {
         }
     }
 
-    private static ArithmeticExpressionNode add(ArithmeticExpressionNode... operands) {
+    @Nested
+    class IdentifierExpressionNodeTest {
+
+        private final IdentifierExpressionNode node = new IdentifierExpressionNode("a");
+
+        @Test
+        void testConstructor() {
+            assertEquals("a", node.getValue());
+        }
+
+        @Test
+        void testEvaluate() {
+            var result = node.evaluate(Map.of(
+                "a", MyIntegerTest.sixtyNine,
+                "b", mint(420)
+            ));
+            assertEquals(MyIntegerTest.sixtyNine, result);
+        }
+
+        @Test
+        void testClone() {
+            var clone = node.clone();
+            assertInstanceOf(IdentifierExpressionNode.class, clone);
+            assertNotSame(clone, node);
+            assertEquals(node.getValue(), ((IdentifierExpressionNode) clone).getValue());
+        }
+    }
+
+
+    @Nested
+    class LiteralExpressionNodeTest {
+
+        private final LiteralExpressionNode node = new LiteralExpressionNode(MyIntegerTest.sixtyNine);
+
+        @Test
+        void testEvaluate() {
+            assertEquals(MyIntegerTest.sixtyNine, node.evaluate(Map.of()));
+        }
+
+        @Test
+        void testClone() {
+            var clone = node.clone();
+            assertInstanceOf(LiteralExpressionNode.class, clone);
+            assertNotSame(clone, node);
+            assertEquals(node.getValue(), ((LiteralExpressionNode) clone).getValue());
+        }
+    }
+
+    @Nested
+    class OperationExpressionNodeTest {
+
+        private final OperationExpressionNode node = add(
+            aint(69), aint(69));
+
+        @Test
+        void testConstructor() {
+            assertEquals(Operator.ADD, node.getOperator());
+
+            var operands = node.getOperands();
+
+            assertNotNull(operands);
+            assertInstanceOf(LiteralExpressionNode.class, operands.key);
+            assertEquals(MyIntegerTest.sixtyNine, ((LiteralExpressionNode) operands.key).getValue());
+
+            assertNotNull(operands.next);
+            assertInstanceOf(LiteralExpressionNode.class, operands.next.key);
+            assertEquals(MyIntegerTest.sixtyNine, ((LiteralExpressionNode) operands.next.key).getValue());
+
+            assertNull(operands.next.next);
+        }
+
+        @Test
+        void testEvaluate() {
+            var result = node.evaluate(Map.of());
+            assertEquals(mint(69*2), result);
+        }
+
+        @Test
+        void testClone() {
+            var clone = node.clone();
+            assertInstanceOf(OperationExpressionNode.class, clone);
+            assertNotSame(clone, node);
+            assertNotSame(node.getOperands(), ((OperationExpressionNode) clone).getOperands());
+        }
+    }
+
+    private static OperationExpressionNode add(ArithmeticExpressionNode... operands) {
         return new OperationExpressionNode(Operator.ADD, operands2list(operands));
     }
 
-    private static ArithmeticExpressionNode mul(ArithmeticExpressionNode... operands) {
+    private static OperationExpressionNode mul(ArithmeticExpressionNode... operands) {
         return new OperationExpressionNode(Operator.MUL, operands2list(operands));
     }
 
-    private static ArithmeticExpressionNode div(ArithmeticExpressionNode... operands) {
+    private static OperationExpressionNode div(ArithmeticExpressionNode... operands) {
         return new OperationExpressionNode(Operator.DIV, operands2list(operands));
     }
 
-    private static ArithmeticExpressionNode expt(ArithmeticExpressionNode... operands) {
+    private static OperationExpressionNode expt(ArithmeticExpressionNode... operands) {
         return new OperationExpressionNode(Operator.EXPT, operands2list(operands));
     }
 
-    private static ArithmeticExpressionNode ln(ArithmeticExpressionNode... operands) {
+    private static OperationExpressionNode ln(ArithmeticExpressionNode... operands) {
         return new OperationExpressionNode(Operator.LN, operands2list(operands));
     }
 
-    private static ArithmeticExpressionNode identifier(String identifier) {
+    private static IdentifierExpressionNode identifier(String identifier) {
         return new IdentifierExpressionNode(identifier);
     }
 
-    private static ListItem<ArithmeticExpressionNode> operands2list(ArithmeticExpressionNode[] operands) {
+    private static ListItem<ArithmeticExpressionNode> operands2list(ArithmeticExpressionNode... operands) {
         if (operands.length == 0) {
             return null;
         }
