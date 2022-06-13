@@ -2,12 +2,15 @@ package h05;
 
 import h05.h1_1.RationalTests;
 import h05.h3_1.LiteralExpressionNodeTests;
+import h05.h3_2.IdentifierExpressionNodeTests;
+import h05.provider.IdentifierExpressionNodeProvider;
 import org.sourcegrade.jagr.api.rubric.*;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 @RubricForSubmission("h05")
@@ -92,6 +95,26 @@ public class H05_RubricProvider implements RubricProvider {
                                 + "LiteralExpressionNode funktionieren wie beschrieben.",
                             () -> LiteralExpressionNodeTests.class.getDeclaredMethod("testEvaluate", BigDecimal.class),
                             () -> LiteralExpressionNodeTests.class.getDeclaredMethod("testClone", BigDecimal.class)
+                        )
+                    ),
+                    makeCriterionFromChildCriteria("H3.2 | Identifier",
+                        makeCriterion("Der Konstruktor von IdentifierExpressionNode funktioniert wie beschrieben "
+                                + "(inklusive Exceptionwürfe).",
+                            () -> IdentifierExpressionNodeTests.class.getDeclaredMethod("testConstructor", String.class),
+                            () -> IdentifierExpressionNodeTests.class.getDeclaredMethod("testConstructorExceptions",
+                                IdentifierExpressionNodeProvider.ConstructorInvalid.IdentifierType.class,
+                                String.class)
+                        ),
+                        makeCriterion("Methode [[[evaluate(Map)]]] funktioniert wie beschrieben "
+                                + "(inklusive Exceptionwürfe).",
+                            () -> IdentifierExpressionNodeTests.class.getDeclaredMethod("testEvaluate", String.class, Map.class),
+                            () -> IdentifierExpressionNodeTests.class.getDeclaredMethod("testEvaluateExceptions",
+                                IdentifierExpressionNodeProvider.EvaluateInvalid.IdentifierType.class,
+                                String.class,
+                                Map.class)
+                        ),
+                        makeCriterion("Methode [[[clone()]]] funktioniert wie beschrieben.",
+                            () -> IdentifierExpressionNodeTests.class.getDeclaredMethod("testClone", String.class)
                         )
                     )
                 )
