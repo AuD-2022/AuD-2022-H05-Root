@@ -6,8 +6,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MyMathTest {
 
@@ -35,6 +34,12 @@ public class MyMathTest {
     public void testPow10(String x, String y) {
         var value = MyMath.pow10(new BigDecimal(x));
         assertIsCloseTo(new BigDecimal(y), value);
+    }
+
+    @Test
+    public void testPow10WithLangeExponent() {
+        var x = MyMath.pow10(new BigDecimal("2e5"));
+        assertEquals(0, new BigDecimal("1e200000").compareTo(x));
     }
 
     @ParameterizedTest

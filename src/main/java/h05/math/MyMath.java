@@ -1,6 +1,7 @@
 package h05.math;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * Utils for working with {@link BigDecimal}. We use base 10 because of {@link BigDecimal}s internal implementation.
@@ -76,19 +77,23 @@ public class MyMath {
     public static BigDecimal pow10(BigDecimal x) {
         if (x.signum() == 0) {
             return BigDecimal.ONE;
+        } else if (x.signum() < 0) {
+            int intPart = x.toBigInteger().intValue() - 1;
+            BigDecimal rest = x.subtract(BigDecimal.valueOf(intPart));
+
+            BigDecimal a = BigDecimal.valueOf(Math.pow(10, rest.doubleValue()));
+            BigInteger b = BigInteger.TEN.pow(-intPart);
+
+            return a.divide(new BigDecimal(b), MyReal.ROUNDING_MODE);
+        } else {
+            int intPart = x.toBigInteger().intValueExact();
+            BigDecimal rest = x.subtract(BigDecimal.valueOf(intPart));
+
+            BigInteger a = BigInteger.TEN.pow(intPart);
+            BigDecimal b = BigDecimal.valueOf(Math.pow(10, rest.doubleValue()));
+
+            return new BigDecimal(a).multiply(b);
         }
-
-        if (x.signum() < 0) {
-            throw new ArithmeticException("Only for non negative numbers");
-        }
-
-        int intPart = x.toBigInteger().intValueExact();
-        BigDecimal rest = x.subtract(BigDecimal.valueOf(intPart));
-
-        BigDecimal a = BigDecimal.TEN.pow(intPart);
-        BigDecimal b = BigDecimal.valueOf(Math.pow(10, rest.doubleValue()));
-
-        return a.multiply(b);
     }
 
     /**
