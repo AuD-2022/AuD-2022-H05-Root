@@ -1,6 +1,7 @@
 package h05;
 
 import h05.h1_1.RationalTests;
+import h05.h3_1.LiteralExpressionNodeTests;
 import org.sourcegrade.jagr.api.rubric.*;
 
 import java.lang.reflect.Method;
@@ -82,6 +83,15 @@ public class H05_RubricProvider implements RubricProvider {
                             () -> h05.h2_2.MyIntegerTests.class.getDeclaredMethod("testLog", BigDecimal.class, BigDecimal.class),
                             () -> h05.h2_2.MyRationalTests.class.getDeclaredMethod("testLog", BigDecimal.class, BigDecimal.class),
                             () -> h05.h2_2.MyRealTests.class.getDeclaredMethod("testLog", BigDecimal.class, BigDecimal.class)
+                        )
+                    )
+                ),
+                makeCriterionFromChildCriteria("H3 | Arithmetischer Vielwegbaum",
+                    makeCriterionFromChildCriteria("H3.1 | Literale",
+                        makeCriterion("Die Methoden [[[evaluate(Map)]]] und [[[clone()]]] in Klasse "
+                                + "LiteralExpressionNode funktionieren wie beschrieben.",
+                            () -> LiteralExpressionNodeTests.class.getDeclaredMethod("testEvaluate", BigDecimal.class),
+                            () -> LiteralExpressionNodeTests.class.getDeclaredMethod("testClone", BigDecimal.class)
                         )
                     )
                 )

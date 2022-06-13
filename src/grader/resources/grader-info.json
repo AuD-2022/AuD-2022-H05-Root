@@ -16,6 +16,7 @@
         "h05/h2_2/MyIntegerTests.java",
         "h05/h2_2/MyRationalTests.java",
         "h05/h2_2/MyRealTests.java",
+        "h05/h3_1/LiteralExpressionNodeTests.java",
         "h05/provider/BiBigDecimalProvider.java",
         "h05/provider/BigDecimalProvider.java",
         "h05/provider/BigIntegerProvider.java",
