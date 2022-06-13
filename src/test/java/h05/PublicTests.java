@@ -24,6 +24,14 @@ public class PublicTests {
                 mul(
                     ln(identifier("e")),
                     identifier("c"))));
+    private static final Map<String, MyNumber> IDENTIFIERS = Map.of(
+        "a", mratio(2, 3),
+        "b", mint(3),
+        "c", mreal("2.5"),
+        Identifier.E.getName(), Identifier.E.getValue(),
+        Identifier.PI.getName(), Identifier.PI.getValue(),
+        "nice", MyIntegerTest.sixtyNine
+    );
 
     @Test
     void printRoot() {
@@ -296,11 +304,7 @@ public class PublicTests {
     class ArithmeticExpressionEvaluatorTest {
 
         private final ArithmeticExpressionEvaluator evaluator =
-            new ArithmeticExpressionEvaluator(ROOT, Map.of(
-                "a", mratio(2, 3),
-                "b", mint(3),
-                "c", mreal("2.5")
-            ));
+            new ArithmeticExpressionEvaluator(ROOT, IDENTIFIERS);
 
         @Test
         void testNextStep() {
@@ -356,19 +360,16 @@ public class PublicTests {
     @Nested
     class IdentifierExpressionNodeTest {
 
-        private final IdentifierExpressionNode node = new IdentifierExpressionNode("a");
+        private final IdentifierExpressionNode node = new IdentifierExpressionNode("nice");
 
         @Test
         void testConstructor() {
-            assertEquals("a", node.getValue());
+            assertEquals("nice", node.getValue());
         }
 
         @Test
         void testEvaluate() {
-            var result = node.evaluate(Map.of(
-                "a", MyIntegerTest.sixtyNine,
-                "b", mint(420)
-            ));
+            var result = node.evaluate(IDENTIFIERS);
             assertEquals(MyIntegerTest.sixtyNine, result);
         }
 
@@ -389,7 +390,7 @@ public class PublicTests {
 
         @Test
         void testEvaluate() {
-            assertEquals(MyIntegerTest.sixtyNine, node.evaluate(Map.of()));
+            assertEquals(MyIntegerTest.sixtyNine, node.evaluate(IDENTIFIERS));
         }
 
         @Test
@@ -426,7 +427,7 @@ public class PublicTests {
 
         @Test
         void testEvaluate() {
-            var result = node.evaluate(Map.of());
+            var result = node.evaluate(IDENTIFIERS);
             assertEquals(mint(69*2), result);
         }
 
