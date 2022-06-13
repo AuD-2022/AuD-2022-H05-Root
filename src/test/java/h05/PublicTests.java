@@ -343,7 +343,7 @@ public class PublicTests {
     class ExpressionTreeHandlerTest {
 
         private static final List<String> EXPRESSION = List.of(
-            "(", "+", "a","(", "/", "(", "expt", "2", "b", ")", "(", "*", "(", "ln", "e", ")", "c", ")", ")", ")");
+            "(", "+", "a", "(", "/", "(", "expt", "2", "b", ")", "(", "*", "(", "ln", "e", ")", "c", ")", ")", ")");
 
         @Test
         void testBuildRecursively() {
@@ -435,7 +435,7 @@ public class PublicTests {
         @Test
         void testEvaluate() {
             var result = node.evaluate(IDENTIFIERS);
-            assertEquals(mint(69*2), result);
+            assertEquals(mint(69 * 2), result);
         }
 
         @Test
@@ -482,7 +482,7 @@ public class PublicTests {
         for (int i = 0; i < operands.length; i++) {
             tail.key = operands[i];
 
-            if (i < operands.length-1) {
+            if (i < operands.length - 1) {
                 tail = tail.next = new ListItem<>();
             }
         }
