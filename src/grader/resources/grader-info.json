@@ -7,6 +7,7 @@
     {
       "name": "grader",
       "files": [
+        "h05/H05_RubricProvider.java",
         "h05/h1_1/RationalTests.java",
         "h05/h1_2/MyIntegerTests.java",
         "h05/h1_2/MyRationalTests.java",
@@ -17,10 +18,11 @@
         "h05/h2_2/MyRealTests.java",
         "h05/provider/BiBigDecimalProvider.java",
         "h05/provider/BigDecimalProvider.java",
+        "h05/provider/BigIntegerProvider.java",
         "h05/provider/RationalComponentsProvider.java",
         "h05/utils/ReflectionUtils.java",
         "h05/utils/TutorAssertions.java",
-        "h05/H05_RubricProvider.java"
+        "h05/utils/TutorAssertions.java"
       ]
     },
     {
@@ -34,6 +36,7 @@
         "h05/exception/UndefinedOperatorException.java",
         "h05/exception/WrongNumberOfOperandsException.java",
         "h05/exception/WrongOperandException.java",
+        "h05/Main.java",
         "h05/math/MyInteger.java",
         "h05/math/MyMath.java",
         "h05/math/MyNumber.java",
@@ -43,19 +46,47 @@
         "h05/tree/ArithmeticExpressionEvaluator.java",
         "h05/tree/ArithmeticExpressionNode.java",
         "h05/tree/ExpressionTreeHandler.java",
-        "h05/tree/Identifier.java",
         "h05/tree/IdentifierExpressionNode.java",
+        "h05/tree/Identifier.java",
         "h05/tree/ListItem.java",
         "h05/tree/LiteralExpressionNode.java",
         "h05/tree/OperandExpressionNode.java",
         "h05/tree/OperationExpressionNode.java",
         "h05/tree/Operator.java",
-        "h05/Main.java",
 
-        "h05/math/MyMathTest.java",
-        "h05/tree/ExpressionTreeHandlerTest.java",
         "h05/ExampleJUnitTest.java",
-        "h05/PublicTests.java"
+        "h05/exception/BadOperationException.java",
+        "h05/exception/Comparison.java",
+        "h05/exception/IllegalIdentifierExceptions.java",
+        "h05/exception/ParenthesesMismatchException.java",
+        "h05/exception/UndefinedIdentifierException.java",
+        "h05/exception/UndefinedOperatorException.java",
+        "h05/exception/WrongNumberOfOperandsException.java",
+        "h05/exception/WrongOperandException.java",
+        "h05/Main.java",
+        "h05/math/MyInteger.java",
+        "h05/math/MyMath.java",
+        "h05/math/MyMathTest.java",
+        "h05/math/MyNumber.java",
+        "h05/math/MyRational.java",
+        "h05/math/MyReal.java",
+        "h05/math/Rational.java",
+        "h05/tree/ArithmeticExpressionEvaluator.java",
+        "h05/tree/ArithmeticExpressionNode.java",
+        "h05/tree/ExpressionTreeHandler.java",
+        "h05/tree/ExpressionTreeHandlerTest.java",
+        "h05/tree/IdentifierExpressionNode.java",
+        "h05/tree/Identifier.java",
+        "h05/tree/ListItem.java",
+        "h05/tree/LiteralExpressionNode.java",
+        "h05/tree/OperandExpressionNode.java",
+        "h05/tree/OperationExpressionNode.java",
+        "h05/tree/Operator.java",
+
+        "h05/ExampleJUnitTest.java",
+        "h05/math/MyMathTest.java",
+        "h05/PublicTests.java",
+        "h05/tree/ExpressionTreeHandlerTest.java"
       ]
     }
   ]
