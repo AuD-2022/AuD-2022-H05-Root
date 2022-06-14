@@ -3,7 +3,10 @@ package h05;
 import h05.h1_1.RationalTests;
 import h05.h3_1.LiteralExpressionNodeTests;
 import h05.h3_2.IdentifierExpressionNodeTests;
+import h05.h3_3.OperationExpressionNodeTests;
 import h05.provider.IdentifierExpressionNodeProvider;
+import h05.tree.ListItem;
+import h05.tree.Operator;
 import org.sourcegrade.jagr.api.rubric.*;
 
 import java.lang.reflect.Method;
@@ -115,6 +118,27 @@ public class H05_RubricProvider implements RubricProvider {
                         ),
                         makeCriterion("Methode [[[clone()]]] funktioniert wie beschrieben.",
                             () -> IdentifierExpressionNodeTests.class.getDeclaredMethod("testClone", String.class)
+                        )
+                    ),
+                    makeCriterionFromChildCriteria("H3.3 | Operationsknoten",
+                        makeCriterion("Der Konstruktor von OperationExpressionNode funktioniert wie beschrieben "
+                            + "(inklusive Exceptionwürfe)",
+                            () -> OperationExpressionNodeTests.class
+                                .getDeclaredMethod("testConstructor", Operator.class, ListItem.class),
+                            () -> OperationExpressionNodeTests.class
+                                .getDeclaredMethod("testConstructorException", Operator.class, ListItem.class)
+                        ),
+                        Criterion.builder()
+                            .shortDescription("Methode [[[evaluate(Map)]]] wertet Ausdrücke korrekt rekursiv aus.")
+                            .build(),
+                        makeCriterion("Methode [[[evaluate(Map)]]] gibt bei Aufrufen mit den Operatoren '+' bzw. '*' "
+                                + " und keinen Operanden das neutrale Element zurück.",
+                            () -> OperationExpressionNodeTests.class
+                                .getDeclaredMethod("testEvaluateNeutralElement", Operator.class)
+                        ),
+                        makeCriterion("Methode [[[clone()]]] funktioniert wie beschrieben.",
+                            () -> OperationExpressionNodeTests.class
+                                .getDeclaredMethod("testClone", Operator.class, ListItem.class)
                         )
                     )
                 )
