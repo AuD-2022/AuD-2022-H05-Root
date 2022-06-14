@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -290,7 +291,14 @@ public class PublicTests {
     class ArithmeticExpressionEvaluatorTest {
 
         private final ArithmeticExpressionEvaluator evaluator =
-            new ArithmeticExpressionEvaluator(getRoot(), getIdentifiers());
+            new ArithmeticExpressionEvaluator(getRoot(), getIdentifiersIncludingPredefined());
+
+        private Map<String, MyNumber> getIdentifiersIncludingPredefined() {
+            var m = new HashMap<>(getIdentifiers());
+            m.put(Identifier.E.getName(), Identifier.E.getValue());
+            m.put(Identifier.PI.getName(), Identifier.PI.getValue());
+            return m;
+        }
 
         @Test
         void testNextStep() {
@@ -474,8 +482,6 @@ public class PublicTests {
             "a", mratio(2, 3),
             "b", mint(3),
             "c", mreal("2.5"),
-            Identifier.E.getName(), Identifier.E.getValue(),
-            Identifier.PI.getName(), Identifier.PI.getValue(),
             "nice", MyIntegerTest.getSixtyNine()
         );
     }
