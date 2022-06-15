@@ -19,4 +19,11 @@ public class ExpressionTreeHandlerTests {
         assertThrows(exceptionClass, () -> ExpressionTreeHandler.buildRecursively(tokens.iterator()),
             "[[[buildRecursively(Iterator)]]] did not throw the correct exception");
     }
+
+    @ParameterizedTest
+    @ArgumentsSource(TokenProvider.Invalid.class)
+    public void testBuildIterativelyExceptions(Class<? extends Exception> exceptionClass, List<String> tokens) {
+        assertThrows(exceptionClass, () -> ExpressionTreeHandler.buildIteratively(tokens.iterator()),
+            "[[[buildIteratively(Iterator)]]] did not throw the correct exception");
+    }
 }
