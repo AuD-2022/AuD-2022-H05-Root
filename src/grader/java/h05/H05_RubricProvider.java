@@ -4,6 +4,7 @@ import h05.h1_1.RationalTests;
 import h05.h3_1.LiteralExpressionNodeTests;
 import h05.h3_2.IdentifierExpressionNodeTests;
 import h05.h3_3.OperationExpressionNodeTests;
+import h05.h4_1.ExpressionTreeHandlerTests;
 import h05.provider.IdentifierExpressionNodeProvider;
 import h05.tree.ListItem;
 import h05.tree.Operator;
@@ -13,6 +14,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -139,6 +141,24 @@ public class H05_RubricProvider implements RubricProvider {
                         makeCriterion("Methode [[[clone()]]] funktioniert wie beschrieben.",
                             () -> OperationExpressionNodeTests.class
                                 .getDeclaredMethod("testClone", Operator.class, ListItem.class)
+                        )
+                    )
+                ),
+                makeCriterionFromChildCriteria("H4 | (Re-)Konstruktion eines arithmetischen Ausdrucks",
+                    makeCriterionFromChildCriteria("H4.1 | Rekursiver Aufbau eines arithmetischen Vielwegbaums",
+                        Criterion.builder()
+                            .shortDescription("Methode [[[buildRecursively(Iterator)]]] funktioniert mit einfachen Ausdrücken " +
+                                "wie beschrieben.")
+                            .build(),
+                        Criterion.builder()
+                            .shortDescription("Methode [[[buildRecursively(Iterator)]]] funktioniert mit verschachtelten " +
+                                "Ausdrücken wie beschrieben.")
+                            .minPoints(0)
+                            .maxPoints(2)
+                            .build(),
+                        makeCriterion("Methode [[[buildRecursively(Iterator)]]] wirft die richtigen Exceptions.",
+                            () -> ExpressionTreeHandlerTests.class
+                                .getDeclaredMethod("testBuildRecursivelyExceptions", Class.class, List.class)
                         )
                     )
                 )
