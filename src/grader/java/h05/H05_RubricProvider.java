@@ -146,16 +146,16 @@ public class H05_RubricProvider implements RubricProvider {
                 ),
                 makeCriterionFromChildCriteria("H4 | (Re-)Konstruktion eines arithmetischen Ausdrucks",
                     makeCriterionFromChildCriteria("H4.1 | Rekursiver Aufbau eines arithmetischen Vielwegbaums",
-                        Criterion.builder()
-                            .shortDescription("Methode [[[buildRecursively(Iterator)]]] funktioniert mit einfachen Ausdrücken " +
-                                "wie beschrieben.")
-                            .build(),
-                        Criterion.builder()
-                            .shortDescription("Methode [[[buildRecursively(Iterator)]]] funktioniert mit verschachtelten " +
-                                "Ausdrücken wie beschrieben.")
-                            .minPoints(0)
-                            .maxPoints(2)
-                            .build(),
+                        makeCriterion("Methode [[[buildRecursively(Iterator)]]] funktioniert mit einfachen Ausdrücken wie " +
+                                "beschrieben.",
+                            () -> ExpressionTreeHandlerTests.class
+                                .getDeclaredMethod("testBuildRecursivelySimple", List.class)
+                        ),
+                        makeCriterion("Methode [[[buildRecursively(Iterator)]]] funktioniert mit verschachtelten Ausdrücken" +
+                                "Ausdrücken wie beschrieben.", 0, 2,
+                            () -> ExpressionTreeHandlerTests.class
+                                .getDeclaredMethod("testBuildRecursivelyComplex", List.class)
+                        ),
                         makeCriterion("Methode [[[buildRecursively(Iterator)]]] wirft die richtigen Exceptions.",
                             () -> ExpressionTreeHandlerTests.class
                                 .getDeclaredMethod("testBuildRecursivelyExceptions", Class.class, List.class)
