@@ -176,6 +176,16 @@ public class H05_RubricProvider implements RubricProvider {
                             () -> ExpressionTreeHandlerTests.class
                                 .getDeclaredMethod("testBuildIterativelyExceptions", Class.class, List.class)
                         )
+                    ),
+                    makeCriterionFromChildCriteria("H4.3 | Rekonstruktion eines arithmetischen Ausdrucks",
+                        Criterion.builder()
+                            .shortDescription("Methode [[[reconstruct(ArithmeticExpressionNode)]]] gibt die korrekten Tokens "
+                                + "für eine simple Eingabe zurück.")
+                            .build(),
+                        Criterion.builder()
+                            .shortDescription("Methode [[[reconstruct(ArithmeticExpressionNode)]]] gibt die korrekten Tokens "
+                                + "für eine komplexere Eingabe zurück.")
+                            .build()
                     )
                 )
             )
