@@ -187,6 +187,20 @@ public class H05_RubricProvider implements RubricProvider {
                                 + "für eine komplexere Eingabe zurück.")
                             .build()
                     )
+                ),
+                makeCriterionFromChildCriteria("H5 | Schrittweise Auswertung eines Ausdrucks",
+                    Criterion.builder()
+                        .shortDescription("Methode [[[nextStep()]]] ersetzt unbekannte Identifier durch den im Blatt "
+                            + "vorgegebenen String.")
+                        .build(),
+                    Criterion.builder()
+                        .shortDescription("Wiederholte Aufrufe der Methode [[[nextStep()]]] gibt korrekte Werte für eine "
+                            + "simple Eingabe zurück.")
+                        .build(),
+                    Criterion.builder()
+                        .shortDescription("Wiederholte Aufrufe der Methode [[[nextStep()]]] gibt korrekte Werte für eine "
+                            + "komplexere Eingabe zurück.")
+                        .build()
                 )
             )
             .build();
