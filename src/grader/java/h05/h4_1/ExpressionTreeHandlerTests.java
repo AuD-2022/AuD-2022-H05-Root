@@ -52,4 +52,22 @@ public class ExpressionTreeHandlerTests {
         assertThrows(exceptionClass, () -> ExpressionTreeHandler.buildIteratively(tokens.iterator()),
             "[[[buildIteratively(Iterator)]]] did not throw the correct exception");
     }
+
+    @ParameterizedTest
+    @ArgumentsSource(TokenProvider.SimpleInteger.class)
+    @ArgumentsSource(TokenProvider.SimpleRational.class)
+    @ArgumentsSource(TokenProvider.SimpleReal.class)
+    public void testBuildIterativelySimple(List<String> tokens) {
+        assertEquals(JOINER_FUNCTION.apply(tokens), ExpressionTreeHandler.buildIteratively(tokens.iterator()).toString(),
+            "tree created by [[[buildIteratively(Iterator)]]] did not equal expected one");
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(TokenProvider.ComplexInteger.class)
+    @ArgumentsSource(TokenProvider.ComplexRational.class)
+    @ArgumentsSource(TokenProvider.ComplexReal.class)
+    public void testBuildIterativelyComplex(List<String> tokens) {
+        assertEquals(JOINER_FUNCTION.apply(tokens), ExpressionTreeHandler.buildIteratively(tokens.iterator()).toString(),
+            "tree created by [[[buildIteratively(Iterator)]]] did not equal expected one");
+    }
 }
