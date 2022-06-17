@@ -6,9 +6,11 @@ import h05.h3_2.IdentifierExpressionNodeTests;
 import h05.h3_3.OperationExpressionNodeTests;
 import h05.h4_1.ExpressionTreeHandlerTests;
 import h05.provider.IdentifierExpressionNodeProvider;
+import h05.transformer.AccessTransformer;
 import h05.tree.ListItem;
 import h05.tree.Operator;
 import org.sourcegrade.jagr.api.rubric.*;
+import org.sourcegrade.jagr.api.testing.RubricConfiguration;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -204,6 +206,11 @@ public class H05_RubricProvider implements RubricProvider {
                 )
             )
             .build();
+    }
+
+    @Override
+    public void configure(RubricConfiguration configuration) {
+        configuration.addTransformer(new AccessTransformer());
     }
 
     @SafeVarargs

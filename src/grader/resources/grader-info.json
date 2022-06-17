@@ -26,6 +26,7 @@
         "h05/provider/OperationExpressionNodeProvider.java",
         "h05/provider/RationalComponentsProvider.java",
         "h05/provider/TokenProvider.java",
+        "h05/transformer/AccessTransformer.java",
         "h05/utils/ListItemUtils.java",
         "h05/utils/RationalMock.java",
         "h05/utils/ReflectionUtils.java",
