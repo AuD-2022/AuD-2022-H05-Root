@@ -3,6 +3,7 @@ package h05.h1_2;
 import h05.math.MyReal;
 import h05.math.Rational;
 import h05.provider.BigDecimalProvider;
+import h05.utils.RationalMock;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
@@ -23,7 +24,7 @@ public class MyRealTests {
             .toBigInteger();
         BigInteger denominator = BigInteger.TEN.pow(MyReal.SCALE);
         BigInteger divisor = numerator.gcd(denominator);
-        Rational rational = new Rational(numerator, denominator);
+        Rational rational = RationalMock.getInstance(numerator, denominator);
         Rational actualRational = myReal.toRational();
 
         assertEquals(numerator.divide(divisor), actualRational.getNumerator(), "Numerator does not have correct value");

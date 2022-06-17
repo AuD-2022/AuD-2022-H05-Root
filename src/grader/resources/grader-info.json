@@ -7,7 +7,6 @@
     {
       "name": "grader",
       "files": [
-        "h05/H05_RubricProvider.java",
         "h05/h1_1/RationalTests.java",
         "h05/h1_2/MyIntegerTests.java",
         "h05/h1_2/MyRationalTests.java",
@@ -28,8 +27,10 @@
         "h05/provider/RationalComponentsProvider.java",
         "h05/provider/TokenProvider.java",
         "h05/utils/ListItemUtils.java",
+        "h05/utils/RationalMock.java",
         "h05/utils/ReflectionUtils.java",
-        "h05/utils/TutorAssertions.java"
+        "h05/utils/TutorAssertions.java",
+        "h05/H05_RubricProvider.java"
       ]
     },
     {
