@@ -11,7 +11,11 @@ public class AccessTransformer implements ClassTransformer {
 
     @Override
     public void transform(ClassReader reader, ClassWriter writer) {
+        if(reader.getClassName().equals("h05/math/Rational")){
         reader.accept(new CV(Opcodes.ASM9, writer), 0);
+        } else {
+            reader.accept(writer, 0);
+        }
     }
 
     private static int makePublic(int access) {
