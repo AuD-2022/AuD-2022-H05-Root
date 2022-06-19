@@ -1,10 +1,7 @@
 package h05.h2_2;
 
-import h05.math.MyInteger;
 import h05.math.MyReal;
-import h05.provider.BiBigDecimalProvider;
-import h05.provider.BigDecimalProvider;
-import h05.provider.ExpExptProvider;
+import h05.provider.DecimalProvider;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
@@ -17,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MyRealTests {
 
     @ParameterizedTest
-    @ArgumentsSource(BigDecimalProvider.class)
+    @ArgumentsSource(DecimalProvider.Single.class)
     public void testSqrt(BigDecimal value) {
         MyReal myReal = new MyReal(value.abs());
 
@@ -26,7 +23,7 @@ public class MyRealTests {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(ExpExptProvider.ExpProvider.class)
+    @ArgumentsSource(DecimalProvider.Single.class)
     public void testExp(BigDecimal value) {
         MyReal myReal = new MyReal(value.abs());
 
@@ -35,7 +32,7 @@ public class MyRealTests {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(ExpExptProvider.ExptProvider.class)
+    @ArgumentsSource(DecimalProvider.Double.class)
     public void testExpt(BigDecimal value, BigDecimal exponent) {
         MyReal myReal = new MyReal(value.abs());
         MyReal myExponent = new MyReal(exponent.abs());
@@ -44,7 +41,7 @@ public class MyRealTests {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(BigDecimalProvider.class)
+    @ArgumentsSource(DecimalProvider.Single.class)
     public void testLn(BigDecimal value) {
         MyReal myReal = new MyReal(value.abs());
 
@@ -52,7 +49,7 @@ public class MyRealTests {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(BiBigDecimalProvider.class)
+    @ArgumentsSource(DecimalProvider.Double.class)
     public void testLog(BigDecimal value, BigDecimal base) {
         MyReal myReal = new MyReal(value.abs());
         MyReal myBase = new MyReal(base.abs());

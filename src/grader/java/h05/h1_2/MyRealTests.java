@@ -2,7 +2,7 @@ package h05.h1_2;
 
 import h05.math.MyReal;
 import h05.math.Rational;
-import h05.provider.BigDecimalProvider;
+import h05.provider.DecimalProvider;
 import h05.utils.RationalMock;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MyRealTests {
 
     @ParameterizedTest
-    @ArgumentsSource(BigDecimalProvider.class)
+    @ArgumentsSource(DecimalProvider.Single.class)
     public void testToRational(BigDecimal value) {
         MyReal myReal = new MyReal(value);
         BigInteger numerator = value.multiply(BigDecimal.TEN.setScale(MyReal.SCALE, MyReal.ROUNDING_MODE).pow(MyReal.SCALE))
@@ -32,7 +32,7 @@ public class MyRealTests {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(BigDecimalProvider.class)
+    @ArgumentsSource(DecimalProvider.Single.class)
     public void testToReal(BigDecimal value) {
         MyReal myReal = new MyReal(value);
 

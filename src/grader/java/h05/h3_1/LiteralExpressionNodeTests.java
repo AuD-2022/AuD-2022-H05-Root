@@ -2,7 +2,7 @@ package h05.h3_1;
 
 import h05.math.MyNumber;
 import h05.math.MyReal;
-import h05.provider.BigDecimalProvider;
+import h05.provider.DecimalProvider;
 import h05.tree.ArithmeticExpressionNode;
 import h05.tree.LiteralExpressionNode;
 import h05.utils.ReflectionUtils;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class LiteralExpressionNodeTests {
 
     @ParameterizedTest
-    @ArgumentsSource(BigDecimalProvider.class)
+    @ArgumentsSource(DecimalProvider.Single.class)
     public void testEvaluate(BigDecimal value) {
         MyNumber myNumber = new MyReal(value);
         LiteralExpressionNode node = new LiteralExpressionNode(myNumber);
@@ -30,7 +30,7 @@ public class LiteralExpressionNodeTests {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(BigDecimalProvider.class)
+    @ArgumentsSource(DecimalProvider.Single.class)
     public void testClone(BigDecimal value) {
         MyNumber myNumber = new MyReal(value);
         LiteralExpressionNode node = new LiteralExpressionNode(myNumber);

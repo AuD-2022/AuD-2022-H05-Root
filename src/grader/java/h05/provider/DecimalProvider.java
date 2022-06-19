@@ -11,7 +11,7 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-public class ExpExptProvider {
+public class DecimalProvider {
 
     private static final long SEED = 0L;
     private static final int STREAM_SIZE = 5;
@@ -21,7 +21,7 @@ public class ExpExptProvider {
         new BigDecimal(new BigInteger(4, random).add(BigInteger.ONE))
             .setScale(MyReal.SCALE, MyReal.ROUNDING_MODE);
 
-    public static class ExpProvider implements ArgumentsProvider {
+    public static class Single implements ArgumentsProvider {
 
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
@@ -33,7 +33,7 @@ public class ExpExptProvider {
         }
     }
 
-    public static class ExptProvider implements ArgumentsProvider {
+    public static class Double implements ArgumentsProvider {
 
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext context) {

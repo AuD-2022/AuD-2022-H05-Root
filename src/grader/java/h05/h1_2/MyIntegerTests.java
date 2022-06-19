@@ -3,7 +3,7 @@ package h05.h1_2;
 import h05.math.MyInteger;
 import h05.math.MyReal;
 import h05.math.Rational;
-import h05.provider.BigDecimalProvider;
+import h05.provider.DecimalProvider;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MyIntegerTests {
 
     @ParameterizedTest
-    @ArgumentsSource(BigDecimalProvider.class)
+    @ArgumentsSource(DecimalProvider.Single.class)
     public void testToRational(BigDecimal value) {
         BigInteger bigInteger = new BigInteger(value.toString().replaceAll("\\..*", ""));
         MyInteger myInteger = new MyInteger(bigInteger);
@@ -28,7 +28,7 @@ public class MyIntegerTests {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(BigDecimalProvider.class)
+    @ArgumentsSource(DecimalProvider.Single.class)
     public void testToReal(BigDecimal value) {
         BigInteger bigInteger = new BigInteger(value.toString().replaceAll("\\..*", ""));
         MyInteger myInteger = new MyInteger(bigInteger);
