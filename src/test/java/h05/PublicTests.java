@@ -2,47 +2,24 @@ package h05;
 
 import h05.math.*;
 import h05.tree.*;
-import h05.math.MyInteger;
-import h05.math.MyRational;
-import h05.math.MyReal;
-import h05.math.Rational;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class PublicTests {
 
     private static final BigDecimal EPSILON = real("0.0000000000001");
 
-    private static final ArithmeticExpressionNode ROOT =
-        add(
-            identifier("a"),
-            div(
-                expt(aint(2), identifier("b")),
-                mul(
-                    ln(identifier("e")),
-                    identifier("c"))));
-
-    private static final Map<String, MyNumber> IDENTIFIERS = Map.of(
-        "a", mratio(2, 3),
-        "b", mint(3),
-        "c", mreal("2.5"),
-        Identifier.E.getName(), Identifier.E.getValue(),
-        Identifier.PI.getName(), Identifier.PI.getValue(),
-        "nice", MyIntegerTest.sixtyNine
-    );
-
     @Test
     void printRoot() {
-        System.out.println(ROOT);
+        System.out.println(getRoot());
     }
 
     @Nested
@@ -59,48 +36,46 @@ public class PublicTests {
     @Nested
     class MyIntegerTest {
 
-        private static final MyInteger sixtyNine = mint(69);
-
         @Test
         void testToRational() {
             assertEquals(
                 mratio(69, 1).toRational(),
-                sixtyNine.toRational());
+                getSixtyNine().toRational());
         }
 
         @Test
         void testToReal() {
             assertEquals(
                 real("69"),
-                sixtyNine.toReal());
+                getSixtyNine().toReal());
         }
 
         @Test
         void testMinus() {
             assertEquals(
                 mint(-69),
-                sixtyNine.minus());
+                getSixtyNine().minus());
         }
 
         @Test
         void testMinusWithOperand() {
             assertEquals(
                 mreal("55.63"),
-                sixtyNine.minus(mreal("13.37")));
+                getSixtyNine().minus(mreal("13.37")));
         }
 
         @Test
         void testDivide() {
             assertEquals(
                 mratio(1, 69),
-                sixtyNine.divide());
+                getSixtyNine().divide());
         }
 
         @Test
         void testDivideWithOperand() {
             assertEquals(
                 mint(23),
-                sixtyNine.divide(mint(3)));
+                getSixtyNine().divide(mint(3)));
         }
 
         @Test
@@ -114,7 +89,7 @@ public class PublicTests {
         void testExpt() {
             assertEquals(
                 mint(4761),
-                sixtyNine.expt(mint(2)));
+                getSixtyNine().expt(mint(2)));
         }
 
         @Test
@@ -128,14 +103,19 @@ public class PublicTests {
         void testLn() {
             assertAlmostEquals(
                 real("4.23410650459726"),
-                sixtyNine.ln().toReal());
+                getSixtyNine().ln().toReal());
         }
 
         @Test
         void testLog() {
             assertEquals(
                 mint(2),
-                mint(4761).log(sixtyNine));
+                mint(4761).log(getSixtyNine()));
+        }
+
+
+        private static MyInteger getSixtyNine() {
+            return mint(69);
         }
     }
 
@@ -311,7 +291,14 @@ public class PublicTests {
     class ArithmeticExpressionEvaluatorTest {
 
         private final ArithmeticExpressionEvaluator evaluator =
-            new ArithmeticExpressionEvaluator(ROOT, IDENTIFIERS);
+            new ArithmeticExpressionEvaluator(getRoot(), getIdentifiersIncludingPredefined());
+
+        private Map<String, MyNumber> getIdentifiersIncludingPredefined() {
+            var m = new HashMap<>(getIdentifiers());
+            m.put(Identifier.E.getName(), Identifier.E.getValue());
+            m.put(Identifier.PI.getName(), Identifier.PI.getValue());
+            return m;
+        }
 
         @Test
         void testNextStep() {
@@ -348,18 +335,18 @@ public class PublicTests {
         @Test
         void testBuildRecursively() {
             var actual = ExpressionTreeHandler.buildRecursively(EXPRESSION.iterator());
-            assertEquals(ROOT.toString(), actual.toString());
+            assertEquals(getRoot().toString(), actual.toString());
         }
 
         @Test
         void testBuildIteratively() {
             var actual = ExpressionTreeHandler.buildIteratively(EXPRESSION.iterator());
-            assertEquals(ROOT.toString(), actual.toString());
+            assertEquals(getRoot().toString(), actual.toString());
         }
 
         @Test
         void testReconstruct() {
-            var actual = ExpressionTreeHandler.reconstruct(ROOT);
+            var actual = ExpressionTreeHandler.reconstruct(getRoot());
             assertIterableEquals(EXPRESSION, actual);
         }
     }
@@ -376,8 +363,8 @@ public class PublicTests {
 
         @Test
         void testEvaluate() {
-            var result = node.evaluate(IDENTIFIERS);
-            assertEquals(MyIntegerTest.sixtyNine, result);
+            var result = node.evaluate(getIdentifiers());
+            assertEquals(MyIntegerTest.getSixtyNine(), result);
         }
 
         @Test
@@ -393,11 +380,11 @@ public class PublicTests {
     @Nested
     class LiteralExpressionNodeTest {
 
-        private final LiteralExpressionNode node = new LiteralExpressionNode(MyIntegerTest.sixtyNine);
+        private final LiteralExpressionNode node = new LiteralExpressionNode(MyIntegerTest.getSixtyNine());
 
         @Test
         void testEvaluate() {
-            assertEquals(MyIntegerTest.sixtyNine, node.evaluate(IDENTIFIERS));
+            assertEquals(MyIntegerTest.getSixtyNine(), node.evaluate(getIdentifiers()));
         }
 
         @Test
@@ -423,18 +410,18 @@ public class PublicTests {
 
             assertNotNull(operands);
             assertInstanceOf(LiteralExpressionNode.class, operands.key);
-            assertEquals(MyIntegerTest.sixtyNine, ((LiteralExpressionNode) operands.key).getValue());
+            assertEquals(MyIntegerTest.getSixtyNine(), ((LiteralExpressionNode) operands.key).getValue());
 
             assertNotNull(operands.next);
             assertInstanceOf(LiteralExpressionNode.class, operands.next.key);
-            assertEquals(MyIntegerTest.sixtyNine, ((LiteralExpressionNode) operands.next.key).getValue());
+            assertEquals(MyIntegerTest.getSixtyNine(), ((LiteralExpressionNode) operands.next.key).getValue());
 
             assertNull(operands.next.next);
         }
 
         @Test
         void testEvaluate() {
-            var result = node.evaluate(IDENTIFIERS);
+            var result = node.evaluate(getIdentifiers());
             assertEquals(mint(69 * 2), result);
         }
 
@@ -488,6 +475,25 @@ public class PublicTests {
         }
 
         return head;
+    }
+
+    private static Map<String, MyNumber> getIdentifiers() {
+        return Map.of(
+            "a", mratio(2, 3),
+            "b", mint(3),
+            "c", mreal("2.5"),
+            "nice", MyIntegerTest.getSixtyNine()
+        );
+    }
+
+    private static ArithmeticExpressionNode getRoot() {
+        return add(
+            identifier("a"),
+            div(
+                expt(aint(2), identifier("b")),
+                mul(
+                    ln(identifier("e")),
+                    identifier("c"))));
     }
 
     private static ArithmeticExpressionNode aint(long value) {

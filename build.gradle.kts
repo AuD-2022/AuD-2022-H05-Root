@@ -3,7 +3,7 @@ import org.sourcegrade.submitter.submit
 plugins {
     java
     application
-    id("org.sourcegrade.style") version "1.3.0"
+    //id("org.sourcegrade.style") version "1.3.0"
     id("org.sourcegrade.submitter") version "0.4.0"
 }
 
@@ -33,6 +33,7 @@ dependencies {
         exclude("org.jetbrains", "annotations")
     }
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    "graderImplementation"("org.mockito:mockito-core:4.5.1")
 }
 
 application {
