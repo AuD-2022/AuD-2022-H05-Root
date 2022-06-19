@@ -5,6 +5,7 @@ import h05.math.MyReal;
 import h05.math.Rational;
 import h05.provider.BiBigDecimalProvider;
 import h05.provider.BigDecimalProvider;
+import h05.provider.ExpExptProvider;
 import h05.utils.RationalMock;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -30,7 +31,7 @@ public class MyRationalTests {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(BigDecimalProvider.class)
+    @ArgumentsSource(ExpExptProvider.ExpProvider.class)
     public void testExp(BigDecimal value) {
         BigInteger numerator = new BigInteger(value.abs().toString().replaceAll("\\..*", ""));
         BigInteger denominator = numerator.shiftRight(8).add(BigInteger.ONE).abs();
@@ -41,7 +42,7 @@ public class MyRationalTests {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(BiBigDecimalProvider.class)
+    @ArgumentsSource(ExpExptProvider.ExptProvider.class)
     public void testExpt(BigDecimal value, BigDecimal exponent) {
         BigInteger numerator = new BigInteger(value.abs().toString().replaceAll("\\..*", ""));
         BigInteger denominator = numerator.shiftRight(8).add(BigInteger.ONE).abs();

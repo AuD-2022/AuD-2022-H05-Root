@@ -1,6 +1,5 @@
 package h05.provider;
 
-import h05.math.MyReal;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
@@ -8,7 +7,6 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 import java.math.BigDecimal;
 import java.util.Random;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class BiBigDecimalProvider implements ArgumentsProvider {
@@ -19,7 +17,6 @@ public class BiBigDecimalProvider implements ArgumentsProvider {
     private static final Function<Random, BigDecimal> GENERATOR = random -> new BigDecimal(
         "%d.%d".formatted(random.nextLong(LOWER_BOUND, UPPER_BOUND), Math.abs(random.nextLong(LOWER_BOUND, UPPER_BOUND)))
     );
-    private static final BigDecimal MAX_DEVIATION = new BigDecimal("0.001");
     private static final int STREAM_SIZE = 5;
 
     @Override

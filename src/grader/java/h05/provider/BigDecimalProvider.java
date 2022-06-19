@@ -14,7 +14,6 @@ public class BigDecimalProvider implements ArgumentsProvider {
     private static final long SEED = 0L;
     private static final int LOWER_BOUND = (int) -1E4;
     private static final int UPPER_BOUND = (int) 1E4;
-    private static final BigDecimal MAX_DEVIATION = new BigDecimal("0.001");
     private static final int STREAM_SIZE = 5;
 
     @Override

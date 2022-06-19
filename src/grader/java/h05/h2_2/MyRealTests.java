@@ -4,6 +4,7 @@ import h05.math.MyInteger;
 import h05.math.MyReal;
 import h05.provider.BiBigDecimalProvider;
 import h05.provider.BigDecimalProvider;
+import h05.provider.ExpExptProvider;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
@@ -25,7 +26,7 @@ public class MyRealTests {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(BigDecimalProvider.class)
+    @ArgumentsSource(ExpExptProvider.ExpProvider.class)
     public void testExp(BigDecimal value) {
         MyReal myReal = new MyReal(value.abs());
 
@@ -34,7 +35,7 @@ public class MyRealTests {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(BiBigDecimalProvider.class)
+    @ArgumentsSource(ExpExptProvider.ExptProvider.class)
     public void testExpt(BigDecimal value, BigDecimal exponent) {
         MyReal myReal = new MyReal(value.abs());
         MyReal myExponent = new MyReal(exponent.abs());
