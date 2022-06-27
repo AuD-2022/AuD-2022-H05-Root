@@ -100,7 +100,7 @@ public final class MyInteger extends MyNumber {
         if (other instanceof MyReal) {
             return checkRealToInt(toReal().subtract(other.toReal()));
         }
-        return checkRationalToInt(other.toRational().minus(value));
+        return checkRationalToInt(toRational().minus(other.toRational()));
     }
 
     @Override
@@ -133,7 +133,7 @@ public final class MyInteger extends MyNumber {
         if (other instanceof MyReal) {
             return checkRealToInt(toReal().divide(other.toReal(), MyReal.ROUNDING_MODE));
         }
-        return checkRationalToInt(other.toRational().divide(value));
+        return checkRationalToInt(toRational().divide(other.toRational()));
     }
 
     @Override
